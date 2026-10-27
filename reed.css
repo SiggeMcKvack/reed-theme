@@ -1002,6 +1002,51 @@ img.favicon {
 	font-size: 0.9rem;
 }
 
+/* Feed rows: upstream's hanging indent pushes the gear outside the row, so the hover
+* band skipped it. Flex keeps gear, favicon and name in one rounded band, like the
+* sidebar, and long names still wrap under the name */
+.box .box-content:has(> .item.feed) {
+	padding: 0.5rem;
+}
+
+.box .box-content .item.feed {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.4rem 0.5rem;
+	border-radius: var(--radius);
+	line-height: 1.4;
+	text-indent: 0;
+}
+
+.box .box-content .item.feed .icon,
+.box .box-content .item.feed .favicon {
+	flex: none;
+	margin: 0;
+}
+
+/* "Empty category": a quiet caption like "no articles", not a hoverable row */
+.box .box-content .item.feed.emptyCategory {
+	justify-content: center;
+	padding: 0.75rem 0.5rem;
+	font-size: 0.8rem;
+	font-style: normal;
+}
+
+.box .box-content .item.feed.emptyCategory,
+.box .box-content .item.feed.emptyCategory > div {
+	color: var(--text-muted);
+	background: none;
+}
+
+/* "Add a feed": its icon and label have no space between them in the markup */
+.box .box-content .item.feed > a:not(.configure, .item-title) {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	min-width: 0;
+}
+
 .box.category .box-title .title {
 	font-weight: 600;
 	text-decoration: none;
@@ -2058,17 +2103,20 @@ form[name="drag_queries"] .box-content > .alert-warn {
 }
 
 /* "Add a category": a compact dashed drop target, not an empty card */
+/* Upstream fades the whole box to 50%, which put its text and outline far below 3:1 */
 .box.visible-semi {
 	background: transparent;
-	border: 1px dashed var(--action-outline);
+	border: 1px dashed var(--text-tertiary);
+	opacity: 1;
 }
 
 .box.visible-semi .box-title {
 	border-bottom: none;
 }
 
+/* The heading sits inside the link: amber like "Add a feed" */
 .box.visible-semi .box-title h2 {
-	color: var(--text-secondary);
+	color: inherit;
 	font-weight: normal;
 }
 
