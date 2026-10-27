@@ -1462,6 +1462,23 @@ li.item.active {
 }
 
 /*=== New article notification: the same outlined pill as the end-of-list button */
+/* "There are no articles to show.": a quiet caption like the end of the list, not a warning card */
+#stream > .prompt.alert {
+	margin: 3rem 1rem;
+	padding: 0;
+	max-width: none;
+	color: var(--text-tertiary);
+	background: none;
+	border: none;
+	text-align: center;
+}
+
+#stream > .prompt.alert .alert-head {
+	color: inherit;
+	font-size: 0.8rem;
+	font-weight: normal;
+}
+
 #new-article {
 	text-align: center;
 }
