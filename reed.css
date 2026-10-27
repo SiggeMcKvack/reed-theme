@@ -1,0 +1,1955 @@
+@charset "UTF-8";
+
+/*******************
+* Reed — a calm, warm dark theme for FreshRSS, inspired by Reeder Classic.
+* Content first: quiet chrome, two-line article rows, serif reading view.
+* Builds on base-theme/frss.css.
+*******************/
+
+/* FreshRSS prints ✓/✔ as text (user list, compatibility tables); render them as Lucide's check */
+@font-face {
+	font-family: "Lucide Check";
+	src: url("fonts/lucide-check.woff") format("woff");
+	unicode-range: U+2713-2714;
+}
+
+:root {
+	color-scheme: dark;
+	accent-color: var(--accent);
+
+	--sans-font: "Lucide Check", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
+	--serif-font: "Iowan Old Style", "Charter", "Palatino Linotype", Georgia, serif;
+	--mono-font: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+	--bg: #2b2422;
+	--bg-sidebar: #221c1a;
+	--bg-hover: #ffffff08;
+	--bg-selected: #ffffff12;
+	--bg-raised: #3a312e;
+	--separator: #3a322f;
+	--text: #e6e0dc;
+	--text-strong: #f6f1ed;
+	--text-secondary: #a39893;
+	--text-tertiary: #776d68;
+	--accent: #e0ac52;
+	--accent-strong: #ecbf6f;
+	--red: #e5675c;
+	--green: #8fbf7f;
+
+	--radius: 6px;
+	--header-gear-width: 4rem;
+	--action-outline: #ffffff26;
+	--sidebar-row: 2.25rem;
+	--favicon-tile: #d9d2cd;
+	--ease: 150ms ease;
+
+	/* Default icons are #666; lift them to a soft grey */
+	--icon-filter: invert(1) brightness(0.85);
+	--icon-filter-hover: invert(1) brightness(1.35);
+
+	--frss-background-color: var(--bg);
+	--frss-background-color-transparent: #2b24227f;
+	--frss-background-color-middle: var(--bg-raised);
+	--frss-background-color-dark: var(--bg-raised);
+	--frss-background-color-error-transparent: #e5675c40;
+	--frss-border-color: var(--separator);
+	--frss-font-color-dark: var(--text);
+	--frss-font-color-grey-dark: var(--text-secondary);
+	--frss-font-color-grey-light: var(--text-tertiary);
+	--frss-switch-accent-color: var(--accent);
+	--frss-box-shadow-color-transparent: #0008;
+	--frss-modal-background-color-transparent: #0009;
+	--frss-darken-background-hover-transparent: var(--bg-hover);
+	--frss-noThumbnailImage-background-color: var(--bg-raised);
+
+	--frss-scrollbar-handle: #ffffff1f;
+	--frss-scrollbar-handle-hover: #ffffff3d;
+	--frss-scrollbar-track: transparent;
+	--frss-scrollbar-track-hover: transparent;
+}
+
+/*=== GENERAL */
+/*============*/
+html, body {
+	background: var(--bg);
+	color: var(--text);
+	font-family: var(--sans-font);
+	-webkit-font-smoothing: antialiased;
+}
+
+a, .as-link, button.as-link {
+	color: var(--accent);
+}
+
+a:hover, .as-link:hover, button.as-link:hover {
+	color: var(--accent-strong);
+}
+
+p.help,
+div.help {
+	color: var(--text-secondary);
+	font-size: 0.85em;
+}
+
+.help code,
+kbd {
+	padding: 0.1em 0.35em;
+	color: var(--text);
+	background-color: var(--bg-raised);
+	border-color: var(--separator);
+	border-radius: 4px;
+	font-family: var(--mono-font);
+	font-size: 0.85em;
+}
+
+/*=== Forms */
+input, select, textarea {
+	padding: 0.4rem 0.6rem;
+	min-height: 25px;
+	color: var(--text);
+	background-color: #00000026;
+	border: 1px solid #ffffff1f;
+	border-radius: var(--radius);
+	font-size: 0.9rem;
+	transition: border-color var(--ease), box-shadow var(--ease);
+}
+
+input::placeholder, textarea::placeholder {
+	color: var(--text-tertiary);
+}
+
+input:hover, select:hover, textarea:hover {
+	border-color: #ffffff33;
+}
+
+input:focus, select:focus, textarea:focus {
+	border-color: var(--accent);
+	box-shadow: 0 0 0 3px #e0ac5233;
+	outline: none;
+}
+
+input[type="checkbox"], input[type="radio"] {
+	min-height: 0;
+	box-shadow: none;
+}
+
+/* Breathing room between form rows. Labels line up with the first line of
+* their controls, and are pushed down to the field's centre when it starts with one */
+.form-group .group-controls {
+	padding: 0.3rem 0;
+}
+
+.form-group .group-name {
+	padding: 0.3rem 0 0;
+}
+
+.form-group:has(> .group-controls > :is(input:not([type="checkbox"], [type="radio"]), select, textarea, .stick):first-child) .group-name,
+.form-group:has(> .group-controls > label:first-child :is(input:not([type="checkbox"], [type="radio"]), select)) .group-name {
+	padding-top: 0.625rem;
+}
+
+input:user-invalid, select:user-invalid, textarea:user-invalid {
+	border-color: var(--red);
+}
+
+input:disabled, select:disabled, textarea:disabled,
+button.as-link[disabled] {
+	color: var(--text-tertiary);
+}
+
+/* Section headings (h2, and legend in fieldset forms) share one look on settings
+* pages and panels: room above, but not right under the page title */
+.post h2,
+#slider h2,
+legend {
+	margin: 2rem 0 0.75rem;
+	padding: 0;
+	color: var(--text-strong);
+	font-size: 1.4rem;
+	font-weight: 700;
+}
+
+.post h1 + h2 {
+	margin-top: 0.5rem;
+}
+
+/* Browsers ignore a legend's top margin, so space the fieldset instead */
+legend {
+	margin-top: 0;
+}
+
+fieldset ~ fieldset,
+:is(.post, #slider) .form-actions + fieldset {
+	margin-top: 2rem;
+}
+
+/* Collapsible form sections: Lucide chevron, aligned with the fields */
+summary.form-advanced-title {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	margin: 0.25rem 0 0.25rem 220px;
+	padding: 0.4rem 0;
+	color: var(--text-strong);
+	font-weight: 600;
+	text-align: left;
+	list-style: none;
+	cursor: pointer;
+}
+
+summary.form-advanced-title::-webkit-details-marker {
+	display: none;
+}
+
+summary.form-advanced-title::before {
+	content: "";
+	width: 1rem;
+	height: 1rem;
+	background-color: var(--text-secondary);
+	-webkit-mask: url("icons/next.svg") center / contain no-repeat;
+	mask: url("icons/next.svg") center / contain no-repeat;
+	transition: transform var(--ease);
+}
+
+details[open] > summary.form-advanced-title::before {
+	transform: rotate(90deg);
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table tr {
+	border-bottom: 1px solid var(--separator);
+}
+
+table th, table td {
+	padding: 8px 12px;
+}
+
+/* Solid fill lets the sticky Submit bar cover scrolled content. Its top edge only
+* shows while it is stuck over content; a permanent border reads as a stray divider
+* on short inline forms (import/export). Browsers without scroll-state show no edge */
+.form-group.form-actions {
+	background-color: var(--bg);
+	container-type: scroll-state;
+}
+
+@container scroll-state(stuck: bottom) {
+	.form-group.form-actions > .group-controls::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		border-top: 1px solid var(--separator);
+	}
+}
+
+input[type="file"] {
+	padding: 0.25rem;
+}
+
+input[type="file"]::file-selector-button {
+	margin-right: 0.6rem;
+	padding: 0.3rem 0.7rem;
+	color: var(--text);
+	background-color: var(--bg-raised);
+	border: 1px solid var(--action-outline);
+	border-radius: 4px;
+	font: inherit;
+	cursor: pointer;
+}
+
+input[type="file"]::file-selector-button:hover {
+	background-color: #ffffff1f;
+}
+
+select[multiple],
+select[size] {
+	min-width: 20rem;
+}
+
+/* Selected options in list boxes: amber instead of the system blue. Chrome ignores
+* background-color on a focused list's selection but honours a background image */
+select[multiple] option:checked,
+select[size] option:checked {
+	color: var(--text-strong);
+	/* Chrome forces a system text colour on a focused list's selection; this wins */
+	-webkit-text-fill-color: var(--text-strong);
+	/* opaque: a translucent tint would blend with Chrome's focused-selection blue */
+	background: linear-gradient(#665130, #665130);
+}
+
+.group-controls > input[type="number"] {
+	width: 12.5rem;
+}
+
+/*=== Buttons: quiet by default, they recede until needed */
+.btn {
+	margin: 0.3rem 0.6rem 0.3rem 0;
+	padding: 0.25rem 0.6rem;
+	min-height: 25px;
+	color: var(--text-secondary);
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: var(--radius);
+	font-size: 0.85rem;
+	line-height: 25px;
+	text-decoration: none;
+	vertical-align: middle;
+	transition: background-color var(--ease), color var(--ease);
+}
+
+.btn:hover {
+	color: var(--text-strong);
+	background: var(--bg-hover);
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.btn.active,
+div:target ~ .btn {
+	color: var(--text-strong);
+	background-color: var(--bg-selected);
+}
+
+.btn-important,
+.nav_menu_read_all .read_all,
+#actualize {
+	color: var(--text) !important;
+	background-color: transparent;
+	font-weight: normal;
+}
+
+/* One primary per form: the first main button in the button bar (and the bookmarklet) */
+.form-actions .btn-important:not(.btn-important ~ .btn-important),
+.prompt .btn-important,
+.post p .btn-important,
+.post form > .btn-important {
+	color: #2b2422 !important;
+	background-color: var(--accent);
+	font-weight: 600;
+}
+
+.form-actions .btn-important:not(.btn-important ~ .btn-important):hover,
+.prompt .btn-important:hover,
+.post p .btn-important:hover,
+.post form > .btn-important:hover {
+	background-color: var(--accent-strong);
+}
+
+.btn-attention {
+	color: var(--red) !important;
+}
+
+.btn-attention:hover {
+	background: #e5675c26;
+}
+
+.stick .btn,
+.stick input,
+.stick select {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.stick .btn:last-child {
+	margin-right: 0;
+}
+
+.stick input,
+.stick select {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.stick input + .btn,
+.stick select + .btn {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	background: var(--bg-raised);
+	border-color: var(--separator);
+	border-left: 0;
+}
+
+.header .stick,
+.header .btn {
+	margin: 0;
+}
+
+/*=== Switches: Reeder-style pill, white knob, accent when on */
+.switch {
+	margin: 0;
+	padding: 0;
+	width: 2.75rem;
+	height: 1.625rem;
+	flex: none;
+	background-color: #ffffff1f;
+	background-image: none !important;
+	border-radius: 999px;
+	transition: background-color var(--ease);
+}
+
+.switch:not([disabled]):hover {
+	background-color: #ffffff2e;
+}
+
+.switch.active,
+.switch.active:not([disabled]):hover {
+	background-color: var(--accent);
+}
+
+.switch::before,
+.switch:not([disabled]):hover::before,
+.switch.active::before,
+.switch.active:not([disabled]):hover::before {
+	top: 2px;
+	left: 2px;
+	right: auto;
+	width: calc(1.625rem - 4px);
+	height: calc(1.625rem - 4px);
+	background-color: #fff;
+	background-image: none;
+	box-shadow: 0 1px 3px #0006;
+	transition: transform 200ms ease;
+}
+
+.switch.active::before,
+.switch.active:not([disabled]):hover::before {
+	transform: translateX(calc(2.75rem - 1.625rem));
+}
+
+.switch::after {
+	display: none;
+}
+
+.switch[disabled] {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+/*=== Grouped lists (extensions): rounded card, name left, controls right */
+.manage-list {
+	margin: 0.5rem 0 1.5rem;
+	padding: 0;
+	max-width: 40rem;
+	background-color: #ffffff0a;
+	border-radius: 10px;
+}
+
+.manage-list li {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0.65rem 1rem;
+	line-height: 1.4;
+}
+
+.manage-list li + li {
+	border-top: 1px solid var(--separator);
+}
+
+.manage-list li .ext_name {
+	order: 1;
+	flex: 1;
+	color: var(--text-strong);
+}
+
+.manage-list li .configure { order: 2; }
+.manage-list li .switch { order: 3; }
+
+.manage-list .disabled {
+	color: var(--text-secondary);
+	font-style: normal;
+}
+
+/* Wide tables wrap instead of overflowing their scroll wrapper */
+.table-wrapper table {
+	width: 100%;
+}
+
+.table-wrapper th,
+.table-wrapper td {
+	white-space: normal;
+}
+
+.table-wrapper th {
+	text-align: left;
+}
+
+/* Long URLs in author/description cells must not force the table wider */
+.table-wrapper td:nth-child(3),
+.table-wrapper td:nth-child(4) {
+	overflow-wrap: anywhere;
+}
+
+/* Secondary actions on settings pages and panels: outlined, like toolbar actions.
+* Cancel in a button bar stays plain text; buttons attached to inputs keep their look */
+:is(.post, #slider) .btn:not(.btn-important, .btn-attention, .stick .btn, .form-actions .btn),
+:is(.post, #slider) .form-group:not(.form-actions) .btn-important:not(p .btn-important),
+:is(.post, #slider) .form-actions .btn-important ~ .btn-important {
+	color: var(--text) !important;
+	background-color: transparent;
+	border: 1px solid var(--action-outline);
+	font-weight: normal !important;
+}
+
+:is(.post, #slider) .btn:not(.btn-important, .btn-attention, .stick .btn, .form-actions .btn):hover,
+:is(.post, #slider) .form-group:not(.form-actions) .btn-important:not(p .btn-important):hover,
+:is(.post, #slider) .form-actions .btn-important ~ .btn-important:hover {
+	background-color: #ffffff14;
+}
+
+/*=== Icons */
+.icon {
+	filter: var(--icon-filter);
+	transition: filter var(--ease);
+}
+
+a:hover .icon,
+.btn:hover .icon {
+	filter: var(--icon-filter-hover);
+}
+
+/* Panels loaded in the background (feed/category gear) are rendered without the theme,
+* so they reference FreshRSS's default icons; swap in this theme's versions */
+img.icon[src$="/themes/icons/add.svg"] {
+	content: url("icons/add.svg");
+}
+
+img.icon[src$="/themes/icons/all.svg"] {
+	content: url("icons/all.svg");
+}
+
+img.icon[src$="/themes/icons/bookmark-add.svg"] {
+	content: url("icons/bookmark-add.svg");
+}
+
+img.icon[src$="/themes/icons/bookmark-tag.svg"] {
+	content: url("icons/bookmark-tag.svg");
+}
+
+img.icon[src$="/themes/icons/category.svg"] {
+	content: url("icons/category.svg");
+}
+
+img.icon[src$="/themes/icons/close.svg"] {
+	content: url("icons/close.svg");
+}
+
+img.icon[src$="/themes/icons/configure.svg"] {
+	content: url("icons/configure.svg");
+}
+
+img.icon[src$="/themes/icons/debug.svg"] {
+	content: url("icons/debug.svg");
+}
+
+img.icon[src$="/themes/icons/disabled.svg"] {
+	content: url("icons/disabled.svg");
+}
+
+img.icon[src$="/themes/icons/down.svg"] {
+	content: url("icons/down.svg");
+}
+
+img.icon[src$="/themes/icons/enabled.svg"] {
+	content: url("icons/enabled.svg");
+}
+
+img.icon[src$="/themes/icons/error.svg"] {
+	content: url("icons/error.svg");
+}
+
+img.icon[src$="/themes/icons/help.svg"] {
+	content: url("icons/help.svg");
+}
+
+img.icon[src$="/themes/icons/important.svg"] {
+	content: url("icons/important.svg");
+}
+
+img.icon[src$="/themes/icons/key.svg"] {
+	content: url("icons/key.svg");
+}
+
+img.icon[src$="/themes/icons/label.svg"] {
+	content: url("icons/label.svg");
+}
+
+img.icon[src$="/themes/icons/link.svg"] {
+	content: url("icons/link.svg");
+}
+
+img.icon[src$="/themes/icons/login.svg"] {
+	content: url("icons/login.svg");
+}
+
+img.icon[src$="/themes/icons/logout.svg"] {
+	content: url("icons/logout.svg");
+}
+
+img.icon[src$="/themes/icons/look.svg"] {
+	content: url("icons/look.svg");
+}
+
+img.icon[src$="/themes/icons/next.svg"] {
+	content: url("icons/next.svg");
+}
+
+img.icon[src$="/themes/icons/non-starred.svg"] {
+	content: url("icons/non-starred.svg");
+}
+
+img.icon[src$="/themes/icons/notice.svg"] {
+	content: url("icons/notice.svg");
+}
+
+img.icon[src$="/themes/icons/opml.svg"] {
+	content: url("icons/opml.svg");
+}
+
+img.icon[src$="/themes/icons/opml-dyn.svg"] {
+	content: url("icons/opml-dyn.svg");
+}
+
+img.icon[src$="/themes/icons/prev.svg"] {
+	content: url("icons/prev.svg");
+}
+
+img.icon[src$="/themes/icons/read.svg"] {
+	content: url("icons/read.svg");
+}
+
+img.icon[src$="/themes/icons/refresh.svg"] {
+	content: url("icons/refresh.svg");
+}
+
+img.icon[src$="/themes/icons/rss.svg"] {
+	content: url("icons/rss.svg");
+}
+
+img.icon[src$="/themes/icons/search.svg"] {
+	content: url("icons/search.svg");
+}
+
+img.icon[src$="/themes/icons/share.svg"] {
+	content: url("icons/share.svg");
+}
+
+img.icon[src$="/themes/icons/sort-down.svg"] {
+	content: url("icons/sort-down.svg");
+}
+
+img.icon[src$="/themes/icons/sort-up.svg"] {
+	content: url("icons/sort-up.svg");
+}
+
+img.icon[src$="/themes/icons/starred.svg"] {
+	content: url("icons/starred.svg");
+}
+
+img.icon[src$="/themes/icons/stats.svg"] {
+	content: url("icons/stats.svg");
+}
+
+img.icon[src$="/themes/icons/tag.svg"] {
+	content: url("icons/tag.svg");
+}
+
+img.icon[src$="/themes/icons/unread.svg"] {
+	content: url("icons/unread.svg");
+}
+
+img.icon[src$="/themes/icons/up.svg"] {
+	content: url("icons/up.svg");
+}
+
+img.icon[src$="/themes/icons/view-global.svg"] {
+	content: url("icons/view-global.svg");
+}
+
+img.icon[src$="/themes/icons/view-normal.svg"] {
+	content: url("icons/view-normal.svg");
+}
+
+img.icon[src$="/themes/icons/view-reader.svg"] {
+	content: url("icons/view-reader.svg");
+}
+
+img.icon[src$="/themes/icons/warning.svg"] {
+	content: url("icons/warning.svg");
+}
+
+/* Theme's own coloured icons (icons/) must not be inverted */
+.icon[src$="/starred.svg"],
+.icon[src$="/unread.svg"] {
+	filter: none !important;
+}
+
+/* Light tile keeps dark favicons (GitHub, etc.) visible on dark backgrounds */
+img.favicon {
+	padding: 1px;
+	background: var(--favicon-tile);
+	border-radius: 3px;
+}
+
+/*=== Dropdowns */
+.dropdown-menu {
+	margin: 6px 0 0;
+	padding: 0.25rem;
+	background: var(--bg-raised);
+	border: 1px solid #ffffff14;
+	border-radius: 8px;
+	box-shadow: 0 8px 24px #0009;
+	font-size: 0.85rem;
+	text-align: left;
+}
+
+.dropdown-menu::after {
+	display: none;
+}
+
+.dropdown-header,
+.dropdown-section .dropdown-section-title {
+	padding: 0.5rem 0.75rem 0.25rem;
+	color: var(--text-tertiary);
+	font-size: 0.75rem;
+	font-weight: 600;
+	text-align: left;
+}
+
+.dropdown-menu .item > a,
+.dropdown-menu .item > span,
+.dropdown-menu .item .as-link {
+	padding: 0 0.75rem;
+	min-width: 200px;
+	color: var(--text) !important;
+	font-size: inherit;
+	line-height: 2.1em;
+	border-radius: 4px;
+}
+
+.dropdown-menu .dropdown-section .item > a,
+.dropdown-menu .dropdown-section .item > span,
+.dropdown-menu .dropdown-section .item .as-link {
+	padding-left: 1.5rem;
+}
+
+.dropdown-menu .item > a:hover,
+.dropdown-menu .item > a:focus,
+.dropdown-menu .item button:hover:not([disabled]),
+.dropdown-menu .item button:focus:not([disabled]),
+.dropdown-menu .item > label:hover:not(.noHover),
+.dropdown-menu .item > label:focus:not(.noHover) {
+	background-color: var(--bg-selected);
+	color: var(--text-strong) !important;
+	text-decoration: none;
+	border-radius: 4px;
+}
+
+.dropdown-menu .input select,
+.dropdown-menu .input input {
+	margin: 0 auto 5px;
+	padding: 2px 5px;
+}
+
+.dropdown-target:target ~ .dropdown-toggle::after {
+	display: none;
+}
+
+.dropdown-close a:hover {
+	background: none;
+}
+
+.item ~ .dropdown-header,
+.dropdown-section ~ .dropdown-section,
+.item.separator {
+	border-top-color: var(--separator);
+}
+
+/*=== Alerts */
+.alert {
+	margin: 1rem 0;
+	width: auto;
+	max-width: 50rem;
+	box-sizing: border-box;
+	color: var(--text);
+	background-color: var(--bg-raised);
+	border: none;
+	border-left: 3px solid var(--text-tertiary);
+	border-radius: var(--radius);
+	font-size: 0.9em;
+}
+
+.alert-success { border-left-color: var(--green); }
+.alert-warn { border-left-color: var(--accent); }
+.alert-info { border-left-color: var(--text-secondary); }
+.alert-error { border-left-color: var(--red); }
+
+/* Stacked alerts (installation check) read as one grouped card with dividers */
+.alert:has(+ .alert) {
+	margin-bottom: 0;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.alert + .alert {
+	margin-top: 0;
+	border-top: 1px solid #ffffff12;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+/*=== Pagination */
+.pagination {
+	padding: 0.5rem;
+	background-color: transparent;
+}
+
+.pagination .item a {
+	border-radius: var(--radius);
+}
+
+.pagination .item.active a {
+	color: var(--text-strong);
+	font-weight: 600;
+}
+
+.pagination .item a:hover {
+	background-color: var(--bg-hover);
+	color: var(--text-strong);
+}
+
+/*=== Boxes (global view, subscription management) */
+.box {
+	background-color: var(--bg-sidebar);
+	border: 1px solid var(--separator);
+	border-radius: 10px;
+}
+
+/* Flex gap ignores the stray whitespace some templates put between gear and title */
+.box .box-title {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.625rem 1rem;
+	border-bottom: 1px solid var(--separator);
+}
+
+.box .box-title .configure {
+	display: flex;
+}
+
+/* Optical nudge: the title's visual centre sits slightly below its line box */
+.box .box-title .configure .icon {
+	position: relative;
+	top: 2px;
+}
+
+.box .box-title h2 {
+	margin: 0;
+	color: var(--text-strong);
+	font-size: 1rem;
+	font-weight: 600;
+}
+
+.box .box-content .item {
+	padding: 0;
+	font-size: 0.9rem;
+}
+
+.box.category .box-title .title {
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.box.category .title:not([data-unread="0"])::after {
+	background: none;
+	border: 0;
+	color: var(--text-tertiary);
+	box-shadow: none;
+}
+
+[draggable=true] {
+	cursor: grab;
+}
+
+.drag-drop-marker {
+	border: 2px dashed var(--accent);
+}
+
+/*=== STRUCTURE */
+/*===============*/
+/*=== Header */
+.header {
+	background-color: var(--bg-sidebar);
+	border-bottom: 1px solid var(--separator);
+}
+
+.header > .item {
+	vertical-align: middle;
+}
+
+.header > .item.title h1 a {
+	text-decoration: none;
+}
+
+/* Logo (theme copy is amber): muted grey at rest, the accent on hover */
+.header > .item.title .logo {
+	filter: grayscale(100%) brightness(0.7);
+	opacity: 0.6;
+	transition: filter var(--ease), opacity var(--ease);
+}
+
+.header > .item.title a:hover .logo {
+	filter: none;
+	opacity: 1;
+}
+
+/* Header holds only logo | search | gear, so search can take the middle,
+* capped and centred over the article column (left padding mirrors the gear cell) */
+.header > .item.search {
+	padding-left: calc(var(--header-gear-width) + 1rem);
+}
+
+.header > .item.configure {
+	width: var(--header-gear-width);
+	padding-right: 1rem;
+	text-align: right;
+}
+
+.header > .item.configure .btn {
+	padding: 0.4rem;
+}
+
+.header > .item.configure .icon {
+	height: 1.25rem;
+}
+
+.header > .item.search .stick {
+	display: flex;
+	margin: 0 auto;
+	padding: 0 1rem;
+	max-width: 40rem;
+}
+
+.header > .item.search input {
+	flex: 1;
+	width: auto;
+	min-width: 0;
+	background-color: var(--bg-raised);
+	border-color: transparent;
+}
+
+/*=== Sidebar (feeds & settings): quiet source list */
+.aside {
+	background-color: var(--bg-sidebar);
+	border-right: 1px solid var(--separator);
+}
+
+.aside.aside_feed {
+	padding: 10px 0;
+}
+
+.aside.aside_feed .tree {
+	margin: 10px 0 50px;
+}
+
+.aside .toggle_aside,
+#slider .toggle_aside,
+.dropdown-menu .toggle_aside,
+.dropdown-header-close a {
+	background: var(--bg-raised);
+	border: none;
+}
+
+.aside .toggle_aside:hover,
+#slider .toggle_aside:hover,
+.dropdown-menu .toggle_aside:hover {
+	background-color: var(--bg-selected) !important;
+}
+
+.nav-list {
+	padding: 0.5rem 0;
+	font-size: 0.9rem;
+}
+
+.nav-list .item,
+.nav-list .item.nav-header {
+	margin: 1px 0.5rem;
+	width: auto;
+	min-height: 2.1em;
+	line-height: 2.1;
+	border-radius: var(--radius);
+}
+
+.nav-list .nav-header {
+	margin: 1.25rem 0.5rem 0.25rem;
+	padding: 0 0.75rem;
+	color: var(--text-tertiary);
+	font-size: 0.75rem;
+	font-weight: 600;
+}
+
+.nav-list .item > a,
+.nav-list .item .as-link {
+	padding: 0 0.75rem;
+	color: var(--text);
+	border-radius: var(--radius);
+}
+
+.nav-list .item > a .icon,
+.nav-list .item .as-link .icon,
+.signout .icon {
+	margin-left: 0.35rem;
+}
+
+.nav-list .item > a:hover,
+.nav-list .item .as-link:hover {
+	background-color: var(--bg-hover);
+	color: var(--text-strong);
+	text-decoration: none;
+}
+
+.nav-list .item.active,
+.nav-list .item.active > a,
+.nav-list .item.active .as-link {
+	background-color: var(--bg-selected);
+	color: var(--text-strong);
+}
+
+/* Sidebar "Subscription management" and "+": outlined actions, like the toolbar */
+.aside .stick.configure-feeds {
+	display: flex;
+	gap: 0.4rem;
+	margin: 0.25rem 0.5rem 0.5rem;
+}
+
+#btn-subscription,
+#btn-add {
+	margin: 0;
+	border: 1px solid var(--action-outline);
+	border-radius: var(--radius);
+}
+
+#btn-subscription {
+	flex: 1;
+	text-align: center;
+}
+
+#btn-subscription:hover,
+#btn-add:hover {
+	background-color: #ffffff14;
+}
+
+/*=== Tree (categories & feeds) */
+.tree-folder.category {
+	border-bottom: none;
+}
+
+.tree-folder-title {
+	position: relative;
+	margin: 1px 0.5rem;
+	box-sizing: border-box;
+	height: var(--sidebar-row);
+	padding: 0 0.75rem;
+	border-radius: 8px;
+	font-size: 1rem;
+	line-height: var(--sidebar-row);
+}
+
+/* Transparent, not inherit: inheriting the row's translucent hover colour doubles it */
+.tree-folder-title .title {
+	background: transparent;
+	color: var(--text);
+}
+
+/* Category rows are links: no underline or link colour on hover, the row fill is the cue */
+a.tree-folder-title,
+a.tree-folder-title:hover {
+	color: var(--text);
+	text-decoration: none;
+}
+
+/* Category rows: flex keeps chevron/icon and name on the row's true centre */
+.tree-folder-title {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+}
+
+.tree-folder-title > .title {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.tree-folder-title > .icon,
+.tree-folder-title > .dropdown-toggle {
+	flex: none;
+}
+
+.tree-folder-title .title:hover {
+	text-decoration: none;
+}
+
+.tree-folder .tree-folder-title:hover {
+	background: var(--bg-hover);
+}
+
+.tree-folder.active .tree-folder-title {
+	background: var(--bg-selected);
+}
+
+.tree-folder.active .tree-folder-title .title {
+	color: var(--text-strong);
+}
+
+/* FreshRSS also marks the parent category active when one of its feeds is selected;
+* only the selected row should be highlighted */
+.tree-folder.active:has(.item.feed.active) > .tree-folder-title:not(:hover) {
+	background: transparent;
+}
+
+.tree-folder.active:has(.item.feed.active) > .tree-folder-title .title {
+	color: var(--text);
+}
+
+/* …unless the category is collapsed: then it stands in for the hidden selection, like Finder */
+.tree-folder.active:has(.item.feed.active):has(> .tree-folder-items:not(.active)) > .tree-folder-title {
+	background: var(--bg-selected);
+}
+
+/* Disclosure chevron: right when collapsed (down.svg), down when expanded (up.svg) */
+.tree-folder-title .dropdown-toggle .icon[src$="/down.svg"] {
+	transform: rotate(-90deg);
+}
+
+.tree-folder-title .dropdown-toggle .icon[src$="/up.svg"] {
+	transform: rotate(180deg);
+}
+
+.tree-folder-items,
+.aside_feed .tree-folder-items.active {
+	background: transparent;
+}
+
+.aside_feed .tree-folder-items.active {
+	padding-bottom: 0.5rem;
+}
+
+.tree-folder-items > .item {
+	margin: 1px 0.5rem;
+	font-size: 0.95rem;
+	border-radius: 8px;
+	transition: background-color var(--ease);
+}
+
+/* Feed rows match category rows: one shared, explicit row height (inline icons
+* would otherwise stretch the line box by a pixel or two) */
+.aside_feed .tree-folder-items > .item {
+	height: var(--sidebar-row);
+}
+
+.aside_feed .tree-folder-items > .item .item-title,
+.aside_feed .tree-folder-items > .item .dropdown-toggle {
+	padding-top: 0;
+	padding-bottom: 0;
+	line-height: var(--sidebar-row);
+}
+
+.aside_feed .tree-folder-items > .item .item-title,
+.aside_feed .tree-folder-items > .item .dropdown {
+	vertical-align: top;
+}
+
+/* Feed gear: pinned to the row's centre, like the favicon */
+.aside_feed .tree-folder-items > .item .dropdown-toggle .icon {
+	vertical-align: top;
+	margin-top: calc((var(--sidebar-row) - 1rem) / 2);
+}
+
+.aside_feed .item.feed .favicon {
+	box-sizing: border-box;
+	padding: 2px;
+	width: 20px;
+	height: 20px;
+	background: var(--favicon-tile);
+	border-radius: 5px;
+	/* Pinned to the row's centre; "middle" aligns to the font's x-height and sits low.
+	* The feed name stays inline (bare text) so it can still ellipsize */
+	vertical-align: top;
+	margin-top: calc((var(--sidebar-row) - 20px) / 2);
+}
+
+.tree-folder-items > .item > a {
+	color: var(--text);
+	text-decoration: none;
+}
+
+.item.feed:hover {
+	background-color: var(--bg-hover);
+}
+
+.item.feed.active,
+li.item.active {
+	background-color: var(--bg-selected);
+}
+
+.item.feed.active a {
+	color: var(--text-strong);
+}
+
+.item.feed.error > .item-title,
+.title.error::before {
+	color: var(--red);
+}
+
+/* Unread feeds are slightly brighter, not bold */
+.feed .item-title:not([data-unread="0"]) {
+	color: var(--text-strong);
+	font-weight: normal;
+}
+
+/* Unread counters: faint plain numbers, right-aligned */
+.aside_feed .tree-folder-title > .title:not([data-unread="0"])::after,
+.aside .feed .item-title:not([data-unread="0"])::after {
+	padding: 0 0.25rem;
+	background: none;
+	color: var(--text-secondary);
+	border: none;
+	font-size: 0.9rem;
+	font-weight: normal;
+	font-variant-numeric: tabular-nums;
+}
+
+/* Category and feed counts share one box: full row height, centred, right-aligned */
+.aside .category .tree-folder-title .title:not([data-unread="0"])::after,
+.aside .feed .item-title:not([data-unread="0"])::after {
+	top: 0;
+	bottom: 0;
+	right: 0.75rem;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	margin: 0;
+	padding: 0;
+	line-height: normal;
+}
+
+.aside .feed.active .item-title:not([data-unread="0"])::after {
+	background: none;
+	color: var(--text-secondary);
+}
+
+.aside_feed .category .title:not([data-unread="0"]) {
+	width: calc(100% - 35px - 20px);
+}
+
+/*=== Article list toolbar */
+.nav_menu {
+	padding: 5px 0.5rem 5px 3rem;
+	background: var(--bg);
+	border-bottom: 1px solid var(--separator);
+	text-align: center;
+}
+
+.nav_menu .btn {
+	margin: 0.125rem;
+}
+
+.nav_menu .group {
+	margin-right: 0.75rem;
+	margin-left: 0.125rem;
+}
+
+/* Toolbar language: toggles (filters, views) fill when on; actions are outlined.
+* "Mark as read" + its dropdown form one outlined split button */
+.nav_menu .mark-read-menu {
+	align-items: stretch;
+	border: 1px solid var(--action-outline);
+	border-radius: var(--radius);
+}
+
+#actualize {
+	border: 1px solid var(--action-outline);
+}
+
+#actualize:hover {
+	background-color: #ffffff14;
+}
+
+.nav_menu .mark-read-menu .btn {
+	margin: 0;
+	border-top: 0;
+	border-bottom: 0;
+}
+
+.nav_menu .mark-read-menu .dropdown {
+	display: flex;
+}
+
+.nav_menu .mark-read-menu .dropdown-toggle {
+	display: flex;
+	align-items: center;
+}
+
+.nav_menu .mark-read-menu .read_all {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	border-radius: var(--radius) 0 0 var(--radius);
+}
+
+/* Same outlined circle-check as the end-of-list button */
+.nav_menu .mark-read-menu .read_all::before {
+	content: "";
+	flex: none;
+	width: 1rem;
+	height: 1rem;
+	background: url("icons/mark-all-read.svg") center / contain no-repeat;
+}
+
+.nav_menu .mark-read-menu .dropdown-toggle {
+	border-left: 1px solid var(--action-outline);
+	border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.nav_menu .mark-read-menu .read_all:hover,
+.nav_menu .mark-read-menu .dropdown-toggle:hover {
+	background-color: #ffffff14;
+}
+
+/*=== New article notification */
+#new-article > a {
+	margin: 0.75rem auto;
+	width: 90%;
+	background-color: var(--bg-raised);
+	color: var(--accent);
+	border-radius: 999px;
+	font-weight: 600;
+}
+
+#new-article > a:hover {
+	background-color: var(--bg-selected);
+	text-decoration: none;
+}
+
+/*=== Centred reading column, like Reeder */
+.transition,
+.flux,
+#new-article {
+	max-width: 56rem;
+	margin-inline: auto;
+}
+
+/*=== Day separators */
+.transition {
+	padding: 1.75rem 1rem 0.5rem;
+	color: var(--text);
+	font-size: 0.75rem;
+	font-weight: 700;
+	line-height: 1.5;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+	border: none;
+}
+
+.transition .name {
+	padding: 0 1rem 0 0;
+	font-size: 1em;
+	font-style: normal;
+	opacity: 1;
+}
+
+/*=== Article list: Reeder-style rows, no separators, cards on hover/selection
+* [icon] FEED NAME           (read)(star) time  [thumb]
+* [icon] Title, up to two lines                 [thumb]
+* [icon] Excerpt, up to two lines               [thumb]
+*/
+.flux {
+	border: none;
+	background: transparent;
+}
+
+.flux .flux_header {
+	display: grid;
+	grid-template-columns: 2.75rem minmax(0, 1fr) auto auto auto auto;
+	grid-template-areas:
+		"icon site    read    fav     date    thumb"
+		"icon title   title   title   title   thumb"
+		"icon summary summary summary summary thumb";
+	align-items: start;
+	box-sizing: border-box;
+	margin: 2px 0;
+	padding: 0.7rem 1rem 0.7rem 0.75rem;
+	border-radius: 10px;
+	font-size: 0.85rem;
+	cursor: pointer;
+	transition: background-color var(--ease);
+}
+
+/* Lift the nested pieces (favicon, feed name, title, summary, date) into the row grid */
+.flux .flux_header .item.titleAuthorSummaryDate,
+.flux .flux_header .item.website,
+.flux .flux_header .item.website > .item-element {
+	display: contents;
+}
+
+.flux .flux_header > .item {
+	white-space: normal;
+}
+
+.flux .flux_header .item .item-element {
+	padding: 0;
+	line-height: 1.35;
+}
+
+/* Row actions live in the opened article, not in the list */
+.flux .flux_header > .item.labels,
+.flux .flux_header > .item.share,
+.flux .flux_header > .item.link {
+	display: none;
+}
+
+/* Read toggle and empty star appear on hover; a set star always shows */
+.flux .flux_header .item.manage {
+	width: auto;
+	text-align: center;
+}
+
+.flux .flux_header .item.manage:has(.read) { grid-area: read; }
+.flux .flux_header .item.manage:has(.bookmark) { grid-area: fav; }
+
+.flux .flux_header .item.manage .item-element {
+	padding: 0 0.3rem;
+	line-height: 1;
+}
+
+.flux .flux_header .item.manage .icon {
+	height: 0.85rem;
+}
+
+.flux .flux_header .item.manage .read .icon,
+.flux .flux_header .item.manage .bookmark .icon[src$="/non-starred.svg"] {
+	opacity: 0;
+	transition: opacity var(--ease);
+}
+
+.flux .flux_header:hover .item.manage .icon {
+	opacity: 1 !important;
+}
+
+.flux .flux_header .favicon {
+	grid-area: icon;
+	grid-row: 1 / span 2;
+	align-self: center;
+	box-sizing: border-box;
+	padding: 3px;
+	width: 28px;
+	height: 28px;
+	background: var(--favicon-tile);
+	border-radius: 7px;
+}
+
+.flux .flux_header .websiteName {
+	grid-area: site;
+	overflow: hidden;
+	color: var(--text-secondary);
+	font-size: 0.7rem;
+	font-weight: 600;
+	letter-spacing: 0.03em;
+	text-overflow: ellipsis;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+.flux .flux_header .item .date {
+	grid-area: date;
+	padding: 0 0 0 0.5rem;
+	color: var(--text-secondary);
+	font-size: 0.75rem;
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.flux .flux_header .item .title,
+.flux .flux_header .item > a.title {
+	grid-area: title;
+	margin-top: 0.1rem;
+	color: var(--text-tertiary);
+	font-size: 1rem;
+	font-weight: 500;
+	line-height: 1.3;
+	white-space: normal;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+.flux.not_read .flux_header .item .title,
+.flux.current .flux_header .item .title {
+	color: var(--text-strong);
+	font-weight: 500;
+}
+
+.flux .flux_header .item .title .author {
+	padding-left: 0.5rem;
+	color: var(--text-tertiary);
+	font-weight: normal;
+}
+
+.flux .flux_header .item .summary {
+	grid-area: summary;
+	margin: 0.25rem 0 0;
+	color: var(--text-tertiary);
+	font-size: 0.85rem;
+	line-height: 1.4;
+}
+
+.flux.not_read .flux_header .item .summary {
+	color: var(--text-secondary);
+}
+
+.flux .flux_header .item.thumbnail,
+.flux .flux_header .item.thumbnail.small {
+	grid-area: thumb;
+	align-self: center;
+	margin-left: 0.75rem;
+	padding: 0;
+	width: 72px;
+	height: 72px;
+}
+
+.flux .flux_header .item.thumbnail img {
+	border-radius: var(--radius);
+	background: var(--bg-raised);
+}
+
+.flux .flux_header .item.thumbnail:empty {
+	display: none;
+}
+
+.flux:not(.current):hover .flux_header {
+	background-color: var(--bg-hover);
+}
+
+.flux.current > .flux_header {
+	background: var(--bg-selected);
+}
+
+.flux .bottom {
+	font-size: 0.8rem;
+	text-align: center;
+}
+
+/*=== Opened article: serif reading view */
+.flux_content .content {
+	color: var(--text);
+	font-family: var(--serif-font);
+	font-size: 1.125rem;
+	line-height: 1.7;
+}
+
+.flux_content .content header {
+	font-family: var(--sans-font);
+}
+
+.flux_content .content header h1.title {
+	margin: 2rem 0 0.75rem;
+	font-family: var(--sans-font);
+	font-size: 1.9rem;
+	font-weight: 700;
+	line-height: 1.15;
+	letter-spacing: -0.015em;
+}
+
+.flux_content .content header h1.title a {
+	color: var(--text-strong);
+}
+
+.flux_content .content header h1.title a:hover {
+	color: var(--accent);
+}
+
+.flux_content .content header .website,
+.flux_content .content header .author,
+.flux_content .content header .date {
+	color: var(--text-secondary);
+	font-size: 0.85rem;
+}
+
+.content h2, .content h3, .content h4 {
+	color: var(--text-strong);
+	font-family: var(--sans-font);
+	line-height: 1.25;
+}
+
+.content a {
+	color: var(--accent);
+	text-decoration: underline;
+	text-decoration-color: #e0ac5266;
+	text-underline-offset: 0.15em;
+}
+
+.content a:hover {
+	text-decoration-color: var(--accent);
+}
+
+/* Title and byline are not body links */
+.content > header a,
+.content > footer a {
+	text-decoration: none;
+}
+
+.content > header .favicon {
+	padding: 1px;
+	background: var(--favicon-tile);
+	border-radius: 3px;
+}
+
+.flux_content .content > header a:not(.title a) {
+	color: var(--text-secondary);
+}
+
+.flux_content .content > header a:not(.title a):hover {
+	color: var(--text-strong);
+}
+
+.content > header .dropdown-menu .dropdown-header,
+.content > footer .dropdown-menu .dropdown-header {
+	color: var(--text-secondary);
+}
+
+.content > footer .subtitle {
+	border-color: var(--separator);
+}
+
+.content img,
+.content video {
+	border-radius: var(--radius);
+}
+
+.content figcaption {
+	color: var(--text-secondary);
+	font-family: var(--sans-font);
+	font-size: 0.85rem;
+}
+
+.content hr {
+	margin: 2rem 1rem;
+	height: 1px;
+	background: var(--separator);
+	border: none;
+}
+
+.content pre {
+	padding: 1rem;
+	background: var(--bg-sidebar);
+	border: 1px solid var(--separator);
+	border-radius: var(--radius);
+	font-size: 0.85rem;
+}
+
+.content pre code {
+	background: transparent;
+	border: none;
+}
+
+.content code {
+	padding: 0.1em 0.3em;
+	background: var(--bg-raised);
+	color: var(--text);
+	border: none;
+	border-radius: 4px;
+	font-family: var(--mono-font);
+	font-size: 0.85em;
+}
+
+.content blockquote {
+	margin: 1.5rem 0;
+	padding: 0 1.25rem;
+	color: var(--text-secondary);
+	font-style: italic;
+	border-left: 2px solid var(--accent);
+}
+
+.content blockquote p {
+	margin: 0.5rem 0;
+}
+
+/*=== Notifications */
+.notification {
+	background: var(--bg-raised);
+	color: var(--text);
+	border: 1px solid #ffffff14;
+	border-radius: 8px;
+	box-shadow: 0 8px 24px #0009;
+	font-size: 0.9rem;
+	z-index: 9999;
+}
+
+.notification.bad {
+	background-color: var(--red);
+	color: #fff;
+}
+
+.notification .close {
+	padding: 1.25rem;
+	line-height: 1;
+}
+
+.notification .close:hover {
+	background-color: var(--bg-hover);
+}
+
+/*=== Popup, slider, overlays */
+#popup-content,
+#slider,
+#slider .form-group.form-actions {
+	background-color: var(--bg-sidebar);
+}
+
+#panel {
+	background-color: var(--bg);
+}
+
+#nav_entries {
+	background: var(--bg-sidebar);
+	border-top: 1px solid var(--separator);
+}
+
+#nav_entries .item a:hover {
+	background-color: var(--bg-hover);
+}
+
+/* End of list: a small caption and a compact pill instead of a giant tick block */
+.stream-footer-inner {
+	padding-top: 1.5rem;
+	color: var(--text-tertiary);
+	font-size: 0.8rem;
+}
+
+#bigMarkAsRead.big,
+#bigMarkAsRead.small {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 0.4rem;
+	margin-top: 0.6rem;
+	padding: 0.4rem 0.9rem;
+	width: auto;
+	color: var(--text);
+	border: 1px solid var(--action-outline);
+	border-radius: 999px;
+	font-size: 0.85rem;
+	text-decoration: none;
+	transition: background-color var(--ease);
+}
+
+#bigMarkAsRead br {
+	display: none;
+}
+
+#bigMarkAsRead:hover {
+	background-color: #ffffff14;
+}
+
+/* The template prints a text "✓"; show Lucide's circle-check (filled) instead */
+#bigMarkAsRead.big .bigTick,
+#bigMarkAsRead.small .bigTick {
+	display: inline-block;
+	align-self: center;
+	width: 1.1rem;
+	height: 1.1rem;
+	background: url("icons/mark-all-read.svg") center / contain no-repeat;
+	font-size: 0;
+}
+
+#bigMarkAsRead .jumpNext {
+	color: var(--text-secondary);
+	font-size: 0.9em;
+}
+
+#bigMarkAsRead .jumpNext::before {
+	content: "· ";
+}
+
+.stream-footer {
+	border-top: 0;
+}
+
+/*=== Reader view */
+#stream.reader .flux {
+	background-color: var(--bg);
+	border: none;
+}
+
+#stream.reader .flux .flux_content {
+	background-color: var(--bg);
+	border: none;
+}
+
+/*=== User list: mark the default user by weight, not italics */
+.default-user {
+	font-style: normal;
+}
+
+.default-user .username {
+	color: var(--text-strong);
+	font-weight: 600;
+}
+
+/* "Add a category": a compact dashed drop target, not an empty card */
+.box.visible-semi {
+	background: transparent;
+	border: 1px dashed var(--action-outline);
+}
+
+.box.visible-semi .box-title {
+	border-bottom: none;
+}
+
+.box.visible-semi .box-title h2 {
+	color: var(--text-secondary);
+	font-weight: normal;
+}
+
+.box.visible-semi .box-content {
+	padding: 0;
+	min-height: 0;
+}
+
+/* Logs: errors get a subtle tint and a red marker, not a heavy fill */
+.log-item.log-error {
+	background-color: #e5675c14;
+}
+
+.log-item.log-error td:first-child {
+	box-shadow: inset 3px 0 0 var(--red);
+}
+
+/*=== Statistics */
+.stat {
+	margin: 10px 0 20px;
+}
+
+.stat > table td,
+.stat > table th {
+	text-align: center;
+}
+
+/*=== Theme picker & preview */
+.theme-preview-list,
+.theme-preview-list .properties {
+	border-color: var(--separator);
+}
+
+.theme-preview-list:hover,
+.theme-preview-list:hover .properties {
+	border-color: var(--text-tertiary);
+}
+
+.preview_controls {
+	background-color: var(--bg-sidebar);
+	border-color: var(--separator);
+}
+
+.preview_background {
+	background-color: transparent;
+}
+
+/*=== MOBILE */
+/*===========*/
+@media (max-width: 840px) {
+	.aside {
+		left: 0;
+	}
+
+	.aside.visible + .close-aside,
+	.configure .dropdown-target:target ~ .dropdown-close {
+		background-color: var(--frss-modal-background-color-transparent);
+	}
+
+	#overlay {
+		background-color: var(--bg-sidebar);
+	}
+
+	#slider.active {
+		background-color: var(--bg);
+	}
+
+	#close-slider.active {
+		display: block;
+		width: 100%;
+		height: 50px;
+		background: var(--bg-sidebar);
+		border-bottom: 1px solid var(--separator);
+		line-height: 50px;
+		text-align: center;
+		z-index: 10;
+	}
+
+	.nav_menu .btn {
+		margin-bottom: 0.5rem;
+	}
+
+	.nav_menu .search input {
+		max-width: 97%;
+		width: 90px;
+	}
+
+	.nav_menu .search input:focus {
+		width: 400px;
+	}
+
+	.flux .flux_header .item.thumbnail,
+	.flux .flux_header .item.thumbnail.small {
+		width: 56px;
+		height: 56px;
+	}
+
+	.pagination {
+		margin: 0 0 3.5em;
+	}
+
+	.notification {
+		top: 1%;
+		left: 2%;
+		right: 2%;
+	}
+
+	.notification .close .icon {
+		display: none;
+	}
+
+	.dropdown-menu {
+		margin: 0;
+	}
+}
+
+/*=== PRINT */
+/*==========*/
+@media print {
+	.header, .aside,
+	.nav_menu, .transition,
+	.flux_header,
+	.flux_content .bottom,
+	.pagination,
+	#nav_entries {
+		display: none;
+	}
+
+	html, body {
+		background: #fff;
+		color: #000;
+	}
+
+	#global,
+	.flux_content {
+		display: block !important;
+	}
+}
