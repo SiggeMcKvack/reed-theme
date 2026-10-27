@@ -1910,6 +1910,12 @@ li.item.active {
 	transition: background-color var(--ease);
 }
 
+/* Upstream leaves 100vh below the button so the last articles can scroll to the top
+* (sticky_post, auto_mark_scroll). Only keep it while an article is open */
+#stream:not(:has(.flux.active)) #bigMarkAsRead {
+	margin-bottom: 0;
+}
+
 #bigMarkAsRead br {
 	display: none;
 }
