@@ -1324,6 +1324,9 @@ img.favicon {
 /* "Add feed" rather than FreshRSS's generic "add" */
 #btn-add img.icon {
 	content: url("icons/rss-plus.svg");
+	/* Matches the --text label of "Subscription management" beside it, not the grey
+	* icon colour: #666 inverts to #999, sepia warms it and brightness lifts it to #e6e1d9 */
+	filter: invert(1) sepia(0.15) brightness(1.43);
 }
 
 /*=== Tree (categories & feeds) */
@@ -1571,6 +1574,18 @@ li.item.active {
 	justify-content: center;
 	box-sizing: content-box;
 	margin: 0.125rem;
+}
+
+/* 20px icons in icon-only buttons (toolbar, sidebar "Add feed"), like the header gear;
+* the padding gives back the extra 4px, so buttons keep their size */
+.nav_menu .btn img.icon,
+#btn-add img.icon {
+	height: 20px;
+}
+
+.nav_menu .btn:has(img.icon),
+#btn-add {
+	padding-inline: calc(0.6rem - 2px);
 }
 
 .nav_menu .group {
