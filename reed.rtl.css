@@ -13,12 +13,91 @@
 	unicode-range: U+2713-2714;
 }
 
+/* Bundled so text looks the same on every OS; FreshRSS's CSP blocks font CDNs.
+* Split by script (tools/subset-fonts.py): browsers only fetch Greek and Cyrillic when a page uses them */
+@font-face {
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url("fonts/InterVariable-latin.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url("fonts/InterVariable-greek.woff2") format("woff2");
+	unicode-range: U+0370-03FF, U+1F00-1FFF;
+}
+
+@font-face {
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url("fonts/InterVariable-cyrillic.woff2") format("woff2");
+	unicode-range: U+0400-052F, U+1C80-1C8F, U+2DE0-2DFF, U+A640-A69F;
+}
+
+@font-face {
+	font-family: "Literata";
+	font-style: normal;
+	font-weight: 200 900;
+	font-display: swap;
+	src: url("fonts/Literata-latin.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Literata";
+	font-style: normal;
+	font-weight: 200 900;
+	font-display: swap;
+	src: url("fonts/Literata-greek.woff2") format("woff2");
+	unicode-range: U+0370-03FF, U+1F00-1FFF;
+}
+
+@font-face {
+	font-family: "Literata";
+	font-style: normal;
+	font-weight: 200 900;
+	font-display: swap;
+	src: url("fonts/Literata-cyrillic.woff2") format("woff2");
+	unicode-range: U+0400-052F, U+1C80-1C8F, U+2DE0-2DFF, U+A640-A69F;
+}
+
+@font-face {
+	font-family: "Literata";
+	font-style: italic;
+	font-weight: 200 900;
+	font-display: swap;
+	src: url("fonts/Literata-Italic-latin.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Literata";
+	font-style: italic;
+	font-weight: 200 900;
+	font-display: swap;
+	src: url("fonts/Literata-Italic-greek.woff2") format("woff2");
+	unicode-range: U+0370-03FF, U+1F00-1FFF;
+}
+
+@font-face {
+	font-family: "Literata";
+	font-style: italic;
+	font-weight: 200 900;
+	font-display: swap;
+	src: url("fonts/Literata-Italic-cyrillic.woff2") format("woff2");
+	unicode-range: U+0400-052F, U+1C80-1C8F, U+2DE0-2DFF, U+A640-A69F;
+}
 :root {
 	color-scheme: dark;
 	accent-color: var(--accent);
 
-	--sans-font: "Lucide Check", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
-	--serif-font: "Iowan Old Style", "Charter", "Palatino Linotype", Georgia, serif;
+	--sans-font: "Lucide Check", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
+	--serif-font: "Literata", "Iowan Old Style", "Charter", "Palatino Linotype", Georgia, serif;
 	--mono-font: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
 	--bg: #2b2422;

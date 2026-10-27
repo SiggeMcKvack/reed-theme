@@ -8,6 +8,7 @@ A calm, warm dark theme for [FreshRSS](https://freshrss.org), inspired by Reeder
 - Centred article column without row separators, large favicons and uppercase feed names
 - Grouped, Reeder-style settings pages with pill switches
 - [Lucide](https://lucide.dev) icons throughout
+- Bundled [Inter](https://rsms.me/inter/) for the interface and [Literata](https://github.com/googlefonts/literata) for articles, so text looks the same on every OS
 
 Built and tested against FreshRSS 1.30.4.
 
@@ -60,8 +61,14 @@ The theme is set per user. The login page uses the theme of the internal `_` use
 npx rtlcss@4.3.0 reed.css reed.rtl.css
 ```
 
+The fonts are split by script so browsers only download Greek and Cyrillic when an article needs them. To update a font, regenerate its files from the variable TTFs (Inter from its [releases](https://github.com/rsms/inter/releases), Literata from [google/fonts](https://github.com/google/fonts/tree/main/ofl/literata)). The script needs `fonttools` and `brotli`:
+
+```sh
+tools/subset-fonts.py InterVariable.ttf 'Literata[opsz,wght].ttf' 'Literata-Italic[opsz,wght].ttf'
+```
+
 After upgrading FreshRSS, run `tools/check-upstream.sh [container]` (default container: `freshrss`). It reports new icons without a Reed copy, base colour variables Reed doesn't set, markup the layout relies on that has disappeared, changes to upstream's mobile article-list grid, and a stale `reed.rtl.css`.
 
 ## License
 
-[AGPL-3.0](LICENSE), same as FreshRSS. Lucide icons are [ISC licensed](LICENSE-lucide).
+[AGPL-3.0](LICENSE), same as FreshRSS. Lucide icons are [ISC licensed](LICENSE-lucide). Inter and Literata are OFL-1.1 licensed ([Inter](LICENSE-inter), [Literata](LICENSE-literata)).
