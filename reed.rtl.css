@@ -117,6 +117,7 @@
 	--red: #e97d74;
 	--green: #8fbf7f;
 
+	--radius-sm: 4px;
 	--radius: 6px;
 	--radius-md: 8px;
 	--radius-lg: 10px;
@@ -126,10 +127,19 @@
 	--shadow-pop: 0 8px 24px #0009;
 	--header-gear-width: 4rem;
 	--action-outline: #ffffff26;
+	--field-fill: #00000026;
 	/* 3.1:1 against the page, enough to identify the field */
 	--field-outline: #ffffff5c;
+	--field-outline-hover: #ffffff80;
 	--action-hover: #ffffff14;
 	--fill-subtle: #ffffff1f;
+	--fill-subtle-hover: #ffffff2e;
+	/* Grouped-list cards: a step under --bg-hover's rows would vanish on them */
+	--fill-card: #ffffff0a;
+	/* Opaque accent tint for selected options */
+	--accent-fill: #665130;
+	/* Darker than --red so white text reaches 5.4:1 */
+	--red-fill: #b8433a;
 	--sidebar-row: 2.25rem;
 	--favicon-tile: #d9d2cd;
 	--ease: 150ms ease;
@@ -159,7 +169,7 @@
 	--frss-darken-background-hover-transparent: var(--bg-hover);
 	--frss-noThumbnailImage-background-color: var(--bg-raised);
 
-	--frss-scrollbar-handle: #ffffff1f;
+	--frss-scrollbar-handle: var(--fill-subtle);
 	--frss-scrollbar-handle-hover: #ffffff3d;
 	--frss-scrollbar-track: transparent;
 	--frss-scrollbar-track-hover: transparent;
@@ -199,7 +209,7 @@ kbd {
 	color: var(--text);
 	background-color: var(--bg-raised);
 	border-color: var(--separator);
-	border-radius: 4px;
+	border-radius: var(--radius-sm);
 	font-family: var(--mono-font);
 	font-size: 0.85em;
 }
@@ -209,7 +219,7 @@ input, select, textarea {
 	padding: 0.4rem 0.6rem;
 	min-height: 25px;
 	color: var(--text);
-	background-color: #00000026;
+	background-color: var(--field-fill);
 	border: 1px solid var(--field-outline);
 	border-radius: var(--radius);
 	font-size: 0.9rem;
@@ -221,7 +231,7 @@ input::placeholder, textarea::placeholder {
 }
 
 input:hover, select:hover, textarea:hover {
-	border-color: #ffffff80;
+	border-color: var(--field-outline-hover);
 }
 
 input:focus, select:focus, textarea:focus {
@@ -374,7 +384,7 @@ input[type="file"]::file-selector-button {
 	color: var(--text);
 	background-color: var(--bg-raised);
 	border: 1px solid var(--action-outline);
-	border-radius: 4px;
+	border-radius: var(--radius-sm);
 	font: inherit;
 	cursor: pointer;
 }
@@ -408,7 +418,7 @@ select[size] option:checked {
 	/* Chrome forces a system text colour on a focused list's selection; this wins */
 	-webkit-text-fill-color: var(--text-strong);
 	/* opaque: a translucent tint would blend with Chrome's focused-selection blue */
-	background: linear-gradient(#665130, #665130);
+	background: linear-gradient(var(--accent-fill), var(--accent-fill));
 }
 
 .group-controls > input[type="number"] {
@@ -529,7 +539,7 @@ div:target ~ .btn {
 }
 
 .switch:not([disabled]):hover {
-	background-color: #ffffff2e;
+	background-color: var(--fill-subtle-hover);
 }
 
 .switch.active,
@@ -546,10 +556,10 @@ div:target ~ .btn {
 	left: auto;
 	width: calc(1.625rem - 4px);
 	height: calc(1.625rem - 4px);
-	background-color: #fff;
+	background-color: var(--text-strong);
 	background-image: none;
 	box-shadow: 0 1px 3px #0006;
-	transition: transform 200ms ease;
+	transition: transform var(--ease);
 }
 
 .switch.active::before,
@@ -571,7 +581,7 @@ div:target ~ .btn {
 	margin: 0.5rem 0 1.5rem;
 	padding: 0;
 	max-width: 40rem;
-	background-color: #ffffff0a;
+	background-color: var(--fill-card);
 	border-radius: var(--radius-lg);
 }
 
@@ -579,7 +589,7 @@ div:target ~ .btn {
 	display: flex;
 	align-items: center;
 	gap: 0.75rem;
-	padding: 0.65rem 1rem;
+	padding: 0.625rem 1rem;
 	line-height: 1.4;
 }
 
@@ -903,7 +913,7 @@ img.favicon {
 	color: var(--text) !important;
 	font-size: inherit;
 	line-height: 2.1em;
-	border-radius: 4px;
+	border-radius: var(--radius-sm);
 }
 
 .dropdown-menu .dropdown-section .item > a,
@@ -932,7 +942,7 @@ img.favicon {
 	background-color: var(--bg-selected);
 	color: var(--text-strong) !important;
 	text-decoration: none;
-	border-radius: 4px;
+	border-radius: var(--radius-sm);
 }
 
 .dropdown-menu .input select,
@@ -1541,7 +1551,6 @@ li.item.active {
 /* Unread counters: faint plain numbers, right-aligned */
 .aside_feed .tree-folder-title > .title:not([data-unread="0"])::after,
 .aside .feed .item-title:not([data-unread="0"])::after {
-	padding: 0 0.25rem;
 	background: none;
 	color: var(--text-secondary);
 	border: none;
@@ -2159,7 +2168,7 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	background: var(--bg-raised);
 	color: var(--text);
 	border: none;
-	border-radius: 4px;
+	border-radius: var(--radius-sm);
 	font-family: var(--mono-font);
 	font-size: 0.85em;
 }
@@ -2187,9 +2196,8 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	z-index: 9999;
 }
 
-/* Darker than --red so white text reaches 5.4:1 */
 .notification.bad {
-	background-color: #b8433a;
+	background-color: var(--red-fill);
 	color: #fff;
 }
 
