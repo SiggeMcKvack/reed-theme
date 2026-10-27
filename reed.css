@@ -118,6 +118,12 @@
 	--green: #8fbf7f;
 
 	--radius: 6px;
+	--radius-md: 8px;
+	--radius-lg: 10px;
+	/* Popovers (menus, notifications) sit on --bg-raised, where --separator disappears */
+	--edge-raised: #ffffff14;
+	--divider-raised: #ffffff12;
+	--shadow-pop: 0 8px 24px #0009;
 	--header-gear-width: 4rem;
 	--action-outline: #ffffff26;
 	/* 3.1:1 against the page, enough to identify the field */
@@ -310,8 +316,7 @@ summary.form-advanced-title::before {
 	width: 1rem;
 	height: 1rem;
 	background-color: var(--text-secondary);
-	-webkit-mask: url("icons/next.svg") center / contain no-repeat;
-	mask: url("icons/next.svg") center / contain no-repeat;
+	--mask-icon: url("icons/next.svg");
 	transition: transform var(--ease);
 }
 
@@ -558,7 +563,7 @@ div:target ~ .btn {
 	padding: 0;
 	max-width: 40rem;
 	background-color: #ffffff0a;
-	border-radius: 10px;
+	border-radius: var(--radius-lg);
 }
 
 .manage-list li {
@@ -823,12 +828,29 @@ img.icon[src$="/themes/icons/warning.svg"] {
 	filter: var(--icon-filter-hover);
 }
 
+/* The fill alone is 1.2:1 against the toolbar; the outline makes "on" visible (3.1:1) */
+.nav_menu .btn.active {
+	border-color: var(--field-outline);
+}
+
 #nav_menu_actions .icon:is([src$="/starred.svg"], [src$="/unread.svg"]) {
 	filter: grayscale(1) brightness(0.74) !important;
 }
 
 #nav_menu_actions .btn:is(.active, :hover) .icon:is([src$="/starred.svg"], [src$="/unread.svg"]) {
 	filter: grayscale(1) brightness(1.17) !important;
+}
+
+/* Lucide icons drawn as masks, so they take the element's colour; each rule sets --mask-icon */
+summary.form-advanced-title::before,
+.aside > ul > .nav-section:first-child > ul > .item:first-child > a::before,
+.title.error::before,
+.item.feed.error .item-title .title::before,
+.box-content .item.feed.error .item-title::before,
+.theme-preview-list .properties .error::before,
+#new-article > a::before {
+	-webkit-mask: var(--mask-icon) center / contain no-repeat;
+	mask: var(--mask-icon) center / contain no-repeat;
 }
 
 /* Light tile keeps dark favicons (GitHub, etc.) visible on dark backgrounds */
@@ -843,9 +865,9 @@ img.favicon {
 	margin: 6px 0 0;
 	padding: 0.25rem;
 	background: var(--bg-raised);
-	border: 1px solid #ffffff14;
-	border-radius: 8px;
-	box-shadow: 0 8px 24px #0009;
+	border: 1px solid var(--edge-raised);
+	border-radius: var(--radius-md);
+	box-shadow: var(--shadow-pop);
 	font-size: 0.85rem;
 	text-align: left;
 }
@@ -928,7 +950,7 @@ img.favicon {
 .dropdown-menu .item ~ .dropdown-header,
 .dropdown-menu .dropdown-section ~ .dropdown-section,
 .dropdown-menu .item.separator {
-	border-top-color: #ffffff12;
+	border-top-color: var(--divider-raised);
 }
 
 /*=== Alerts */
@@ -959,7 +981,7 @@ img.favicon {
 
 .alert + .alert {
 	margin-top: 0;
-	border-top: 1px solid #ffffff12;
+	border-top: 1px solid var(--divider-raised);
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 }
@@ -988,7 +1010,7 @@ img.favicon {
 .box {
 	background-color: var(--bg-sidebar);
 	border: 1px solid var(--separator);
-	border-radius: 10px;
+	border-radius: var(--radius-lg);
 }
 
 /* Flex gap ignores the stray whitespace some templates put between gear and title */
@@ -1086,7 +1108,7 @@ img.favicon {
 .box.category .title:not([data-unread="0"])::after {
 	background: none;
 	border: 0;
-	color: var(--text-tertiary);
+	color: var(--text-muted);
 	box-shadow: none;
 }
 
@@ -1272,8 +1294,7 @@ img.favicon {
 	/* Back points right in right-to-left languages */
 	transform: translateY(-50%) /*rtl:translateY(-50%) scaleX(-1)*/;
 	background-color: currentColor;
-	-webkit-mask: url("icons/arrow-left.svg") center / contain no-repeat;
-	mask: url("icons/arrow-left.svg") center / contain no-repeat;
+	--mask-icon: url("icons/arrow-left.svg");
 }
 
 /* Sidebar "Subscription management" and "+": outlined actions, like the toolbar */
@@ -1320,7 +1341,7 @@ img.favicon {
 	box-sizing: border-box;
 	height: var(--sidebar-row);
 	padding: 0 0.75rem;
-	border-radius: 8px;
+	border-radius: var(--radius-md);
 	font-size: 1rem;
 	line-height: var(--sidebar-row);
 }
@@ -1403,7 +1424,7 @@ a.tree-folder-title:hover {
 .tree-folder-items > .item {
 	margin: 1px 0.5rem;
 	font-size: 0.95rem;
-	border-radius: 8px;
+	border-radius: var(--radius-md);
 	transition: background-color var(--ease);
 }
 
@@ -1480,8 +1501,7 @@ li.item.active {
 	margin-inline-end: 0.35em;
 	vertical-align: calc(0.5cap - 0.5em);
 	background-color: var(--red);
-	-webkit-mask: url("icons/warning.svg") center / contain no-repeat;
-	mask: url("icons/warning.svg") center / contain no-repeat;
+	--mask-icon: url("icons/warning.svg");
 }
 
 /* Unread feeds are slightly brighter, not bold */
@@ -1587,6 +1607,8 @@ li.item.active {
 .nav_menu .mark-read-menu .dropdown-toggle {
 	display: flex;
 	align-items: center;
+	border-left: 1px solid var(--action-outline);
+	border-radius: 0 var(--radius) var(--radius) 0;
 }
 
 .nav_menu .mark-read-menu .read_all {
@@ -1605,17 +1627,11 @@ li.item.active {
 	background: url("icons/mark-all-read.svg") center / contain no-repeat;
 }
 
-.nav_menu .mark-read-menu .dropdown-toggle {
-	border-left: 1px solid var(--action-outline);
-	border-radius: 0 var(--radius) var(--radius) 0;
-}
-
 .nav_menu .mark-read-menu .read_all:hover,
 .nav_menu .mark-read-menu .dropdown-toggle:hover {
 	background-color: var(--action-hover);
 }
 
-/*=== New article notification: the same outlined pill as the end-of-list button */
 /* Empty states ("There are no articles to show.", a user query with no filter):
 * a quiet caption like the end of the list, not a warning card */
 #stream > .prompt.alert,
@@ -1640,15 +1656,12 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	margin: 0.75rem 1rem;
 }
 
-#new-article {
-	text-align: center;
-}
-
-#new-article > a {
+/*=== New article notification and end-of-list button: one outlined pill */
+#new-article > a,
+#bigMarkAsRead.big,
+#bigMarkAsRead.small {
 	display: inline-flex;
-	align-items: center;
 	gap: 0.4rem;
-	margin: 0.75rem auto;
 	padding: 0.4rem 0.9rem;
 	color: var(--text);
 	border: 1px solid var(--action-outline);
@@ -1658,20 +1671,29 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	transition: background-color var(--ease);
 }
 
+#new-article > a:hover,
+#bigMarkAsRead:hover {
+	background-color: var(--action-hover);
+	color: var(--text);
+	text-decoration: none;
+}
+
+#new-article {
+	text-align: center;
+}
+
+#new-article > a {
+	align-items: center;
+	margin: 0.75rem auto;
+}
+
 #new-article > a::before {
 	content: "";
 	flex: none;
 	width: 1rem;
 	height: 1rem;
 	background-color: var(--accent);
-	-webkit-mask: url("icons/refresh.svg") center / contain no-repeat;
-	mask: url("icons/refresh.svg") center / contain no-repeat;
-}
-
-#new-article > a:hover {
-	background-color: var(--action-hover);
-	color: var(--text);
-	text-decoration: none;
+	--mask-icon: url("icons/refresh.svg");
 }
 
 /*=== Centred reading column, like Reeder */
@@ -1726,7 +1748,7 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	box-sizing: border-box;
 	margin: 2px 0;
 	padding: 0.7rem 1rem 0.7rem 0.75rem;
-	border-radius: 10px;
+	border-radius: var(--radius-lg);
 	font-size: 0.85rem;
 	cursor: pointer;
 	transition: background-color var(--ease);
@@ -1842,12 +1864,11 @@ form[name="drag_queries"] .box-content > .alert-warn {
 .flux.not_read .flux_header .item .title,
 .flux.current .flux_header .item .title {
 	color: var(--text-strong);
-	font-weight: 500;
 }
 
 .flux .flux_header .item .title .author {
 	padding-left: 0.5rem;
-	color: var(--text-tertiary);
+	color: var(--text-muted);
 	font-weight: normal;
 }
 
@@ -1860,6 +1881,12 @@ form[name="drag_queries"] .box-content > .alert-warn {
 }
 
 .flux.not_read .flux_header .item .summary {
+	color: var(--text-secondary);
+}
+
+/* Muted read text drops below 4.5:1 on the hover and selected fills */
+.flux:not(.not_read):is(:hover, .current) .flux_header .item .summary,
+.flux:not(.not_read, .current):hover .flux_header .item .title {
 	color: var(--text-secondary);
 }
 
@@ -1931,6 +1958,12 @@ form[name="drag_queries"] .box-content > .alert-warn {
 
 .flux_content .content header h1.title a:hover {
 	color: var(--accent);
+}
+
+/* Upstream colours the rest of the byline and footer (tags…) --text-tertiary, 3:1 */
+.content > header,
+.content > footer {
+	color: var(--text-muted);
 }
 
 .flux_content .content header .website,
@@ -2055,9 +2088,9 @@ form[name="drag_queries"] .box-content > .alert-warn {
 .notification {
 	background: var(--bg-raised);
 	color: var(--text);
-	border: 1px solid #ffffff14;
-	border-radius: 8px;
-	box-shadow: 0 8px 24px #0009;
+	border: 1px solid var(--edge-raised);
+	border-radius: var(--radius-md);
+	box-shadow: var(--shadow-pop);
 	font-size: 0.9rem;
 	z-index: 9999;
 }
@@ -2106,18 +2139,9 @@ form[name="drag_queries"] .box-content > .alert-warn {
 
 #bigMarkAsRead.big,
 #bigMarkAsRead.small {
-	display: inline-flex;
 	align-items: baseline;
-	gap: 0.4rem;
 	margin-top: 0.6rem;
-	padding: 0.4rem 0.9rem;
 	width: auto;
-	color: var(--text);
-	border: 1px solid var(--action-outline);
-	border-radius: 999px;
-	font-size: 0.85rem;
-	text-decoration: none;
-	transition: background-color var(--ease);
 }
 
 /* Upstream leaves 100vh below the button so the last articles can scroll to the top
@@ -2128,10 +2152,6 @@ form[name="drag_queries"] .box-content > .alert-warn {
 
 #bigMarkAsRead br {
 	display: none;
-}
-
-#bigMarkAsRead:hover {
-	background-color: var(--action-hover);
 }
 
 /* The template prints a text "✓"; show Lucide's circle-check instead */
