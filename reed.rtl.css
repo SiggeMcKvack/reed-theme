@@ -317,11 +317,14 @@ summary.form-advanced-title::before {
 	height: 1rem;
 	background-color: var(--text-secondary);
 	--mask-icon: url("icons/next.svg");
+	/* Closed points to where text flows: left in right-to-left languages */
+	transform: scaleX(-1);
 	transition: transform var(--ease);
 }
 
+/* Open points down in both directions; rtlcss would flip the angle */
 details[open] > summary.form-advanced-title::before {
-	transform: rotate(-90deg);
+	transform: rotate(90deg);
 }
 
 table {
@@ -915,11 +918,11 @@ img.favicon {
 }
 
 .dropdown-menu .item > a:hover,
-.dropdown-menu .item > a:focus,
+.dropdown-menu .item > a:focus-visible,
 .dropdown-menu .item button:hover:not([disabled]),
-.dropdown-menu .item button:focus:not([disabled]),
+.dropdown-menu .item button:focus-visible:not([disabled]),
 .dropdown-menu .item > label:hover:not(.noHover),
-.dropdown-menu .item > label:focus:not(.noHover) {
+.dropdown-menu .item > label:focus-visible:not(.noHover) {
 	background-color: var(--bg-selected);
 	color: var(--text-strong) !important;
 	text-decoration: none;
@@ -1224,8 +1227,7 @@ img.favicon {
 	font-size: 0.9rem;
 }
 
-.nav-list .item,
-.nav-list .item.nav-header {
+.nav-list .item {
 	margin: 1px 0.5rem;
 	width: auto;
 	min-height: 2.1em;
@@ -1267,10 +1269,14 @@ img.favicon {
 	text-decoration: none;
 }
 
-.nav-list .item.active,
+/* Fill the row only: a second translucent fill on its link would double it */
+.nav-list .item.active {
+	background-color: var(--bg-selected);
+}
+
 .nav-list .item.active > a,
 .nav-list .item.active .as-link {
-	background-color: var(--bg-selected);
+	background-color: transparent;
 	color: var(--text-strong);
 }
 
@@ -1330,6 +1336,11 @@ img.favicon {
 	/* Matches the --text label of "Subscription management" beside it, not the grey
 	* icon colour: #666 inverts to #999, sepia warms it and brightness lifts it to #e6e1d9 */
 	filter: invert(1) sepia(0.15) brightness(1.43);
+}
+
+/* The id rule above outranks .btn:hover; brighten to the label's --text-strong hover */
+#btn-add:hover img.icon {
+	filter: invert(1) sepia(0.15) brightness(1.53);
 }
 
 /*=== Tree (categories & feeds) */
@@ -1877,6 +1888,7 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	display: -webkit-box;
 	-webkit-line-clamp: 2;
 	-webkit-box-orient: vertical;
+	overflow: hidden;
 }
 
 .flux.not_read .flux_header .item .title,
@@ -1896,6 +1908,10 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	color: var(--text-muted);
 	font-size: 0.85rem;
 	line-height: 1.4;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
 }
 
 .flux.not_read .flux_header .item .summary {
@@ -2073,11 +2089,16 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	border: 1px solid var(--separator);
 	border-radius: var(--radius);
 	font-size: 0.85rem;
+	line-height: 1.5;
+	overflow-x: auto;
 }
 
+/* The pre already sets the size; code's own 0.85em would shrink it again */
 .content pre code {
+	padding: 0;
 	background: transparent;
 	border: none;
+	font-size: inherit;
 }
 
 .content code {
@@ -2374,6 +2395,19 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	.pagination,
 	#nav_entries {
 		display: none;
+	}
+
+	/* The reading view colours text with the tokens, so dark text needs dark tokens */
+	:root {
+		--bg: #fff;
+		--bg-sidebar: #f4f4f4;
+		--bg-raised: #eee;
+		--separator: #ccc;
+		--text: #000;
+		--text-strong: #000;
+		--text-secondary: #444;
+		--text-muted: #555;
+		--accent: #7a4f00;
 	}
 
 	html, body {
