@@ -816,6 +816,21 @@ img.icon[src$="/themes/icons/warning.svg"] {
 	filter: none !important;
 }
 
+/* Toolbar state filters stay grey like the other toolbar icons: amber read as "on"
+* whatever the state. The background shows which are on, and their icons brighten.
+* The grey matches the inverted #666 icons (--icon-filter and its hover) */
+#nav_menu_actions .btn.active img.icon {
+	filter: var(--icon-filter-hover);
+}
+
+#nav_menu_actions .icon:is([src$="/starred.svg"], [src$="/unread.svg"]) {
+	filter: grayscale(1) brightness(0.74) !important;
+}
+
+#nav_menu_actions .btn:is(.active, :hover) .icon:is([src$="/starred.svg"], [src$="/unread.svg"]) {
+	filter: grayscale(1) brightness(1.17) !important;
+}
+
 /* Light tile keeps dark favicons (GitHub, etc.) visible on dark backgrounds */
 img.favicon {
 	padding: 1px;
@@ -1201,6 +1216,12 @@ img.favicon {
 	font-weight: 600;
 }
 
+/* Upstream prints an empty headline above "About": keep the section gap, drop the blank line */
+.nav-list .nav-header:empty {
+	margin-bottom: 0;
+	min-height: 0;
+}
+
 .nav-list .item > a,
 .nav-list .item .as-link {
 	padding: 0 0.75rem;
@@ -1226,6 +1247,33 @@ img.favicon {
 .nav-list .item.active .as-link {
 	background-color: var(--bg-selected);
 	color: var(--text-strong);
+}
+
+/* "Go back to your RSS feeds": every translation starts with a text "← ";
+* hide it and draw Lucide's arrow-left. An inline ::before would take over
+* ::first-letter, so the icon is positioned instead */
+.aside > ul > .nav-section:first-child > ul > .item:first-child > a {
+	position: relative;
+	padding-left: 1.75rem;
+}
+
+.aside > ul > .nav-section:first-child > ul > .item:first-child > a::first-letter {
+	font-size: 0;
+}
+
+.aside > ul > .nav-section:first-child > ul > .item:first-child > a::before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	/* Lucide pads the arrow by 5/24 of the box; this lines the stroke up with the links' text */
+	left: 0.5rem;
+	width: 1.25rem;
+	height: 1.25rem;
+	/* Back points right in right-to-left languages */
+	transform: translateY(-50%) /*rtl:translateY(-50%) scaleX(-1)*/;
+	background-color: currentColor;
+	-webkit-mask: url("icons/arrow-left.svg") center / contain no-repeat;
+	mask: url("icons/arrow-left.svg") center / contain no-repeat;
 }
 
 /* Sidebar "Subscription management" and "+": outlined actions, like the toolbar */
@@ -1649,9 +1697,10 @@ form[name="drag_queries"] .box-content > .alert-warn {
 }
 
 /*=== Article list: Reeder-style rows, no separators, cards on hover/selection
-* [icon] FEED NAME           (read)(star) time  [thumb]
+* [icon] FEED NAME           time (read)(star)  [thumb]
 * [icon] Title, up to two lines                 [thumb]
 * [icon] Excerpt, up to two lines               [thumb]
+* The dot sits after the time, so the time's varying width doesn't stagger the dots
 */
 .flux {
 	border: none;
@@ -1665,7 +1714,7 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	display: grid;
 	grid-template-columns: 2.75rem minmax(0, 1fr) auto auto auto auto;
 	grid-template-areas:
-		"icon site    read    fav     date    thumb"
+		"icon site    date    read    fav     thumb"
 		"icon title   title   title   title   thumb"
 		"icon summary summary summary summary thumb";
 	align-items: start;
@@ -1701,7 +1750,7 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	display: none;
 }
 
-/* Read toggle and empty star appear on hover; a set star always shows */
+/* The unread dot and a set star always show; the read ring and empty star appear on hover */
 .flux .flux_header .item.manage {
 	width: auto;
 	text-align: center;
@@ -1721,7 +1770,7 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	height: 0.85rem;
 }
 
-.flux .flux_header .item.manage .read .icon,
+.flux .flux_header .item.manage .read .icon:not([src$="/unread.svg"]),
 .flux .flux_header .item.manage .bookmark .icon[src$="/non-starred.svg"] {
 	opacity: 0;
 	transition: opacity var(--ease);
@@ -1827,6 +1876,12 @@ form[name="drag_queries"] .box-content > .alert-warn {
 
 .flux .flux_header .item.thumbnail:empty {
 	display: none;
+}
+
+/* Once any row has a thumbnail, rows without one keep the slot so time and dot line up */
+#stream:has(.item.thumbnail img) .flux .flux_header .item.thumbnail:empty {
+	display: block;
+	visibility: hidden;
 }
 
 .flux:not(.current):hover .flux_header {
