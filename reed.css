@@ -39,6 +39,8 @@
 	--radius: 6px;
 	--header-gear-width: 4rem;
 	--action-outline: #ffffff26;
+	--action-hover: #ffffff14;
+	--fill-subtle: #ffffff1f;
 	--sidebar-row: 2.25rem;
 	--favicon-tile: #d9d2cd;
 	--ease: 150ms ease;
@@ -48,14 +50,20 @@
 	--icon-filter-hover: invert(1) brightness(1.35);
 
 	--frss-background-color: var(--bg);
-	--frss-background-color-transparent: #2b24227f;
+	--frss-background-color-transparent: color-mix(in srgb, var(--bg) 50%, transparent);
 	--frss-background-color-middle: var(--bg-raised);
 	--frss-background-color-dark: var(--bg-raised);
-	--frss-background-color-error-transparent: #e5675c40;
+	--frss-background-color-error-transparent: color-mix(in srgb, var(--red) 25%, transparent);
 	--frss-border-color: var(--separator);
+	--frss-border-color-error: var(--red);
 	--frss-font-color-dark: var(--text);
+	--frss-font-color-light: var(--text-strong);
 	--frss-font-color-grey-dark: var(--text-secondary);
 	--frss-font-color-grey-light: var(--text-tertiary);
+	--frss-font-color-disabled: var(--text-tertiary);
+	--frss-font-color-error: var(--red);
+	--frss-dragdrop-color: color-mix(in srgb, var(--accent) 40%, transparent);
+	--frss-dragdrop-color-transparent: color-mix(in srgb, var(--accent) 15%, transparent);
 	--frss-switch-accent-color: var(--accent);
 	--frss-box-shadow-color-transparent: #0008;
 	--frss-modal-background-color-transparent: #0009;
@@ -124,7 +132,7 @@ input:hover, select:hover, textarea:hover {
 
 input:focus, select:focus, textarea:focus {
 	border-color: var(--accent);
-	box-shadow: 0 0 0 3px #e0ac5233;
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
 	outline: none;
 }
 
@@ -262,7 +270,7 @@ input[type="file"]::file-selector-button {
 }
 
 input[type="file"]::file-selector-button:hover {
-	background-color: #ffffff1f;
+	background-color: var(--fill-subtle);
 }
 
 select[multiple],
@@ -327,7 +335,7 @@ div:target ~ .btn {
 .prompt .btn-important,
 .post p .btn-important,
 .post form > .btn-important {
-	color: #2b2422 !important;
+	color: var(--bg) !important;
 	background-color: var(--accent);
 	font-weight: 600;
 }
@@ -344,7 +352,7 @@ div:target ~ .btn {
 }
 
 .btn-attention:hover {
-	background: #e5675c26;
+	background: color-mix(in srgb, var(--red) 15%, transparent);
 }
 
 .stick .btn,
@@ -385,7 +393,7 @@ div:target ~ .btn {
 	width: 2.75rem;
 	height: 1.625rem;
 	flex: none;
-	background-color: #ffffff1f;
+	background-color: var(--fill-subtle);
 	background-image: none !important;
 	border-radius: 999px;
 	transition: background-color var(--ease);
@@ -478,9 +486,8 @@ div:target ~ .btn {
 	text-align: left;
 }
 
-/* Long URLs in author/description cells must not force the table wider */
-.table-wrapper td:nth-child(3),
-.table-wrapper td:nth-child(4) {
+/* Long URLs must not force the table wider */
+.table-wrapper td {
 	overflow-wrap: anywhere;
 }
 
@@ -498,17 +505,17 @@ div:target ~ .btn {
 :is(.post, #slider) .btn:not(.btn-important, .btn-attention, .stick .btn, .form-actions .btn):hover,
 :is(.post, #slider) .form-group:not(.form-actions) .btn-important:not(p .btn-important):hover,
 :is(.post, #slider) .form-actions .btn-important ~ .btn-important:hover {
-	background-color: #ffffff14;
+	background-color: var(--action-hover);
 }
 
-/*=== Icons */
-.icon {
+/*=== Icons (img only: emoji icons are spans and must keep their colours) */
+img.icon {
 	filter: var(--icon-filter);
 	transition: filter var(--ease);
 }
 
-a:hover .icon,
-.btn:hover .icon {
+a:hover img.icon,
+.btn:hover img.icon {
 	filter: var(--icon-filter-hover);
 }
 
@@ -1041,7 +1048,7 @@ img.favicon {
 
 #btn-subscription:hover,
 #btn-add:hover {
-	background-color: #ffffff14;
+	background-color: var(--action-hover);
 }
 
 /*=== Tree (categories & feeds) */
@@ -1049,8 +1056,12 @@ img.favicon {
 	border-bottom: none;
 }
 
+/* Category rows: flex keeps chevron/icon and name on the row's true centre */
 .tree-folder-title {
 	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
 	margin: 1px 0.5rem;
 	box-sizing: border-box;
 	height: var(--sidebar-row);
@@ -1071,13 +1082,6 @@ a.tree-folder-title,
 a.tree-folder-title:hover {
 	color: var(--text);
 	text-decoration: none;
-}
-
-/* Category rows: flex keeps chevron/icon and name on the row's true centre */
-.tree-folder-title {
-	display: flex;
-	align-items: center;
-	gap: 0.25rem;
 }
 
 .tree-folder-title > .title {
@@ -1241,13 +1245,14 @@ li.item.active {
 	line-height: normal;
 }
 
+/* Long category names ellipsize before the count instead of running under it */
+.aside_feed .tree-folder-title > .title:not([data-unread="0"]) {
+	padding-right: 2.5rem;
+}
+
 .aside .feed.active .item-title:not([data-unread="0"])::after {
 	background: none;
 	color: var(--text-secondary);
-}
-
-.aside_feed .category .title:not([data-unread="0"]) {
-	width: calc(100% - 35px - 20px);
 }
 
 /*=== Article list toolbar */
@@ -1280,7 +1285,7 @@ li.item.active {
 }
 
 #actualize:hover {
-	background-color: #ffffff14;
+	background-color: var(--action-hover);
 }
 
 .nav_menu .mark-read-menu .btn {
@@ -1321,7 +1326,7 @@ li.item.active {
 
 .nav_menu .mark-read-menu .read_all:hover,
 .nav_menu .mark-read-menu .dropdown-toggle:hover {
-	background-color: #ffffff14;
+	background-color: var(--action-hover);
 }
 
 /*=== New article notification */
@@ -1592,7 +1597,7 @@ li.item.active {
 .content a {
 	color: var(--accent);
 	text-decoration: underline;
-	text-decoration-color: #e0ac5266;
+	text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
 	text-underline-offset: 0.15em;
 }
 
@@ -1755,7 +1760,7 @@ li.item.active {
 }
 
 #bigMarkAsRead:hover {
-	background-color: #ffffff14;
+	background-color: var(--action-hover);
 }
 
 /* The template prints a text "✓"; show Lucide's circle-check (filled) instead */
@@ -1825,7 +1830,7 @@ li.item.active {
 
 /* Logs: errors get a subtle tint and a red marker, not a heavy fill */
 .log-item.log-error {
-	background-color: #e5675c14;
+	background-color: color-mix(in srgb, var(--red) 8%, transparent);
 }
 
 .log-item.log-error td:first-child {
@@ -1862,6 +1867,14 @@ li.item.active {
 	background-color: transparent;
 }
 
+/*=== REDUCED MOTION */
+/*==================*/
+@media (prefers-reduced-motion: reduce) {
+	*, ::before, ::after {
+		transition: none !important;
+	}
+}
+
 /*=== MOBILE */
 /*===========*/
 @media (max-width: 840px) {
@@ -1895,6 +1908,10 @@ li.item.active {
 
 	.nav_menu .btn {
 		margin-bottom: 0.5rem;
+	}
+
+	summary.form-advanced-title {
+		margin-left: 0;
 	}
 
 	.nav_menu .search input {

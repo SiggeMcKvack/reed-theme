@@ -52,6 +52,16 @@ The theme is set per user. The login page uses the theme of the internal `_` use
 - Statistics chart colours are hard-coded by FreshRSS and aren't themed.
 - Icons in background-loaded panels are swapped through CSS `content: url()`, which may not work in Firefox.
 
+## Development
+
+`reed.rtl.css` is what FreshRSS loads for right-to-left languages. Regenerate it after editing `reed.css`:
+
+```sh
+npx rtlcss@4.3.0 reed.css reed.rtl.css
+```
+
+After upgrading FreshRSS, run `tools/check-upstream.sh [container]` (default container: `freshrss`). It reports new icons without a Reed copy, base colour variables Reed doesn't set, markup the layout relies on that has disappeared, and a stale `reed.rtl.css`.
+
 ## License
 
 [AGPL-3.0](LICENSE), same as FreshRSS. Lucide icons are [ISC licensed](LICENSE-lucide).
