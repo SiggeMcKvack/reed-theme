@@ -454,8 +454,10 @@ div:target ~ .btn {
 	background-color: var(--accent-strong);
 }
 
+/* Destructive actions: outlined like other secondary actions, in a red tint */
 .btn-attention {
 	color: var(--red) !important;
+	border-color: color-mix(in srgb, var(--red) 40%, transparent);
 }
 
 .btn-attention:hover {
