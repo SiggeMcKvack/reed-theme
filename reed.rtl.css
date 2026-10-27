@@ -845,6 +845,13 @@ img.favicon {
 	border-bottom: 1px solid var(--separator);
 }
 
+/* Unbreakable category and feed names wrap instead of overflowing the box */
+.box .box-title > *,
+.box .box-content .item {
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
 .box .box-title .configure {
 	display: flex;
 }
@@ -870,6 +877,10 @@ img.favicon {
 .box.category .box-title .title {
 	font-weight: 600;
 	text-decoration: none;
+}
+
+.box.category .box-title .title:not([data-unread="0"]) {
+	padding-left: 2.5rem;
 }
 
 .box.category .title:not([data-unread="0"])::after {
@@ -1250,6 +1261,15 @@ li.item.active {
 	padding-left: 2.5rem;
 }
 
+/* Counts from 1 000 up carry a thin-space separator (format_number): reserve room for up to 9 999 999 */
+.aside_feed .tree-folder-title > .title[data-unread*="\202F"] {
+	padding-left: 4.75rem;
+}
+
+.aside_feed .feed .item-title[data-unread*="\202F"] {
+	width: calc(100% - 7.25rem);
+}
+
 .aside .feed.active .item-title:not([data-unread="0"])::after {
 	background: none;
 	color: var(--text-secondary);
@@ -1381,7 +1401,10 @@ li.item.active {
 	background: transparent;
 }
 
-.flux .flux_header {
+/* Upstream's mobile CSS re-grids .has-thumbnail.has-summary rows with more specific
+* selectors; matching them keeps Reed's layout at every width */
+.flux .flux_header,
+.flux .flux_header.has-thumbnail.has-summary {
 	display: grid;
 	grid-template-columns: 2.75rem minmax(0, 1fr) auto auto auto auto;
 	grid-template-areas:
@@ -1427,8 +1450,10 @@ li.item.active {
 	text-align: center;
 }
 
-.flux .flux_header .item.manage:has(.read) { grid-area: read; }
-.flux .flux_header .item.manage:has(.bookmark) { grid-area: fav; }
+.flux .flux_header .item.manage:has(.read),
+.flux .flux_header.has-thumbnail.has-summary li.manage:has(.read) { grid-area: read; }
+.flux .flux_header .item.manage:has(.bookmark),
+.flux .flux_header.has-thumbnail.has-summary li.manage:has(.bookmark) { grid-area: fav; }
 
 .flux .flux_header .item.manage .item-element {
 	padding: 0 0.3rem;
@@ -1521,7 +1546,8 @@ li.item.active {
 }
 
 .flux .flux_header .item.thumbnail,
-.flux .flux_header .item.thumbnail.small {
+.flux .flux_header .item.thumbnail.small,
+.flux .flux_header.has-thumbnail.has-summary li.thumbnail {
 	grid-area: thumb;
 	align-self: center;
 	margin-right: 0.75rem;
@@ -1562,6 +1588,8 @@ li.item.active {
 
 .flux_content .content header {
 	font-family: var(--sans-font);
+	/* An unbreakable author or feed name must not widen the page */
+	overflow-wrap: anywhere;
 }
 
 .flux_content .content header h1.title {
@@ -1637,6 +1665,18 @@ li.item.active {
 .content img,
 .content video {
 	border-radius: var(--radius);
+}
+
+/* Wide tables scroll inside the reading column instead of being clipped */
+.content table {
+	display: block;
+	max-width: fit-content;
+	overflow-x: auto;
+}
+
+/* FreshRSS strips inline colours but keeps <font color>, which is often black on this background */
+.content font[color] {
+	color: inherit;
 }
 
 .content figcaption {

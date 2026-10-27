@@ -60,7 +60,7 @@ The theme is set per user. The login page uses the theme of the internal `_` use
 npx rtlcss@4.3.0 reed.css reed.rtl.css
 ```
 
-After upgrading FreshRSS, run `tools/check-upstream.sh [container]` (default container: `freshrss`). It reports new icons without a Reed copy, base colour variables Reed doesn't set, markup the layout relies on that has disappeared, and a stale `reed.rtl.css`.
+After upgrading FreshRSS, run `tools/check-upstream.sh [container]` (default container: `freshrss`). It reports new icons without a Reed copy, base colour variables Reed doesn't set, markup the layout relies on that has disappeared, changes to upstream's mobile article-list grid, and a stale `reed.rtl.css`.
 
 ## License
 

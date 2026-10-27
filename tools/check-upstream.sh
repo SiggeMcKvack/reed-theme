@@ -32,6 +32,15 @@ for name in titleAuthorSummaryDate websiteName table-wrapper bigMarkAsRead bigTi
 	up "grep -rqF -- '$name' app/views app/layout app/Models p/scripts" || { echo "markup gone: $name"; status=1; }
 done
 
+# Upstream re-grids list rows on mobile; Reed repeats these selectors so its own grid wins.
+# A renamed selector or a new grid layout would silently break the article list
+row='.flux .flux_header.has-thumbnail.has-summary'
+for sel in "$row {" "$row li.thumbnail {" "$row li.manage:has(.read) {" "$row li.manage:has(.bookmark) {"; do
+	up "grep -qF -- '$sel' p/themes/base-theme/frss.css" || { echo "mobile list selector gone: $sel"; status=1; }
+done
+grids=$(up "grep -c 'grid-template-areas' p/themes/base-theme/frss.css")
+[ "$grids" = 2 ] || { echo "upstream grid layouts changed (expected 2 grid-template-areas, found $grids): check the article list on mobile"; status=1; }
+
 rtl=$(mktemp)
 npx --yes rtlcss@4.3.0 --silent reed.css "$rtl" >/dev/null
 cmp -s "$rtl" reed.rtl.css || { echo "reed.rtl.css is stale: npx rtlcss@4.3.0 reed.css reed.rtl.css"; status=1; }

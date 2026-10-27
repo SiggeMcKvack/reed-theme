@@ -2,7 +2,7 @@
 	"name": "Reed",
 	"author": "Carl",
 	"description": "Calm, warm dark theme inspired by Reeder Classic",
-	"version": 0.2,
+	"version": 0.3,
 	"files": ["_frss.css", "reed.css"],
 	"theme-color": "#2b2422"
 }
