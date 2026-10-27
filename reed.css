@@ -356,6 +356,18 @@ input[type="file"]::file-selector-button:hover {
 	background-color: var(--fill-subtle);
 }
 
+/* Own chevron: the native one ignores padding and sits tight against the border.
+* A file, not a data: URI, because FreshRSS's CSP blocks those; stroke is --text-secondary */
+select:not([multiple], [size]) {
+	padding-right: 2rem;
+	appearance: none;
+	background-image: url("icons/select-chevron.svg");
+	/* The chevron's own 4px inset makes the visible gap match the 0.6rem text padding */
+	background-position: right calc(0.6rem - 4px) center;
+	background-size: 1rem;
+	background-repeat: no-repeat;
+}
+
 select[multiple],
 select[size] {
 	min-width: 20rem;
