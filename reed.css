@@ -108,13 +108,13 @@
 	--separator: #3a322f;
 	--text: #e6e0dc;
 	--text-strong: #f6f1ed;
-	--text-secondary: #a39893;
+	--text-secondary: #a69b96;
 	--text-tertiary: #776d68;
 	/* Dimmest grey for text people read (4.6:1 on --bg); --text-tertiary is for decoration and disabled states */
 	--text-muted: #968b86;
 	--accent: #e0ac52;
 	--accent-strong: #ecbf6f;
-	--red: #e5675c;
+	--red: #e97d74;
 	--green: #8fbf7f;
 
 	--radius: 6px;
@@ -965,7 +965,7 @@ img.favicon {
 	color: var(--text);
 	background-color: var(--bg-raised);
 	border: none;
-	border-left: 3px solid var(--text-tertiary);
+	border-left: 3px solid var(--text-muted);
 	border-radius: var(--radius);
 	font-size: 0.9em;
 }
@@ -1186,6 +1186,11 @@ img.favicon {
 	width: auto;
 	min-width: 0;
 	background-color: var(--bg-raised);
+}
+
+/* On --bg-raised, --text-muted placeholders drop to 3.8:1 */
+.header > .item.search input::placeholder {
+	color: var(--text-secondary);
 }
 
 /* Filled, not outlined: it's page chrome, unlike form fields */
@@ -1918,9 +1923,10 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	color: var(--text-secondary);
 }
 
-/* Muted read text drops below 4.5:1 on the hover and selected fills */
+/* Muted text drops below 4.5:1 on the hover and selected fills */
 .flux:not(.not_read):is(:hover, .current) .flux_header .item .summary,
-.flux:not(.not_read, .current):hover .flux_header .item .title {
+.flux:not(.not_read, .current):hover .flux_header .item .title,
+.flux:is(:hover, .current) .flux_header .item .title .author {
 	color: var(--text-secondary);
 }
 
