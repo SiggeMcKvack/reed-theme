@@ -1314,9 +1314,26 @@ li.item.active {
 	color: var(--text-strong);
 }
 
-.item.feed.error > .item-title,
-.title.error::before {
+.item.feed.error > .item-title {
 	color: var(--red);
+}
+
+/* Upstream marks feeds and categories with errors with a text "⚠"; use Lucide's
+* triangle-alert, centred on the capitals like the checkboxes */
+.title.error::before,
+.item.feed.error .item-title .title::before,
+.box-content .item.feed.error .item-title::before,
+.theme-preview-list .properties .error::before {
+	content: "";
+	display: inline-block;
+	flex-shrink: 0;
+	width: 1em;
+	height: 1em;
+	margin-inline-end: 0.35em;
+	vertical-align: calc(0.5cap - 0.5em);
+	background-color: var(--red);
+	-webkit-mask: url("icons/warning.svg") center / contain no-repeat;
+	mask: url("icons/warning.svg") center / contain no-repeat;
 }
 
 /* Unread feeds are slightly brighter, not bold */
@@ -1924,7 +1941,7 @@ li.item.active {
 	background-color: var(--action-hover);
 }
 
-/* The template prints a text "✓"; show Lucide's circle-check (filled) instead */
+/* The template prints a text "✓"; show Lucide's circle-check instead */
 #bigMarkAsRead.big .bigTick,
 #bigMarkAsRead.small .bigTick {
 	display: inline-block;
