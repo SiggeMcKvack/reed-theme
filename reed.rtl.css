@@ -839,6 +839,17 @@ img.favicon {
 	padding-right: 1.5rem;
 }
 
+/* Checkable items (sort order): the "✓" sits in a gutter, so ticked and unticked labels line up */
+.dropdown-menu > .item[aria-checked] > a {
+	position: relative;
+	padding-right: 1.75rem;
+}
+
+.dropdown-menu > .item[aria-checked="true"] > a::before {
+	position: absolute;
+	right: 0.6rem;
+}
+
 .dropdown-menu .item > a:hover,
 .dropdown-menu .item > a:focus,
 .dropdown-menu .item button:hover:not([disabled]),
@@ -869,6 +880,13 @@ img.favicon {
 .dropdown-section ~ .dropdown-section,
 .item.separator {
 	border-top-color: var(--separator);
+}
+
+/* --separator matches the menu's --bg-raised, which hid the line and left only a gap */
+.dropdown-menu .item ~ .dropdown-header,
+.dropdown-menu .dropdown-section ~ .dropdown-section,
+.dropdown-menu .item.separator {
+	border-top-color: #ffffff12;
 }
 
 /*=== Alerts */
