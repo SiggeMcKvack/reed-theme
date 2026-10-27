@@ -1300,6 +1300,11 @@ img.favicon {
 	background-color: var(--action-hover);
 }
 
+/* "Add feed" rather than FreshRSS's generic "add" */
+#btn-add img.icon {
+	content: url("icons/rss-plus.svg");
+}
+
 /*=== Tree (categories & feeds) */
 .tree-folder.category {
 	border-bottom: none;
