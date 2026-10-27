@@ -1136,16 +1136,15 @@ img.favicon {
 	text-decoration: none;
 }
 
-/* Logo (theme copy is amber): muted grey at rest, the accent on hover */
+/* Logo (theme copy is amber): the button icons' grey at rest (#666 through --icon-filter
+* is #828282, which invert(0.51) gives from black), the accent on hover */
 .header > .item.title .logo {
-	filter: grayscale(100%) brightness(0.7);
-	opacity: 0.6;
-	transition: filter var(--ease), opacity var(--ease);
+	filter: brightness(0) invert(0.51);
+	transition: filter var(--ease);
 }
 
 .header > .item.title a:hover .logo {
 	filter: none;
-	opacity: 1;
 }
 
 /* Header holds only logo | search | gear, so search can take the middle,
@@ -1160,12 +1159,16 @@ img.favicon {
 	text-align: left;
 }
 
+/* Flex-centre the gear: vertical-align: middle sat it low in the button */
 .header > .item.configure .btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	padding: 0.4rem;
 }
 
 .header > .item.configure .icon {
-	height: 1.25rem;
+	height: 24px;
 }
 
 .header > .item.search .stick {
@@ -1576,7 +1579,7 @@ li.item.active {
 	margin: 0.125rem;
 }
 
-/* 20px icons in icon-only buttons (toolbar, sidebar "Add feed"), like the header gear;
+/* 20px icons in icon-only buttons (toolbar, sidebar "Add feed");
 * the padding gives back the extra 4px, so buttons keep their size */
 .nav_menu .btn img.icon,
 #btn-add img.icon {
