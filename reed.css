@@ -120,6 +120,8 @@
 	--radius: 6px;
 	--header-gear-width: 4rem;
 	--action-outline: #ffffff26;
+	/* 3.1:1 against the page, enough to identify the field */
+	--field-outline: #ffffff5c;
 	--action-hover: #ffffff14;
 	--fill-subtle: #ffffff1f;
 	--sidebar-row: 2.25rem;
@@ -197,8 +199,7 @@ input, select, textarea {
 	min-height: 25px;
 	color: var(--text);
 	background-color: #00000026;
-	/* 3.1:1 against the page, enough to identify the field */
-	border: 1px solid #ffffff5c;
+	border: 1px solid var(--field-outline);
 	border-radius: var(--radius);
 	font-size: 0.9rem;
 	transition: border-color var(--ease), box-shadow var(--ease);
@@ -483,10 +484,15 @@ div:target ~ .btn {
 
 .stick input + .btn,
 .stick select + .btn {
+	/* Centre the icon exactly; vertical-align: middle sits it on the text baseline,
+	* and the 25px line box made the group taller than a plain input */
+	display: flex;
+	align-items: center;
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
 	background: var(--bg-raised);
-	border-color: var(--separator);
+	/* Outlined like the field it's attached to, which draws the divider */
+	border-color: var(--field-outline);
 	border-left: 0;
 }
 
@@ -796,6 +802,12 @@ img.icon[src$="/themes/icons/view-reader.svg"] {
 
 img.icon[src$="/themes/icons/warning.svg"] {
 	content: url("icons/warning.svg");
+}
+
+/* The password toggle prints the key icon, which icons/key.svg draws as an eye;
+* while the password is shown, the button is .active */
+.toggle-password.active img.icon {
+	content: url("icons/eye-off.svg");
 }
 
 /* Theme's own coloured icons (icons/) must not be inverted */
@@ -1131,6 +1143,11 @@ img.favicon {
 	width: auto;
 	min-width: 0;
 	background-color: var(--bg-raised);
+}
+
+/* Filled, not outlined: it's page chrome, unlike form fields */
+.header > .item.search input,
+.header > .item.search .btn {
 	border-color: transparent;
 }
 
