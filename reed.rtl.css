@@ -1395,7 +1395,13 @@ li.item.active {
 	text-align: center;
 }
 
+/* Flex-centre the icons: upstream's vertical-align: middle leaves them ~1px low with Inter.
+* content-box so <button>s keep the same height as the <a> buttons */
 .nav_menu .btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: content-box;
 	margin: 0.125rem;
 }
 
