@@ -1917,7 +1917,6 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	display: -webkit-box;
 	-webkit-line-clamp: 2;
 	-webkit-box-orient: vertical;
-	overflow: hidden;
 }
 
 .flux.not_read .flux_header .item .title,
@@ -1942,10 +1941,6 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	color: var(--text-muted);
 	font-size: 0.85rem;
 	line-height: 1.4;
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
-	overflow: hidden;
 }
 
 .flux.not_read .flux_header .item .summary {
@@ -2150,14 +2145,13 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	background: var(--bg-sidebar);
 	border: 1px solid var(--separator);
 	border-radius: var(--radius);
+	font-family: var(--mono-font);
 	font-size: 0.85rem;
 	line-height: 1.5;
-	overflow-x: auto;
 }
 
 /* The pre already sets the size; code's own 0.85em would shrink it again */
 .content pre code {
-	padding: 0;
 	background: transparent;
 	border: none;
 	font-size: inherit;
