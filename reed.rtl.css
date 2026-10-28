@@ -1688,14 +1688,18 @@ li.item.active {
 	border-radius: 0 var(--radius) var(--radius) 0;
 }
 
-/* Same outlined circle-check as the end-of-list button */
-.nav_menu .mark-read-menu .read_all::before {
-	content: "";
+/* Same outlined circle-check as the end-of-list button; phones show it on the toggle instead */
+.nav_menu .mark-read-menu .read_all::before,
+.nav_menu_read_all .dropdown-target ~ .dropdown-toggle::before {
 	flex: none;
 	width: 1rem;
 	height: 1rem;
 	background: url("icons/mark-all-read.svg") center / contain no-repeat;
 	filter: var(--amber-icon-filter);
+}
+
+.nav_menu .mark-read-menu .read_all::before {
+	content: "";
 }
 
 .nav_menu .mark-read-menu .read_all:hover,
@@ -2445,8 +2449,63 @@ form[name="drag_queries"] .box-content > .alert-warn {
 		z-index: 10;
 	}
 
-	.nav_menu .btn {
-		margin-bottom: 0.5rem;
+	/* Logo inset mirrors the gear's: 1rem cell + 1px border + 0.4rem button padding + ~1.75px of
+	* blank viewBox, less upstream's 5px cell padding on the logo side */
+	.header > .item.title a {
+		padding-right: calc(1.4rem - 2px);
+	}
+
+	/* The markup's width="160" fits the desktop 32px height; at upstream's 24px the logo
+	* would sit centred in 20px of blank on each side */
+	.header > .item.title .logo {
+		width: auto;
+	}
+
+	/* Each toolbar group becomes one outlined segmented control, so the rows read as a few
+	* controls instead of a dozen loose icons */
+	.nav_menu {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 0.5rem;
+		padding-inline: 0.5rem;
+	}
+
+	.nav_menu .group {
+		align-items: center;
+		margin: 0;
+		gap: 2px;
+		padding: 2px;
+		border: 1px solid var(--action-outline);
+		border-radius: var(--radius);
+	}
+
+	.nav_menu .group .btn {
+		margin: 0;
+		padding: 1px 0.45rem;
+		border-radius: var(--radius-sm);
+	}
+
+	#actualize {
+		border-color: transparent;
+	}
+
+	/* As upstream: "Mark as read" folds into its dropdown (whose first entry marks all read), and the
+	* toggle shows the circle-check where upstream prints a text "✓" */
+	.nav_menu .mark-read-menu {
+		border: none;
+	}
+
+	.nav_menu .mark-read-menu .read_all {
+		display: none;
+	}
+
+	.nav_menu .mark-read-menu .dropdown-toggle {
+		border: 1px solid transparent;
+	}
+
+	.nav_menu_read_all .dropdown-target ~ .dropdown-toggle::before {
+		content: "";
 	}
 
 	/* Under 16px, iOS zooms the page when a field takes focus */
