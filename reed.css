@@ -2486,8 +2486,25 @@ form[name="drag_queries"] .box-content > .alert-warn {
 		border-radius: var(--radius-sm);
 	}
 
-	#actualize {
+	/* Refresh moves up beside the gear, styled like it. The toolbar starts where the header ends,
+	* and the gear's centre sits 29px above that: half the 56px header row plus its 1px border */
+	.nav_menu #nav_menu_actualize {
+		position: absolute;
+		right: calc(1rem + 1.25rem + 0.8rem + 2px + 0.25rem);
+		bottom: calc(100% + 29px);
+		transform: translateY(50%);
+		padding: 0;
+		border: none;
+	}
+
+	.nav_menu #actualize {
+		padding: 0.4rem;
 		border-color: transparent;
+		border-radius: var(--radius);
+	}
+
+	#actualize .icon {
+		height: 1.25rem;
 	}
 
 	/* As upstream: "Mark as read" folds into its dropdown (whose first entry marks all read), and the
@@ -2540,14 +2557,12 @@ form[name="drag_queries"] .box-content > .alert-warn {
 		margin: 0 0 3.5em;
 	}
 
+	/* Even side padding keeps the centred message clear of the close button */
 	.notification {
 		top: 1%;
 		left: 2%;
 		right: 2%;
-	}
-
-	.notification .close .icon {
-		display: none;
+		padding-inline: 2.75rem;
 	}
 
 	.dropdown-menu {
