@@ -948,7 +948,8 @@ summary.form-advanced-title::before,
 .item.feed.error .item-title .title::before,
 .box-content .item.feed.error .item-title::before,
 .theme-preview-list .properties .error::before,
-#new-article > a::before {
+#new-article > a::before,
+.transition .transition-next::before {
 	-webkit-mask: var(--mask-icon) center / contain no-repeat;
 	mask: var(--mask-icon) center / contain no-repeat;
 }
@@ -1053,12 +1054,13 @@ img.favicon {
 	border-top-color: var(--divider-raised);
 }
 
-/*=== Settings menu and settings sidebar: a Lucide icon left of each entry. Matched on the
-* link's own URL; extension entries keep a blank gutter (fully masked) so their text still
-* lines up. Only the settings sidebar has a logout button, which sets it apart from the others */
+/*=== Settings menu, settings and subscription sidebars: a Lucide icon left of each entry.
+* Matched on the link's own URL; extension entries keep a blank gutter (fully masked) so their
+* text still lines up. "Go back to your RSS feeds" draws its own arrow further down */
 .configure .dropdown-menu .dropdown-section .item > a,
 .configure .dropdown-menu .item button.signout,
-.aside:has(.signout) > ul > .nav-section:not(:first-child) .item > a,
+.aside > ul > .nav-section:not(:first-child) .item > a,
+.aside > ul > .nav-section:first-child .item + .item > a,
 .aside .item button.signout {
 	display: flex;
 	align-items: center;
@@ -1068,7 +1070,8 @@ img.favicon {
 
 .configure .dropdown-menu .dropdown-section .item > a::before,
 .configure .dropdown-menu .item button.signout::before,
-.aside:has(.signout) > ul > .nav-section:not(:first-child) .item > a::before,
+.aside > ul > .nav-section:not(:first-child) .item > a::before,
+.aside > ul > .nav-section:first-child .item + .item > a::before,
 .aside .item button.signout::before {
 	content: "";
 	flex: none;
@@ -1086,7 +1089,7 @@ img.favicon {
 
 .configure .dropdown-menu .dropdown-section .item > a:is(:hover, :focus-visible)::before,
 .configure .dropdown-menu .item button.signout:is(:hover, :focus-visible)::before,
-.aside:has(.signout) .item:is(.active, :hover) > a::before,
+.aside .nav-section .item:is(.active, :hover) > a::before,
 .aside .item button.signout:is(:hover, :focus-visible)::before {
 	background-color: currentColor;
 }
@@ -1157,6 +1160,46 @@ img.favicon {
 
 .item > a[href$="?a=tos"]::before {
 	--mask-icon: url("icons/file-text.svg");
+}
+
+.item > a[href$="?c=search"]::before {
+	--mask-icon: url("icons/search.svg");
+}
+
+.item > a[href$="?c=subscription&a=add"]::before {
+	--mask-icon: url("icons/rss-plus.svg");
+}
+
+.item > a[href$="?c=subscription"]::before {
+	--mask-icon: url("icons/rss.svg");
+}
+
+.item > a[href$="?c=tag"]::before {
+	--mask-icon: url("icons/label.svg");
+}
+
+.item > a[href$="?c=importExport"]::before {
+	--mask-icon: url("icons/arrow-down-up.svg");
+}
+
+.item > a[href$="?c=subscription&a=bookmarklet"]::before {
+	--mask-icon: url("icons/wrench.svg");
+}
+
+.item > a[href$="?c=stats"]::before {
+	--mask-icon: url("icons/stats.svg");
+}
+
+.item > a[href$="?c=stats&a=idle"]::before {
+	--mask-icon: url("icons/clock.svg");
+}
+
+.item > a[href$="?c=stats&a=repartition"]::before {
+	--mask-icon: url("icons/chart-pie.svg");
+}
+
+.item > a[href$="?c=stats&a=unreadDates"]::before {
+	--mask-icon: url("icons/calendar.svg");
 }
 
 /* Upstream puts the logout icon after the label; drawn as ::before instead */
@@ -1502,7 +1545,8 @@ button.signout .icon {
 * ::first-letter, so the icon is positioned instead */
 .aside > ul > .nav-section:first-child > ul > .item:first-child > a {
 	position: relative;
-	padding-right: 1.75rem;
+	/* Shares the icon box and text column of the iconed links below (padding + icon + gap) */
+	padding-right: 2.35rem;
 }
 
 .aside > ul > .nav-section:first-child > ul > .item:first-child > a::first-letter {
@@ -1513,25 +1557,18 @@ button.signout .icon {
 	content: "";
 	position: absolute;
 	top: 50%;
-	/* Lucide pads the arrow by 5/24 of the box; this lines the stroke up with the links' text */
-	right: 0.5rem;
-	width: 1.25rem;
-	height: 1.25rem;
+	right: 0.75rem;
+	width: 1rem;
+	height: 1rem;
 	/* Back points right in right-to-left languages */
 	transform: translateY(-50%) scaleX(-1);
 	background-color: currentColor;
 	--mask-icon: url("icons/arrow-left.svg");
 }
 
-/* In the settings sidebar the links below carry icons: share their icon box and text column */
-.aside:has(.signout) > ul > .nav-section:first-child > ul > .item:first-child > a {
-	padding-right: 2.35rem;
-}
-
-.aside:has(.signout) > ul > .nav-section:first-child > ul > .item:first-child > a::before {
-	right: 0.75rem;
-	width: 1rem;
-	height: 1rem;
+/* Subscription sidebar puts "Advanced search" in the same section: keep it clear of the back link */
+.aside > ul > .nav-section:first-child .item + .item {
+	margin-top: 0.75rem;
 }
 
 /* Sidebar "Subscription management" and "+": outlined actions, like the toolbar */
@@ -1968,6 +2005,32 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	letter-spacing: 0.06em;
 	text-transform: uppercase;
 	border: none;
+}
+
+/* "Next day" link: the template prints a text "⏭"; draw Lucide's skip-forward instead */
+.transition .transition-next {
+	display: inline-flex;
+	vertical-align: middle;
+	margin-right: 0.35rem;
+	padding: 0.15rem;
+	color: var(--text-secondary);
+	font-size: 0;
+	border-radius: var(--radius-sm);
+}
+
+.transition .transition-next::before {
+	content: "";
+	width: 0.875rem;
+	height: 0.875rem;
+	background-color: currentColor;
+	/* Forward points left in right-to-left languages */
+	transform: scaleX(-1);
+	--mask-icon: url("icons/skip-forward.svg");
+}
+
+.transition .transition-next:hover {
+	background-color: var(--bg-hover);
+	color: var(--text-strong);
 }
 
 .transition .name {
