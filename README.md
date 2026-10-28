@@ -1,10 +1,10 @@
 # Reed
 
-A calm, warm dark theme for [FreshRSS](https://freshrss.org), inspired by Reeder Classic.
+A calm, warm theme for [FreshRSS](https://freshrss.org), inspired by Reeder Classic.
 
 ![Reed theme](thumbs/original.png)
 
-- Warm brown palette with an amber accent
+- Warm paper palette by day and warm brown by night, each with an amber accent
 - Centred article column without row separators, large favicons and uppercase feed names
 - Grouped, Reeder-style settings pages with pill switches
 - [Lucide](https://lucide.dev) icons throughout
@@ -45,6 +45,8 @@ Adjust the container path for other images. For example, the official `freshrss/
 ### Enable
 
 Go to **Settings → Display → Theme** and choose **Reed**, then do a hard refresh (Cmd/Ctrl+Shift+R).
+
+Reed follows the system's light or dark appearance while **Settings → Display → Automatic dark mode** is set to **Auto** (the default). Set it to **No** to always use the light palette. FreshRSS has no setting to always use the dark one.
 
 The theme is set per user. The login page uses the theme of the internal `_` user. To theme it too, set `'theme' => 'Reed'` in `data/users/_/config.php`.
 

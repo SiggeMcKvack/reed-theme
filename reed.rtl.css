@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 /*******************
-* Reed — a calm, warm dark theme for FreshRSS, inspired by Reeder Classic.
+* Reed — a calm, warm theme for FreshRSS, inspired by Reeder Classic: paper by day, warm brown by night.
 * Content first: quiet chrome, two-line article rows, serif reading view.
 * Builds on base-theme/frss.css.
 *******************/
@@ -92,61 +92,78 @@
 	src: url("fonts/Literata-Italic-cyrillic.woff2") format("woff2");
 	unicode-range: U+0400-052F, U+1C80-1C8F, U+2DE0-2DFF, U+A640-A69F;
 }
+/* Warm paper by default; FreshRSS's "Automatic dark mode" (Display settings, on by default)
+* adds .darkMode_auto, which switches to the dark palette below when the OS is dark */
 :root {
-	color-scheme: dark;
+	color-scheme: light;
 	accent-color: var(--accent);
 
 	--sans-font: "Lucide Check", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
 	--serif-font: "Literata", "Iowan Old Style", "Charter", "Palatino Linotype", Georgia, serif;
 	--mono-font: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
-	--bg: #2b2422;
-	--bg-sidebar: #221c1a;
-	--bg-hover: #ffffff08;
-	--bg-selected: #ffffff12;
-	--bg-raised: #3a312e;
-	--separator: #3a322f;
-	--text: #e6e0dc;
-	--text-strong: #f6f1ed;
-	--text-secondary: #a69b96;
-	--text-tertiary: #776d68;
-	/* Dimmest grey for text people read (4.6:1 on --bg); --text-tertiary is for decoration and disabled states */
-	--text-muted: #968b86;
-	--accent: #e0ac52;
-	--accent-strong: #ecbf6f;
-	--red: #e97d74;
-	--green: #8fbf7f;
+	--bg: #f7f1e8;
+	--bg-sidebar: #efe7dc;
+	--bg-hover: #2b1d140a;
+	--bg-selected: #2b1d1412;
+	--bg-raised: #fffcf7;
+	--separator: #e3d9cc;
+	--text: #3b312c;
+	--text-strong: #1f1916;
+	--text-secondary: #6b5f58;
+	--text-tertiary: #a3968e;
+	/* Dimmest grey for text people read (5.0:1 on --bg); --text-tertiary is for decoration and disabled states */
+	--text-muted: #72655e;
+	/* Darker than the dark palette's amber so it reads as text (5.4:1 on --bg) */
+	--accent: #8a580b;
+	--accent-strong: #6e4506;
+	--red: #ab372e;
+	--green: #44713a;
 
 	--radius-sm: 4px;
 	--radius: 6px;
 	--radius-md: 8px;
 	--radius-lg: 10px;
 	/* Popovers (menus, notifications) sit on --bg-raised, where --separator disappears */
-	--edge-raised: #ffffff14;
-	--divider-raised: #ffffff12;
-	--shadow-pop: 0 8px 24px #0009;
+	--edge-raised: #2b1d1421;
+	--divider-raised: #2b1d1412;
+	--shadow-pop: 0 8px 24px #3a28182e;
 	--header-gear-width: 4rem;
-	--action-outline: #ffffff26;
-	--field-fill: #00000026;
+	--action-outline: #2b1d142e;
+	--field-fill: #fffcf799;
 	/* 3.1:1 against the page, enough to identify the field */
-	--field-outline: #ffffff5c;
-	--field-outline-hover: #ffffff80;
-	--action-hover: #ffffff14;
-	--fill-subtle: #ffffff1f;
-	--fill-subtle-hover: #ffffff2e;
-	/* Grouped-list cards: a step under --bg-hover's rows would vanish on them */
-	--fill-card: #ffffff0a;
+	--field-outline: #2b1d1480;
+	--field-outline-hover: #2b1d14a6;
+	--action-hover: #2b1d140f;
+	--fill-subtle: #2b1d141a;
+	--fill-subtle-hover: #2b1d1429;
+	/* Grouped-list cards: lifted off the page like paper on paper */
+	--fill-card: #fffcf7b3;
 	/* Opaque accent tint for selected options */
-	--accent-fill: #665130;
+	--accent-fill: #ecd7ae;
 	/* Darker than --red so white text reaches 5.4:1 */
 	--red-fill: #b8433a;
+	--switch-knob: #fff;
+	--select-chevron: url("icons/select-chevron-light.svg");
 	--sidebar-row: 2.25rem;
-	--favicon-tile: #d9d2cd;
+	--favicon-tile: #fff;
 	--ease: 150ms ease;
 
-	/* Default icons are #666; lift them to a soft grey */
-	--icon-filter: invert(1) brightness(0.85);
-	--icon-filter-hover: invert(1) brightness(1.35);
+	/* Default icons are #666 (5.1:1 on --bg); warm them slightly, darken to --text on hover */
+	--icon-filter: sepia(0.2);
+	--icon-filter-hover: sepia(0.2) brightness(0.55);
+	/* Help icons beside --text-secondary hints */
+	--icon-filter-help: var(--icon-filter);
+	/* Icons that sit beside --text labels and match them */
+	--icon-filter-text: sepia(0.2) brightness(0.55);
+	--icon-filter-text-hover: sepia(0.2) brightness(0.3);
+	/* The theme's amber icons (icons/) are drawn for the dark page; darken them for paper */
+	--amber-icon-filter: brightness(0.62) saturate(1.4);
+	/* Amber icons greyed to match --icon-filter: grayscale gives #b0b0b0 from the amber */
+	--amber-icon-filter-grey: grayscale(1) brightness(0.58) sepia(0.2);
+	--amber-icon-filter-grey-hover: grayscale(1) brightness(0.32) sepia(0.2);
+	/* Logo at rest: the button icons' grey (#666 is invert(0.4) from black) */
+	--logo-filter: brightness(0) invert(0.4) sepia(0.2);
 
 	--frss-background-color: var(--bg);
 	--frss-background-color-transparent: color-mix(in srgb, var(--bg) 50%, transparent);
@@ -164,15 +181,74 @@
 	--frss-dragdrop-color: color-mix(in srgb, var(--accent) 40%, transparent);
 	--frss-dragdrop-color-transparent: color-mix(in srgb, var(--accent) 15%, transparent);
 	--frss-switch-accent-color: var(--accent);
-	--frss-box-shadow-color-transparent: #0008;
-	--frss-modal-background-color-transparent: #0009;
+	--frss-box-shadow-color-transparent: #3a281840;
+	--frss-modal-background-color-transparent: #2b1d1466;
 	--frss-darken-background-hover-transparent: var(--bg-hover);
 	--frss-noThumbnailImage-background-color: var(--bg-raised);
 
 	--frss-scrollbar-handle: var(--fill-subtle);
-	--frss-scrollbar-handle-hover: #ffffff3d;
+	--frss-scrollbar-handle-hover: #2b1d1433;
 	--frss-scrollbar-track: transparent;
 	--frss-scrollbar-track-hover: transparent;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root.darkMode_auto {
+		color-scheme: dark;
+
+		--bg: #2b2422;
+		--bg-sidebar: #221c1a;
+		--bg-hover: #ffffff08;
+		--bg-selected: #ffffff12;
+		--bg-raised: #3a312e;
+		--separator: #3a322f;
+		--text: #e6e0dc;
+		--text-strong: #f6f1ed;
+		--text-secondary: #a69b96;
+		--text-tertiary: #776d68;
+		/* 4.6:1 on --bg */
+		--text-muted: #968b86;
+		--accent: #e0ac52;
+		--accent-strong: #ecbf6f;
+		--red: #e97d74;
+		--green: #8fbf7f;
+
+		--edge-raised: #ffffff14;
+		--divider-raised: #ffffff12;
+		--shadow-pop: 0 8px 24px #0009;
+		--action-outline: #ffffff26;
+		--field-fill: #00000026;
+		--field-outline: #ffffff5c;
+		--field-outline-hover: #ffffff80;
+		--action-hover: #ffffff14;
+		--fill-subtle: #ffffff1f;
+		--fill-subtle-hover: #ffffff2e;
+		/* A step under --bg-hover's rows would vanish on the cards */
+		--fill-card: #ffffff0a;
+		--accent-fill: #665130;
+		--switch-knob: var(--text-strong);
+		--select-chevron: url("icons/select-chevron.svg");
+		/* Light tile keeps dark favicons (GitHub, etc.) visible */
+		--favicon-tile: #d9d2cd;
+
+		/* Lift the #666 icons to a soft grey */
+		--icon-filter: invert(1) brightness(0.85);
+		--icon-filter-hover: invert(1) brightness(1.35);
+		/* Upstream's own help-icon filter, which only suits a dark page */
+		--icon-filter-help: brightness(2);
+		/* #666 inverts to #999, sepia warms it and brightness lifts it to --text (#e6e1d9) */
+		--icon-filter-text: invert(1) sepia(0.15) brightness(1.43);
+		--icon-filter-text-hover: invert(1) sepia(0.15) brightness(1.53);
+		--amber-icon-filter: none;
+		--amber-icon-filter-grey: grayscale(1) brightness(0.74);
+		--amber-icon-filter-grey-hover: grayscale(1) brightness(1.17);
+		/* #666 through --icon-filter is #828282, which invert(0.51) gives from black */
+		--logo-filter: brightness(0) invert(0.51);
+
+		--frss-box-shadow-color-transparent: #0008;
+		--frss-modal-background-color-transparent: #0009;
+		--frss-scrollbar-handle-hover: #ffffff3d;
+	}
 }
 
 /*=== GENERAL */
@@ -394,11 +470,12 @@ input[type="file"]::file-selector-button:hover {
 }
 
 /* Own chevron: the native one ignores padding and sits tight against the border.
-* A file, not a data: URI, because FreshRSS's CSP blocks those; stroke is --text-secondary */
+* A file, not a data: URI, because FreshRSS's CSP blocks those; stroke is --text-secondary,
+* so each palette has its own copy */
 select:not([multiple], [size]) {
 	padding-left: 2rem;
 	appearance: none;
-	background-image: url("icons/select-chevron.svg");
+	background-image: var(--select-chevron);
 	/* The chevron's own 4px inset makes the visible gap match the 0.6rem text padding */
 	background-position: left calc(0.6rem - 4px) center;
 	background-size: 1rem;
@@ -556,7 +633,7 @@ div:target ~ .btn {
 	left: auto;
 	width: calc(1.625rem - 4px);
 	height: calc(1.625rem - 4px);
-	background-color: var(--text-strong);
+	background-color: var(--switch-knob);
 	background-image: none;
 	box-shadow: 0 1px 3px #0006;
 	transition: transform var(--ease);
@@ -656,6 +733,10 @@ img.icon {
 a:hover img.icon,
 .btn:hover img.icon {
 	filter: var(--icon-filter-hover);
+}
+
+.help .icon {
+	filter: var(--icon-filter-help);
 }
 
 /* Panels loaded in the background (feed/category gear) are rendered without the theme,
@@ -837,12 +918,12 @@ img.icon[src$="/themes/icons/warning.svg"] {
 /* Theme's own coloured icons (icons/) must not be inverted */
 .icon[src$="/starred.svg"],
 .icon[src$="/unread.svg"] {
-	filter: none !important;
+	filter: var(--amber-icon-filter) !important;
 }
 
 /* Toolbar state filters stay grey like the other toolbar icons: amber read as "on"
 * whatever the state. The background shows which are on, and their icons brighten.
-* The grey matches the inverted #666 icons (--icon-filter and its hover) */
+* The grey matches the #666 icons (--icon-filter and its hover) */
 #nav_menu_actions .btn.active img.icon {
 	filter: var(--icon-filter-hover);
 }
@@ -853,11 +934,11 @@ img.icon[src$="/themes/icons/warning.svg"] {
 }
 
 #nav_menu_actions .icon:is([src$="/starred.svg"], [src$="/unread.svg"]) {
-	filter: grayscale(1) brightness(0.74) !important;
+	filter: var(--amber-icon-filter-grey) !important;
 }
 
 #nav_menu_actions .btn:is(.active, :hover) .icon:is([src$="/starred.svg"], [src$="/unread.svg"]) {
-	filter: grayscale(1) brightness(1.17) !important;
+	filter: var(--amber-icon-filter-grey-hover) !important;
 }
 
 /* Lucide icons drawn as masks, so they take the element's colour; each rule sets --mask-icon */
@@ -872,7 +953,7 @@ summary.form-advanced-title::before,
 	mask: var(--mask-icon) center / contain no-repeat;
 }
 
-/* Light tile keeps dark favicons (GitHub, etc.) visible on dark backgrounds */
+/* A tile behind every favicon; on the dark palette it keeps dark ones (GitHub, etc.) visible */
 img.favicon {
 	padding: 1px;
 	background: var(--favicon-tile);
@@ -1155,15 +1236,14 @@ img.favicon {
 	text-decoration: none;
 }
 
-/* Logo (theme copy is amber): the button icons' grey at rest (#666 through --icon-filter
-* is #828282, which invert(0.51) gives from black), the accent on hover */
+/* Logo (theme copy is amber): the button icons' grey at rest, the accent on hover */
 .header > .item.title .logo {
-	filter: brightness(0) invert(0.51);
+	filter: var(--logo-filter);
 	transition: filter var(--ease);
 }
 
 .header > .item.title a:hover .logo {
-	filter: none;
+	filter: var(--amber-icon-filter);
 }
 
 /* Header holds only logo | search | gear, so search can take the middle,
@@ -1354,14 +1434,13 @@ img.favicon {
 /* "Add feed" rather than FreshRSS's generic "add" */
 #btn-add img.icon {
 	content: url("icons/rss-plus.svg");
-	/* Matches the --text label of "Subscription management" beside it, not the grey
-	* icon colour: #666 inverts to #999, sepia warms it and brightness lifts it to #e6e1d9 */
-	filter: invert(1) sepia(0.15) brightness(1.43);
+	/* Matches the --text label of "Subscription management" beside it, not the grey icon colour */
+	filter: var(--icon-filter-text);
 }
 
 /* The id rule above outranks .btn:hover; brighten to the label's --text-strong hover */
 #btn-add:hover img.icon {
-	filter: invert(1) sepia(0.15) brightness(1.53);
+	filter: var(--icon-filter-text-hover);
 }
 
 /*=== Tree (categories & feeds) */
@@ -1542,7 +1621,7 @@ li.item.active {
 	--mask-icon: url("icons/warning.svg");
 }
 
-/* Unread feeds are slightly brighter, not bold */
+/* Unread feeds are slightly stronger, not bold */
 .feed .item-title:not([data-unread="0"]) {
 	color: var(--text-strong);
 	font-weight: normal;
@@ -1672,6 +1751,7 @@ li.item.active {
 	width: 1rem;
 	height: 1rem;
 	background: url("icons/mark-all-read.svg") center / contain no-repeat;
+	filter: var(--amber-icon-filter);
 }
 
 .nav_menu .mark-read-menu .read_all:hover,
@@ -2267,6 +2347,7 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	width: 1.1rem;
 	height: 1.1rem;
 	background: url("icons/mark-all-read.svg") center / contain no-repeat;
+	filter: var(--amber-icon-filter);
 	font-size: 0;
 }
 
@@ -2481,8 +2562,9 @@ form[name="drag_queries"] .box-content > .alert-warn {
 		display: none;
 	}
 
-	/* The reading view colours text with the tokens, so dark text needs dark tokens */
-	:root {
+	/* The reading view colours text with the tokens; print in ink whatever the screen palette */
+	:root,
+	:root.darkMode_auto {
 		--bg: #fff;
 		--bg-sidebar: #f4f4f4;
 		--bg-raised: #eee;
