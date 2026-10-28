@@ -12,6 +12,8 @@ A calm, warm theme for [FreshRSS](https://freshrss.org), inspired by Reeder Clas
 
 Built and tested against FreshRSS 1.30.4.
 
+For one-line article rows, about as tall as Origine's, install [Reed Compact](https://github.com/SiggeMcKvack/reed-compact-theme) alongside Reed.
+
 ## Installation
 
 The theme's folder name is its ID in FreshRSS. These steps use `Reed`.
