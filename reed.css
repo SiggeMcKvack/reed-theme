@@ -124,6 +124,9 @@
 	--radius: 6px;
 	--radius-md: 8px;
 	--radius-lg: 10px;
+	/* Article-list read/star toggles: hit area (WCAG 2.5.8) and icon height */
+	--toggle-size: 24px;
+	--toggle-icon: 0.85rem;
 	/* Popovers (menus, notifications) sit on --bg-raised, where --separator disappears */
 	--edge-raised: #2b1d1421;
 	--divider-raised: #2b1d1412;
@@ -741,173 +744,51 @@ a:hover img.icon,
 
 /* Panels loaded in the background (feed/category gear) are rendered without the theme,
 * so they reference FreshRSS's default icons; swap in this theme's versions */
-img.icon[src$="/themes/icons/add.svg"] {
-	content: url("icons/add.svg");
-}
+img.icon[src$="/themes/icons/add.svg"] { content: url("icons/add.svg"); }
+img.icon[src$="/themes/icons/all.svg"] { content: url("icons/all.svg"); }
+img.icon[src$="/themes/icons/bookmark-add.svg"] { content: url("icons/bookmark-add.svg"); }
+img.icon[src$="/themes/icons/bookmark-tag.svg"] { content: url("icons/bookmark-tag.svg"); }
+img.icon[src$="/themes/icons/category.svg"] { content: url("icons/category.svg"); }
+img.icon[src$="/themes/icons/close.svg"] { content: url("icons/close.svg"); }
+img.icon[src$="/themes/icons/configure.svg"] { content: url("icons/configure.svg"); }
+img.icon[src$="/themes/icons/debug.svg"] { content: url("icons/debug.svg"); }
+img.icon[src$="/themes/icons/disabled.svg"] { content: url("icons/disabled.svg"); }
+img.icon[src$="/themes/icons/down.svg"] { content: url("icons/down.svg"); }
+img.icon[src$="/themes/icons/enabled.svg"] { content: url("icons/enabled.svg"); }
+img.icon[src$="/themes/icons/error.svg"] { content: url("icons/error.svg"); }
+img.icon[src$="/themes/icons/help.svg"] { content: url("icons/help.svg"); }
+img.icon[src$="/themes/icons/important.svg"] { content: url("icons/important.svg"); }
+img.icon[src$="/themes/icons/key.svg"] { content: url("icons/key.svg"); }
+img.icon[src$="/themes/icons/label.svg"] { content: url("icons/label.svg"); }
+img.icon[src$="/themes/icons/link.svg"] { content: url("icons/link.svg"); }
+img.icon[src$="/themes/icons/login.svg"] { content: url("icons/login.svg"); }
+img.icon[src$="/themes/icons/logout.svg"] { content: url("icons/logout.svg"); }
+img.icon[src$="/themes/icons/look.svg"] { content: url("icons/look.svg"); }
+img.icon[src$="/themes/icons/next.svg"] { content: url("icons/next.svg"); }
+img.icon[src$="/themes/icons/non-starred.svg"] { content: url("icons/non-starred.svg"); }
+img.icon[src$="/themes/icons/notice.svg"] { content: url("icons/notice.svg"); }
+img.icon[src$="/themes/icons/opml.svg"] { content: url("icons/opml.svg"); }
+img.icon[src$="/themes/icons/opml-dyn.svg"] { content: url("icons/opml-dyn.svg"); }
+img.icon[src$="/themes/icons/prev.svg"] { content: url("icons/prev.svg"); }
+img.icon[src$="/themes/icons/read.svg"] { content: url("icons/read.svg"); }
+img.icon[src$="/themes/icons/refresh.svg"] { content: url("icons/refresh.svg"); }
+img.icon[src$="/themes/icons/rss.svg"] { content: url("icons/rss.svg"); }
+img.icon[src$="/themes/icons/search.svg"] { content: url("icons/search.svg"); }
+img.icon[src$="/themes/icons/share.svg"] { content: url("icons/share.svg"); }
+img.icon[src$="/themes/icons/sort-down.svg"] { content: url("icons/sort-down.svg"); }
+img.icon[src$="/themes/icons/sort-up.svg"] { content: url("icons/sort-up.svg"); }
+img.icon[src$="/themes/icons/starred.svg"] { content: url("icons/starred.svg"); }
+img.icon[src$="/themes/icons/stats.svg"] { content: url("icons/stats.svg"); }
+img.icon[src$="/themes/icons/tag.svg"] { content: url("icons/tag.svg"); }
+img.icon[src$="/themes/icons/unread.svg"] { content: url("icons/unread.svg"); }
+img.icon[src$="/themes/icons/up.svg"] { content: url("icons/up.svg"); }
+img.icon[src$="/themes/icons/view-global.svg"] { content: url("icons/view-global.svg"); }
+img.icon[src$="/themes/icons/view-normal.svg"] { content: url("icons/view-normal.svg"); }
+img.icon[src$="/themes/icons/view-reader.svg"] { content: url("icons/view-reader.svg"); }
+img.icon[src$="/themes/icons/warning.svg"] { content: url("icons/warning.svg"); }
 
-img.icon[src$="/themes/icons/all.svg"] {
-	content: url("icons/all.svg");
-}
-
-img.icon[src$="/themes/icons/bookmark-add.svg"] {
-	content: url("icons/bookmark-add.svg");
-}
-
-img.icon[src$="/themes/icons/bookmark-tag.svg"] {
-	content: url("icons/bookmark-tag.svg");
-}
-
-img.icon[src$="/themes/icons/category.svg"] {
-	content: url("icons/category.svg");
-}
-
-img.icon[src$="/themes/icons/close.svg"] {
-	content: url("icons/close.svg");
-}
-
-img.icon[src$="/themes/icons/configure.svg"] {
-	content: url("icons/configure.svg");
-}
-
-img.icon[src$="/themes/icons/debug.svg"] {
-	content: url("icons/debug.svg");
-}
-
-img.icon[src$="/themes/icons/disabled.svg"] {
-	content: url("icons/disabled.svg");
-}
-
-img.icon[src$="/themes/icons/down.svg"] {
-	content: url("icons/down.svg");
-}
-
-img.icon[src$="/themes/icons/enabled.svg"] {
-	content: url("icons/enabled.svg");
-}
-
-img.icon[src$="/themes/icons/error.svg"] {
-	content: url("icons/error.svg");
-}
-
-img.icon[src$="/themes/icons/help.svg"] {
-	content: url("icons/help.svg");
-}
-
-img.icon[src$="/themes/icons/important.svg"] {
-	content: url("icons/important.svg");
-}
-
-img.icon[src$="/themes/icons/key.svg"] {
-	content: url("icons/key.svg");
-}
-
-img.icon[src$="/themes/icons/label.svg"] {
-	content: url("icons/label.svg");
-}
-
-img.icon[src$="/themes/icons/link.svg"] {
-	content: url("icons/link.svg");
-}
-
-img.icon[src$="/themes/icons/login.svg"] {
-	content: url("icons/login.svg");
-}
-
-img.icon[src$="/themes/icons/logout.svg"] {
-	content: url("icons/logout.svg");
-}
-
-img.icon[src$="/themes/icons/look.svg"] {
-	content: url("icons/look.svg");
-}
-
-img.icon[src$="/themes/icons/next.svg"] {
-	content: url("icons/next.svg");
-}
-
-img.icon[src$="/themes/icons/non-starred.svg"] {
-	content: url("icons/non-starred.svg");
-}
-
-img.icon[src$="/themes/icons/notice.svg"] {
-	content: url("icons/notice.svg");
-}
-
-img.icon[src$="/themes/icons/opml.svg"] {
-	content: url("icons/opml.svg");
-}
-
-img.icon[src$="/themes/icons/opml-dyn.svg"] {
-	content: url("icons/opml-dyn.svg");
-}
-
-img.icon[src$="/themes/icons/prev.svg"] {
-	content: url("icons/prev.svg");
-}
-
-img.icon[src$="/themes/icons/read.svg"] {
-	content: url("icons/read.svg");
-}
-
-img.icon[src$="/themes/icons/refresh.svg"] {
-	content: url("icons/refresh.svg");
-}
-
-img.icon[src$="/themes/icons/rss.svg"] {
-	content: url("icons/rss.svg");
-}
-
-img.icon[src$="/themes/icons/search.svg"] {
-	content: url("icons/search.svg");
-}
-
-img.icon[src$="/themes/icons/share.svg"] {
-	content: url("icons/share.svg");
-}
-
-img.icon[src$="/themes/icons/sort-down.svg"] {
-	content: url("icons/sort-down.svg");
-}
-
-img.icon[src$="/themes/icons/sort-up.svg"] {
-	content: url("icons/sort-up.svg");
-}
-
-img.icon[src$="/themes/icons/starred.svg"] {
-	content: url("icons/starred.svg");
-}
-
-img.icon[src$="/themes/icons/stats.svg"] {
-	content: url("icons/stats.svg");
-}
-
-img.icon[src$="/themes/icons/tag.svg"] {
-	content: url("icons/tag.svg");
-}
-
-img.icon[src$="/themes/icons/unread.svg"] {
-	content: url("icons/unread.svg");
-}
-
-img.icon[src$="/themes/icons/up.svg"] {
-	content: url("icons/up.svg");
-}
-
-img.icon[src$="/themes/icons/view-global.svg"] {
-	content: url("icons/view-global.svg");
-}
-
-img.icon[src$="/themes/icons/view-normal.svg"] {
-	content: url("icons/view-normal.svg");
-}
-
-img.icon[src$="/themes/icons/view-reader.svg"] {
-	content: url("icons/view-reader.svg");
-}
-
-img.icon[src$="/themes/icons/warning.svg"] {
-	content: url("icons/warning.svg");
-}
+/* Themes built on Reed without an icons/ folder (Reed Compact) get upstream's logo */
+img.logo[src$="/themes/icons/FreshRSS-logo.svg"] { content: url("icons/FreshRSS-logo.svg"); }
 
 /* The password toggle prints the key icon, which icons/key.svg draws as an eye;
 * while the password is shown, the button is .active */
@@ -941,17 +822,11 @@ img.icon[src$="/themes/icons/warning.svg"] {
 	filter: var(--amber-icon-filter-grey-hover) !important;
 }
 
-/* Lucide icons drawn as masks, so they take the element's colour; each rule sets --mask-icon */
-summary.form-advanced-title::before,
-.aside > ul > .nav-section:first-child > ul > .item:first-child > a::before,
-.title.error::before,
-.item.feed.error .item-title .title::before,
-.box-content .item.feed.error .item-title::before,
-.theme-preview-list .properties .error::before,
-#new-article > a::before,
-.transition .transition-next::before {
-	-webkit-mask: var(--mask-icon) center / contain no-repeat;
-	mask: var(--mask-icon) center / contain no-repeat;
+/* Lucide icons drawn as masks, so they take the element's colour: any ::before that sets
+* --mask-icon gets one; the rest fall back to no mask */
+::before {
+	-webkit-mask: var(--mask-icon, none) center / contain no-repeat;
+	mask: var(--mask-icon, none) center / contain no-repeat;
 }
 
 /* A tile behind every favicon; on the dark palette it keeps dark ones (GitHub, etc.) visible */
@@ -1078,8 +953,6 @@ img.favicon {
 	width: 1rem;
 	height: 1rem;
 	background-color: var(--text-secondary);
-	-webkit-mask: var(--mask-icon) center / contain no-repeat;
-	mask: var(--mask-icon) center / contain no-repeat;
 }
 
 /* Blank default without specificity, so the per-URL rules below override it */
@@ -1094,113 +967,33 @@ img.favicon {
 	background-color: currentColor;
 }
 
-.item > a[href$="?c=user&a=profile"]::before {
-	--mask-icon: url("icons/circle-user.svg");
-}
-
-.item > a[href$="?c=configure&a=display"]::before {
-	--mask-icon: url("icons/palette.svg");
-}
-
-.item > a[href$="?c=configure&a=reading"]::before {
-	--mask-icon: url("icons/book-open.svg");
-}
-
-.item > a[href$="?c=configure&a=archiving"]::before {
-	--mask-icon: url("icons/archive.svg");
-}
-
-.item > a[href$="?c=configure&a=integration"]::before {
-	--mask-icon: url("icons/share.svg");
-}
-
-.item > a[href$="?c=configure&a=shortcut"]::before {
-	--mask-icon: url("icons/keyboard.svg");
-}
-
-.item > a[href$="?c=configure&a=queries"]::before {
-	--mask-icon: url("icons/bookmark-tag.svg");
-}
-
-.item > a[href$="?c=extension"]::before {
-	--mask-icon: url("icons/puzzle.svg");
-}
-
-.item > a[href$="?c=configure&a=privacy"]::before {
-	--mask-icon: url("icons/shield.svg");
-}
-
-.item > a[href$="?c=configure&a=system"]::before {
-	--mask-icon: url("icons/server.svg");
-}
-
-.item > a[href$="?c=user&a=manage"]::before {
-	--mask-icon: url("icons/users.svg");
-}
-
-.item > a[href$="?c=auth"]::before {
-	--mask-icon: url("icons/lock.svg");
-}
-
-.item > a[href$="?c=update&a=checkInstall"]::before {
-	--mask-icon: url("icons/clipboard-check.svg");
-}
-
-.item > a[href$="?c=update"]::before {
-	--mask-icon: url("icons/download.svg");
-}
-
-.item > a[href$="?a=logs"]::before {
-	--mask-icon: url("icons/scroll-text.svg");
-}
-
-.item > a[href$="?a=about"]::before {
-	--mask-icon: url("icons/info.svg");
-}
-
-.item > a[href$="?a=tos"]::before {
-	--mask-icon: url("icons/file-text.svg");
-}
-
-.item > a[href$="?c=search"]::before {
-	--mask-icon: url("icons/search.svg");
-}
-
-.item > a[href$="?c=subscription&a=add"]::before {
-	--mask-icon: url("icons/rss-plus.svg");
-}
-
-.item > a[href$="?c=subscription"]::before {
-	--mask-icon: url("icons/rss.svg");
-}
-
-.item > a[href$="?c=tag"]::before {
-	--mask-icon: url("icons/label.svg");
-}
-
-.item > a[href$="?c=importExport"]::before {
-	--mask-icon: url("icons/arrow-down-up.svg");
-}
-
-.item > a[href$="?c=subscription&a=bookmarklet"]::before {
-	--mask-icon: url("icons/wrench.svg");
-}
-
-.item > a[href$="?c=stats"]::before {
-	--mask-icon: url("icons/stats.svg");
-}
-
-.item > a[href$="?c=stats&a=idle"]::before {
-	--mask-icon: url("icons/clock.svg");
-}
-
-.item > a[href$="?c=stats&a=repartition"]::before {
-	--mask-icon: url("icons/chart-pie.svg");
-}
-
-.item > a[href$="?c=stats&a=unreadDates"]::before {
-	--mask-icon: url("icons/calendar.svg");
-}
+.item > a[href$="?c=user&a=profile"]::before { --mask-icon: url("icons/circle-user.svg"); }
+.item > a[href$="?c=configure&a=display"]::before { --mask-icon: url("icons/palette.svg"); }
+.item > a[href$="?c=configure&a=reading"]::before { --mask-icon: url("icons/book-open.svg"); }
+.item > a[href$="?c=configure&a=archiving"]::before { --mask-icon: url("icons/archive.svg"); }
+.item > a[href$="?c=configure&a=integration"]::before { --mask-icon: url("icons/share.svg"); }
+.item > a[href$="?c=configure&a=shortcut"]::before { --mask-icon: url("icons/keyboard.svg"); }
+.item > a[href$="?c=configure&a=queries"]::before { --mask-icon: url("icons/bookmark-tag.svg"); }
+.item > a[href$="?c=extension"]::before { --mask-icon: url("icons/puzzle.svg"); }
+.item > a[href$="?c=configure&a=privacy"]::before { --mask-icon: url("icons/shield.svg"); }
+.item > a[href$="?c=configure&a=system"]::before { --mask-icon: url("icons/server.svg"); }
+.item > a[href$="?c=user&a=manage"]::before { --mask-icon: url("icons/users.svg"); }
+.item > a[href$="?c=auth"]::before { --mask-icon: url("icons/lock.svg"); }
+.item > a[href$="?c=update&a=checkInstall"]::before { --mask-icon: url("icons/clipboard-check.svg"); }
+.item > a[href$="?c=update"]::before { --mask-icon: url("icons/download.svg"); }
+.item > a[href$="?a=logs"]::before { --mask-icon: url("icons/scroll-text.svg"); }
+.item > a[href$="?a=about"]::before { --mask-icon: url("icons/info.svg"); }
+.item > a[href$="?a=tos"]::before { --mask-icon: url("icons/file-text.svg"); }
+.item > a[href$="?c=search"]::before { --mask-icon: url("icons/search.svg"); }
+.item > a[href$="?c=subscription&a=add"]::before { --mask-icon: url("icons/rss-plus.svg"); }
+.item > a[href$="?c=subscription"]::before { --mask-icon: url("icons/rss.svg"); }
+.item > a[href$="?c=tag"]::before { --mask-icon: url("icons/label.svg"); }
+.item > a[href$="?c=importExport"]::before { --mask-icon: url("icons/arrow-down-up.svg"); }
+.item > a[href$="?c=subscription&a=bookmarklet"]::before { --mask-icon: url("icons/wrench.svg"); }
+.item > a[href$="?c=stats"]::before { --mask-icon: url("icons/stats.svg"); }
+.item > a[href$="?c=stats&a=idle"]::before { --mask-icon: url("icons/clock.svg"); }
+.item > a[href$="?c=stats&a=repartition"]::before { --mask-icon: url("icons/chart-pie.svg"); }
+.item > a[href$="?c=stats&a=unreadDates"]::before { --mask-icon: url("icons/calendar.svg"); }
 
 /* Upstream puts the logout icon after the label; drawn as ::before instead */
 button.signout::before {
@@ -1590,6 +1383,11 @@ button.signout .icon {
 	text-align: center;
 }
 
+/* The padding gives back the 20px icon's extra 4px, so the button keeps its size */
+#btn-add {
+	padding-inline: calc(0.6rem - 2px);
+}
+
 #btn-subscription:hover,
 #btn-add:hover {
 	background-color: var(--action-hover);
@@ -1597,6 +1395,7 @@ button.signout .icon {
 
 /* "Add feed" rather than FreshRSS's generic "add" */
 #btn-add img.icon {
+	height: 20px;
 	content: url("icons/rss-plus.svg");
 	/* Matches the --text label of "Subscription management" beside it, not the grey icon colour */
 	filter: var(--icon-filter-text);
@@ -1791,8 +1590,9 @@ li.item.active {
 	font-weight: normal;
 }
 
-/* Unread counters: faint plain numbers, right-aligned */
-.aside_feed .tree-folder-title > .title:not([data-unread="0"])::after,
+/* Unread counters: faint plain numbers in one box for categories and feeds,
+* full row height, centred, right-aligned */
+.aside .category .tree-folder-title .title:not([data-unread="0"])::after,
 .aside .feed .item-title:not([data-unread="0"])::after {
 	background: none;
 	color: var(--text-secondary);
@@ -1800,11 +1600,6 @@ li.item.active {
 	font-size: 0.9rem;
 	font-weight: normal;
 	font-variant-numeric: tabular-nums;
-}
-
-/* Category and feed counts share one box: full row height, centred, right-aligned */
-.aside .category .tree-folder-title .title:not([data-unread="0"])::after,
-.aside .feed .item-title:not([data-unread="0"])::after {
 	top: 0;
 	bottom: 0;
 	right: 0.75rem;
@@ -1830,11 +1625,6 @@ li.item.active {
 	width: calc(100% - 7.25rem);
 }
 
-.aside .feed.active .item-title:not([data-unread="0"])::after {
-	background: none;
-	color: var(--text-secondary);
-}
-
 /*=== Article list toolbar */
 .nav_menu {
 	padding: 5px 0.5rem 5px 3rem;
@@ -1851,16 +1641,6 @@ li.item.active {
 	justify-content: center;
 	box-sizing: content-box;
 	margin: 0.125rem;
-}
-
-/* 20px icon in the sidebar "Add feed" button;
-* the padding gives back the extra 4px, so the button keeps its size */
-#btn-add img.icon {
-	height: 20px;
-}
-
-#btn-add {
-	padding-inline: calc(0.6rem - 2px);
 }
 
 .nav_menu .group {
@@ -2106,36 +1886,27 @@ form[name="drag_queries"] .box-content > .alert-warn {
 .flux .flux_header.has-thumbnail.has-summary li.manage:has(.bookmark) { grid-area: fav; }
 
 .flux .flux_header .item.manage .item-element {
-	/* 24px to hit (WCAG 2.5.8); the negative margin keeps the row's first line height */
+	/* The negative margin keeps the row's first line height */
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	box-sizing: border-box;
 	margin-block: -0.3rem;
 	padding: 0 0.3rem;
-	min-width: 24px;
-	min-height: 24px;
+	min-width: var(--toggle-size);
+	min-height: var(--toggle-size);
 	line-height: 1;
 }
 
 .flux .flux_header .item.manage .icon {
-	height: 0.85rem;
-}
-
-.flux .flux_header .item.manage .read .icon:not([src$="/unread.svg"]),
-.flux .flux_header .item.manage .bookmark .icon[src$="/non-starred.svg"] {
-	opacity: 0;
+	height: var(--toggle-icon);
 	transition: opacity var(--ease);
 }
 
-.flux .flux_header:is(:hover, :focus-within) .item.manage .icon {
-	opacity: 1 !important;
-}
-
-/* No hover on touch screens: always show them */
-@media (hover: none) {
-	.flux .flux_header .item.manage .icon {
-		opacity: 1 !important;
+/* Touch screens have no hover, so they always show them */
+@media (hover: hover) {
+	.flux .flux_header:not(:hover, :focus-within) .item.manage :is(.read .icon:not([src$="/unread.svg"]), .bookmark .icon[src$="/non-starred.svg"]) {
+		opacity: 0;
 	}
 }
 
@@ -2229,21 +2000,22 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	align-self: center;
 	margin-left: 0.75rem;
 	padding: 0;
-	height: 72px;
+	--thumb-h: 72px;
+	height: var(--thumb-h);
 }
 
 /* Width follows the thumbnail setting at one height: portrait 3:4, square, landscape 16:9.
 * :is() carries .small's weight, so these outrank upstream's narrower .portrait.small etc. */
 .flux .flux_header .item.thumbnail:is(.portrait, .portrait.small) {
-	width: 54px;
+	width: calc(var(--thumb-h) * 3 / 4);
 }
 
 .flux .flux_header .item.thumbnail:is(.square, .square.small) {
-	width: 72px;
+	width: var(--thumb-h);
 }
 
 .flux .flux_header .item.thumbnail:is(.landscape, .landscape.small) {
-	width: 128px;
+	width: calc(var(--thumb-h) * 16 / 9);
 }
 
 .flux .flux_header .item.thumbnail img {
@@ -2555,12 +2327,7 @@ form[name="drag_queries"] .box-content > .alert-warn {
 }
 
 /*=== Reader view */
-#stream.reader .flux {
-	background-color: var(--bg);
-	border: none;
-}
-
-#stream.reader .flux .flux_content {
+#stream.reader :is(.flux, .flux .flux_content) {
 	background-color: var(--bg);
 	border: none;
 }
@@ -2705,20 +2472,9 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	}
 
 	.flux .flux_header .item.thumbnail,
-	.flux .flux_header .item.thumbnail.small {
-		height: 56px;
-	}
-
-	.flux .flux_header .item.thumbnail:is(.portrait, .portrait.small) {
-		width: 42px;
-	}
-
-	.flux .flux_header .item.thumbnail:is(.square, .square.small) {
-		width: 56px;
-	}
-
-	.flux .flux_header .item.thumbnail:is(.landscape, .landscape.small) {
-		width: 100px;
+	.flux .flux_header .item.thumbnail.small,
+	.flux .flux_header.has-thumbnail.has-summary li.thumbnail {
+		--thumb-h: 56px;
 	}
 
 	.pagination {
