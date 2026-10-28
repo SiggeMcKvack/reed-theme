@@ -2480,7 +2480,7 @@ form[name="drag_queries"] .box-content > .alert-warn {
 		border-radius: var(--radius);
 	}
 
-	.nav_menu .group .btn {
+	.nav_menu .group .btn:not(.dropdown-menu .btn) {
 		margin: 0;
 		padding: 1px 0.45rem;
 		border-radius: var(--radius-sm);
@@ -2505,6 +2505,26 @@ form[name="drag_queries"] .box-content > .alert-warn {
 
 	#actualize .icon {
 		height: 1.25rem;
+	}
+
+	/* Search panel: the field spans the panel and lines up with "Advanced Search" below it,
+	* with the same inset above it as at the sides */
+	#dropdown-search-wrapper .dropdown-menu form {
+		padding-top: 10px;
+	}
+
+	/* Upstream leaves 20px and caps it at 500px, and its field at 90% */
+	#dropdown-search-wrapper .stick {
+		display: flex;
+		width: auto;
+		max-width: none;
+	}
+
+	#dropdown-search-wrapper .stick input {
+		flex: 1;
+		width: auto;
+		min-width: 0;
+		max-width: none;
 	}
 
 	/* As upstream: "Mark as read" folds into its dropdown (whose first entry marks all read), and the
@@ -2536,15 +2556,6 @@ form[name="drag_queries"] .box-content > .alert-warn {
 
 	.form-group .group-controls {
 		margin-left: -0.3rem;
-	}
-
-	.nav_menu .search input {
-		max-width: 97%;
-		width: 90px;
-	}
-
-	.nav_menu .search input:focus {
-		width: 400px;
 	}
 
 	.flux .flux_header .item.thumbnail,
