@@ -1187,7 +1187,7 @@ img.favicon {
 }
 
 .header > .item.configure .icon {
-	height: 24px;
+	height: 1.25rem;
 }
 
 .header > .item.search .stick {
@@ -1610,14 +1610,12 @@ li.item.active {
 	margin: 0.125rem;
 }
 
-/* 20px icons in icon-only buttons (toolbar, sidebar "Add feed");
-* the padding gives back the extra 4px, so buttons keep their size */
-.nav_menu .btn img.icon,
+/* 20px icon in the sidebar "Add feed" button;
+* the padding gives back the extra 4px, so the button keeps its size */
 #btn-add img.icon {
 	height: 20px;
 }
 
-.nav_menu .btn:has(img.icon),
 #btn-add {
 	padding-inline: calc(0.6rem - 2px);
 }
