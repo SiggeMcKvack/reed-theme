@@ -1959,8 +1959,21 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	align-self: center;
 	margin-left: 0.75rem;
 	padding: 0;
-	width: 72px;
 	height: 72px;
+}
+
+/* Width follows the thumbnail setting at one height: portrait 3:4, square, landscape 16:9.
+* :is() carries .small's weight, so these outrank upstream's narrower .portrait.small etc. */
+.flux .flux_header .item.thumbnail:is(.portrait, .portrait.small) {
+	width: 54px;
+}
+
+.flux .flux_header .item.thumbnail:is(.square, .square.small) {
+	width: 72px;
+}
+
+.flux .flux_header .item.thumbnail:is(.landscape, .landscape.small) {
+	width: 128px;
 }
 
 .flux .flux_header .item.thumbnail img {
@@ -2422,8 +2435,19 @@ form[name="drag_queries"] .box-content > .alert-warn {
 
 	.flux .flux_header .item.thumbnail,
 	.flux .flux_header .item.thumbnail.small {
-		width: 56px;
 		height: 56px;
+	}
+
+	.flux .flux_header .item.thumbnail:is(.portrait, .portrait.small) {
+		width: 42px;
+	}
+
+	.flux .flux_header .item.thumbnail:is(.square, .square.small) {
+		width: 56px;
+	}
+
+	.flux .flux_header .item.thumbnail:is(.landscape, .landscape.small) {
+		width: 100px;
 	}
 
 	.pagination {
