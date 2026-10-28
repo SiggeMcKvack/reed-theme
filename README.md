@@ -12,7 +12,7 @@ A calm, warm theme for [FreshRSS](https://freshrss.org), inspired by Reeder Clas
 
 Built and tested against FreshRSS 1.30.4.
 
-For one-line article rows, about as tall as Origine's, install [Reed Compact](https://github.com/SiggeMcKvack/reed-compact-theme) alongside Reed.
+Prefer a denser list? [Reed Compact](https://github.com/SiggeMcKvack/reed-compact-theme) shows one article per line.
 
 ## Installation
 
