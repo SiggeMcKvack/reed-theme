@@ -1053,6 +1053,112 @@ img.favicon {
 	border-top-color: var(--divider-raised);
 }
 
+/*=== Settings menu: a Lucide icon left of each entry. Matched on the link's own URL;
+* extension entries keep a blank gutter (fully masked) so their text still lines up */
+.configure .dropdown-menu .dropdown-section .item > a,
+.configure .dropdown-menu .item button.signout {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	padding-right: 0.75rem;
+}
+
+.configure .dropdown-menu .dropdown-section .item > a::before,
+.configure .dropdown-menu .item button.signout::before {
+	content: "";
+	flex: none;
+	width: 1rem;
+	height: 1rem;
+	background-color: var(--text-secondary);
+	--mask-icon: linear-gradient(transparent, transparent);
+	-webkit-mask: var(--mask-icon) center / contain no-repeat;
+	mask: var(--mask-icon) center / contain no-repeat;
+}
+
+.configure .dropdown-menu .dropdown-section .item > a:is(:hover, :focus-visible)::before,
+.configure .dropdown-menu .item button.signout:is(:hover, :focus-visible)::before {
+	background-color: currentColor;
+}
+
+.configure .dropdown-menu .item > a[href$="?c=user&a=profile"]::before {
+	--mask-icon: url("icons/circle-user.svg");
+}
+
+.configure .dropdown-menu .item > a[href$="?c=configure&a=display"]::before {
+	--mask-icon: url("icons/palette.svg");
+}
+
+.configure .dropdown-menu .item > a[href$="?c=configure&a=reading"]::before {
+	--mask-icon: url("icons/book-open.svg");
+}
+
+.configure .dropdown-menu .item > a[href$="?c=configure&a=archiving"]::before {
+	--mask-icon: url("icons/archive.svg");
+}
+
+.configure .dropdown-menu .item > a[href$="?c=configure&a=integration"]::before {
+	--mask-icon: url("icons/share.svg");
+}
+
+.configure .dropdown-menu .item > a[href$="?c=configure&a=shortcut"]::before {
+	--mask-icon: url("icons/keyboard.svg");
+}
+
+.configure .dropdown-menu .item > a[href$="?c=configure&a=queries"]::before {
+	--mask-icon: url("icons/bookmark-tag.svg");
+}
+
+.configure .dropdown-menu .item > a[href$="?c=extension"]::before {
+	--mask-icon: url("icons/puzzle.svg");
+}
+
+.configure .dropdown-menu .item > a[href$="?c=configure&a=privacy"]::before {
+	--mask-icon: url("icons/shield.svg");
+}
+
+.configure .dropdown-menu .item > a[href$="?c=configure&a=system"]::before {
+	--mask-icon: url("icons/server.svg");
+}
+
+.configure .dropdown-menu .item > a[href$="?c=user&a=manage"]::before {
+	--mask-icon: url("icons/users.svg");
+}
+
+.configure .dropdown-menu .item > a[href$="?c=auth"]::before {
+	--mask-icon: url("icons/lock.svg");
+}
+
+.configure .dropdown-menu .item > a[href$="?c=update&a=checkInstall"]::before {
+	--mask-icon: url("icons/clipboard-check.svg");
+}
+
+.configure .dropdown-menu .item > a[href$="?c=update"]::before {
+	--mask-icon: url("icons/download.svg");
+}
+
+.configure .dropdown-menu .item > a[href$="?a=logs"]::before {
+	--mask-icon: url("icons/scroll-text.svg");
+}
+
+.configure .dropdown-menu .item > a[href$="?a=about"]::before {
+	--mask-icon: url("icons/info.svg");
+}
+
+.configure .dropdown-menu .item > a[href$="?a=tos"]::before {
+	--mask-icon: url("icons/file-text.svg");
+}
+
+/* Upstream puts the logout icon after the label; drawn as ::before instead */
+.configure .dropdown-menu .item button.signout::before {
+	--mask-icon: url("icons/logout.svg");
+	/* The arrow points toward the end of the line, so it flips in right-to-left languages */
+	transform: scaleX(-1);
+}
+
+.configure .dropdown-menu .item button.signout .icon {
+	display: none;
+}
+
 /*=== Alerts */
 .alert {
 	margin: 1rem 0;
@@ -1358,8 +1464,7 @@ img.favicon {
 }
 
 .nav-list .item > a .icon,
-.nav-list .item .as-link .icon,
-.signout .icon {
+.nav-list .item .as-link .icon {
 	margin-right: 0.35rem;
 }
 
