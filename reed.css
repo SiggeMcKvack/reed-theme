@@ -1738,6 +1738,27 @@ li.item.active {
 	display: inline-flex;
 }
 
+/* Where the article toolbar can't fit one row (~425px today), sort alone would wrap.
+* Break before the views instead, so they and sort share the second row. The break line
+* stands in for the row gap, which would otherwise show on both sides of it */
+@media (max-width: 440px) {
+	.nav_menu:has(#nav_menu_views) {
+		row-gap: 0;
+	}
+
+	.nav_menu:has(#nav_menu_views)::after {
+		content: "";
+		order: 1;
+		flex-basis: 100%;
+		height: 0.5rem;
+	}
+
+	#nav_menu_views,
+	#nav_menu_views ~ .group {
+		order: 2;
+	}
+}
+
 /* The state toggles are one control and saved queries another, but both sit in
 * #nav_menu_actions: the toggles draw their own outline, and queries gets its own frame */
 #nav_menu_actions {
