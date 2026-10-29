@@ -1867,6 +1867,10 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	letter-spacing: 0.06em;
 	text-transform: uppercase;
 	border: none;
+	/* Date left, feed name right: frss.css pins the name absolutely, over the date in narrow columns */
+	display: flex;
+	align-items: center;
+	gap: 1rem;
 }
 
 /* "Next day" link: the template prints a text "⏭"; draw Lucide's skip-forward instead */
@@ -1896,7 +1900,12 @@ form[name="drag_queries"] .box-content > .alert-warn {
 }
 
 .transition .name {
-	padding: 0 0 0 1rem;
+	position: static;
+	flex: 1;
+	min-width: 0;
+	width: auto;
+	padding: 0;
+	text-align: end;
 	font-size: 1em;
 	font-style: normal;
 	opacity: 1;
