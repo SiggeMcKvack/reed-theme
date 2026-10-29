@@ -2641,6 +2641,12 @@ form[name="drag_queries"] .box-content > .alert-warn {
 		width: auto;
 	}
 
+	/* Search moves into the toolbar and upstream hides its form, but the empty cell keeps
+	* the desktop centring padding, which Firefox adds to the page width */
+	.header > .item.search {
+		padding: 0;
+	}
+
 	/* Search moves up beside refresh, styled like it: one button (1.25rem icon, 0.8rem padding,
 	* 2px border) and 0.25rem further in. Its panel drops from the toolbar's top edge */
 	.nav_menu #toggle-search {
