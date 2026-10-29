@@ -1662,7 +1662,8 @@ li.item.active {
 	padding-inline: 0.5rem;
 }
 
-.nav_menu .group {
+.nav_menu .group,
+.nav_menu.nav_mobile #nav_menu_toggle_aside {
 	align-items: center;
 	margin: 0;
 	overflow: hidden;
@@ -1670,7 +1671,8 @@ li.item.active {
 	border-radius: var(--radius);
 }
 
-.nav_menu .group .btn:not(.dropdown-menu .btn) {
+.nav_menu .group .btn:not(.dropdown-menu .btn),
+.nav_menu.nav_mobile #nav_menu_toggle_aside .btn {
 	margin: 0;
 	padding: 4px 0.5rem;
 	border: none;
@@ -1684,6 +1686,23 @@ li.item.active {
 /* An active segment takes the sidebar's selected-row fill; its icon brightening carries the contrast */
 .nav_menu .group .btn.active img.icon {
 	filter: var(--icon-filter-hover);
+}
+
+/* Subscription and configuration bars hold only the phone sidebar toggle. Upstream hides
+* them on desktop, where the sidebar is always open; display: flex above would undo that.
+* Subscription's toggle lacks the .group class, so it borrows the group outline above */
+.nav_menu.nav_mobile {
+	justify-content: flex-start;
+}
+
+@media (min-width: 841px) {
+	.nav_menu.nav_mobile {
+		display: none;
+	}
+}
+
+.nav_menu.nav_mobile #nav_menu_toggle_aside {
+	display: inline-flex;
 }
 
 /* The state toggles are one control and saved queries another, but both sit in
