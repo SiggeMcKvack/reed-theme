@@ -1620,7 +1620,6 @@ li.item.active {
 	border: none;
 	font-size: 0.9rem;
 	font-weight: normal;
-	font-variant-numeric: tabular-nums;
 	top: 0;
 	bottom: 0;
 	left: 0.75rem;
@@ -2096,7 +2095,6 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	color: var(--text-secondary);
 	font-size: 0.75rem;
 	font-weight: 500;
-	font-variant-numeric: tabular-nums;
 	white-space: nowrap;
 }
 
