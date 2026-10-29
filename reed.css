@@ -1359,8 +1359,9 @@ button.signout .icon {
 * ::first-letter, so the icon is positioned instead */
 .aside > ul > .nav-section:first-child > ul > .item:first-child > a {
 	position: relative;
-	/* Shares the icon box and text column of the iconed links below (padding + icon + gap) */
-	padding-left: 2.35rem;
+	/* Shares the icon box and text column of the iconed links below (padding + icon + gap),
+	* less the space after the hidden arrow (Inter's is 0.3em) */
+	padding-left: calc(2.35rem - 0.3em);
 }
 
 .aside > ul > .nav-section:first-child > ul > .item:first-child > a::first-letter {
