@@ -106,9 +106,6 @@
 	--bg-sidebar: #efe7dc;
 	--bg-hover: #2b1d140a;
 	--bg-selected: #2b1d1412;
-	/* Active segment of a phone toolbar group: about 2:1 against the toolbar, with the brightened
-	* icon well over 4.5:1 on it, so the state reads without the fill turning into a block */
-	--segment-on: #2b1d1455;
 	--bg-raised: #fffcf7;
 	--separator: #e3d9cc;
 	--text: #3b312c;
@@ -207,7 +204,6 @@
 		--bg-sidebar: #221c1a;
 		--bg-hover: #ffffff08;
 		--bg-selected: #ffffff12;
-		--segment-on: #ffffff3a;
 		--bg-raised: #3a312e;
 		--separator: #3a322f;
 		--text: #e6e0dc;
@@ -812,11 +808,6 @@ img.logo[src$="/themes/icons/FreshRSS-logo.svg"] { content: url("icons/FreshRSS-
 * The grey matches the #666 icons (--icon-filter and its hover) */
 #nav_menu_actions .btn.active img.icon {
 	filter: var(--icon-filter-hover);
-}
-
-/* The fill alone is 1.2:1 against the toolbar; the outline makes "on" visible (3.1:1) */
-.nav_menu .btn.active {
-	border-color: var(--field-outline);
 }
 
 #nav_menu_actions .icon:is([src$="/starred.svg"], [src$="/unread.svg"]) {
@@ -1653,12 +1644,77 @@ li.item.active {
 	margin-left: 0.125rem;
 }
 
-/* Toolbar language: toggles (filters, views) fill when on; actions are outlined.
-* "Mark as read" + its dropdown form one outlined split button */
-.nav_menu .mark-read-menu {
-	align-items: stretch;
+/* Each toolbar group becomes one outlined segmented control, so the rows read as a few
+* controls instead of a dozen loose icons. A line splits the segments, and an active one
+* fills its segment instead of taking an outline; the group clips the fill to its corners */
+.nav_menu {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 0.5rem;
+	padding-inline: 0.5rem;
+}
+
+.nav_menu .group {
+	align-items: center;
+	margin: 0;
+	overflow: hidden;
 	border: 1px solid var(--action-outline);
 	border-radius: var(--radius);
+}
+
+.nav_menu .group .btn:not(.dropdown-menu .btn) {
+	margin: 0;
+	padding: 4px 0.5rem;
+	border: none;
+	border-radius: 0;
+}
+
+.nav_menu .group > .btn ~ .btn:not(.dropdown-menu .btn) {
+	border-left: 1px solid var(--action-outline);
+}
+
+/* An active segment takes the sidebar's selected-row fill; its icon brightening carries the contrast */
+.nav_menu .group .btn.active img.icon {
+	filter: var(--icon-filter-hover);
+}
+
+/* The state toggles are one control and saved queries another, but both sit in
+* #nav_menu_actions: the toggles draw their own outline, and queries gets its own frame */
+#nav_menu_actions {
+	border: none;
+}
+
+#nav_menu_actions > .btn {
+	border-block: 1px solid var(--action-outline);
+	background-clip: padding-box;
+}
+
+#toggle-read {
+	border-left: 1px solid var(--action-outline);
+	border-radius: var(--radius) 0 0 var(--radius);
+}
+
+#toggle-non-starred {
+	border-right: 1px solid var(--action-outline);
+	border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+#nav_menu_queries {
+	margin-left: 0.5rem;
+	overflow: hidden;
+	border: 1px solid var(--action-outline);
+	border-radius: var(--radius);
+}
+
+/* "Mark as read" + its dropdown form one split button: its group draws the frame, and a line
+* splits the two where the text button shows (phones hide it) */
+.nav_menu .mark-read-menu {
+	align-items: stretch;
+}
+
+.nav_menu .group .read_all:not(.dropdown-menu .btn) {
+	border-right: 1px solid var(--action-outline);
 }
 
 /* Refresh moves up beside the gear, styled like it. The toolbar starts where the header ends,
@@ -1688,12 +1744,6 @@ li.item.active {
 	background-color: var(--action-hover);
 }
 
-.nav_menu .mark-read-menu .btn {
-	margin: 0;
-	border-top: 0;
-	border-bottom: 0;
-}
-
 .nav_menu .mark-read-menu .dropdown {
 	display: flex;
 }
@@ -1701,15 +1751,12 @@ li.item.active {
 .nav_menu .mark-read-menu .dropdown-toggle {
 	display: flex;
 	align-items: center;
-	border-left: 1px solid var(--action-outline);
-	border-radius: 0 var(--radius) var(--radius) 0;
 }
 
 .nav_menu .mark-read-menu .read_all {
 	display: inline-flex;
 	align-items: center;
 	gap: 0.4rem;
-	border-radius: var(--radius) 0 0 var(--radius);
 }
 
 /* Same outlined circle-check as the end-of-list button; phones show it on the toggle instead */
@@ -2485,45 +2532,6 @@ form[name="drag_queries"] .box-content > .alert-warn {
 		width: auto;
 	}
 
-	/* Each toolbar group becomes one outlined segmented control, so the rows read as a few
-	* controls instead of a dozen loose icons. A line splits the segments, and an active one
-	* fills its segment instead of taking an outline; the group clips the fill to its corners */
-	.nav_menu {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		gap: 0.5rem;
-		padding-inline: 0.5rem;
-	}
-
-	.nav_menu .group {
-		align-items: center;
-		margin: 0;
-		overflow: hidden;
-		border: 1px solid var(--action-outline);
-		border-radius: var(--radius);
-	}
-
-	.nav_menu .group .btn:not(.dropdown-menu .btn) {
-		margin: 0;
-		padding: 4px 0.5rem;
-		border: none;
-		border-radius: 0;
-	}
-
-	.nav_menu .group > .btn ~ .btn:not(.dropdown-menu .btn) {
-		border-left: 1px solid var(--action-outline);
-	}
-
-	.nav_menu .group .btn.active:not(.dropdown-menu .btn) {
-		background-color: var(--segment-on);
-	}
-
-	/* Every active icon brightens on the fill, not only the state toggles' */
-	.nav_menu .group .btn.active img.icon {
-		filter: var(--icon-filter-hover);
-	}
-
 	/* Search moves up beside refresh, styled like it: one button (1.25rem icon, 0.8rem padding,
 	* 2px border) and 0.25rem further in. Its panel drops from the toolbar's top edge */
 	.nav_menu #toggle-search {
@@ -2542,34 +2550,6 @@ form[name="drag_queries"] .box-content > .alert-warn {
 
 	#dropdown-search-wrapper .dropdown-menu {
 		top: 0.25rem;
-	}
-
-	/* The state toggles are one control and saved queries another, but both sit in
-	* #nav_menu_actions: the toggles draw their own outline, and queries gets its own frame */
-	#nav_menu_actions {
-		border: none;
-	}
-
-	#nav_menu_actions > .btn {
-		border-block: 1px solid var(--action-outline);
-		background-clip: padding-box;
-	}
-
-	#toggle-read {
-		border-left: 1px solid var(--action-outline);
-		border-radius: var(--radius) 0 0 var(--radius);
-	}
-
-	#toggle-non-starred {
-		border-right: 1px solid var(--action-outline);
-		border-radius: 0 var(--radius) var(--radius) 0;
-	}
-
-	#nav_menu_queries {
-		margin-left: 0.5rem;
-		overflow: hidden;
-		border: 1px solid var(--action-outline);
-		border-radius: var(--radius);
 	}
 
 	/* Search panel: the field spans the panel and lines up with "Advanced Search" below it,
@@ -2594,10 +2574,6 @@ form[name="drag_queries"] .box-content > .alert-warn {
 
 	/* As upstream: "Mark as read" folds into its dropdown (whose first entry marks all read), and the
 	* toggle shows the circle-check where upstream prints a text "✓" */
-	.nav_menu .mark-read-menu {
-		border: none;
-	}
-
 	.nav_menu .mark-read-menu .read_all {
 		display: none;
 	}
