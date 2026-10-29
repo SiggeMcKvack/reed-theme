@@ -1739,22 +1739,22 @@ li.item.active {
 }
 
 /* Where the article toolbar can't fit one row (~425px today), sort alone would wrap.
-* Break before the views instead, so they and sort share the second row. The break line
-* stands in for the row gap, which would otherwise show on both sides of it */
+* Break before "Mark as read" instead, so it, the views and sort share the second row. The break
+* line stands in for the row gap, which would otherwise show on both sides of it */
 @media (max-width: 440px) {
-	.nav_menu:has(#nav_menu_views) {
+	.nav_menu:has(.nav_menu_read_all) {
 		row-gap: 0;
 	}
 
-	.nav_menu:has(#nav_menu_views)::after {
+	.nav_menu:has(.nav_menu_read_all)::after {
 		content: "";
 		order: 1;
 		flex-basis: 100%;
 		height: 0.5rem;
 	}
 
-	#nav_menu_views,
-	#nav_menu_views ~ .group {
+	.nav_menu_read_all,
+	.nav_menu_read_all ~ .group {
 		order: 2;
 	}
 }
