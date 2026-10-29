@@ -1653,7 +1653,8 @@ li.item.active {
 
 /* Each toolbar group becomes one outlined segmented control, so the rows read as a few
 * controls instead of a dozen loose icons. A line splits the segments, and an active one
-* fills its segment instead of taking an outline; the group clips the fill to its corners */
+* fills its segment instead of taking an outline. The group can't clip that fill to its
+* corners, since it would clip the dropdown menus too, so the end segments round their own */
 .nav_menu {
 	display: flex;
 	flex-wrap: wrap;
@@ -1666,7 +1667,6 @@ li.item.active {
 .nav_menu.nav_mobile #nav_menu_toggle_aside {
 	align-items: center;
 	margin: 0;
-	overflow: hidden;
 	border: 1px solid var(--action-outline);
 	border-radius: var(--radius);
 }
@@ -1681,6 +1681,20 @@ li.item.active {
 
 .nav_menu .group > .btn ~ .btn:not(.dropdown-menu .btn) {
 	border-left: 1px solid var(--action-outline);
+}
+
+.nav_menu .group > .btn:first-child:not(.dropdown-menu .btn) {
+	border-radius: calc(var(--radius) - 1px) 0 0 calc(var(--radius) - 1px);
+}
+
+.nav_menu .group > .btn:last-child:not(.dropdown-menu .btn) {
+	border-radius: 0 calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0;
+}
+
+.nav_menu .group > .btn:only-child:not(.dropdown-menu .btn),
+.nav_menu .group .dropdown-toggle:not(.dropdown-menu .btn),
+.nav_menu.nav_mobile #nav_menu_toggle_aside .btn {
+	border-radius: calc(var(--radius) - 1px);
 }
 
 /* An active segment takes the sidebar's selected-row fill; its icon brightening carries the contrast */
@@ -1728,7 +1742,6 @@ li.item.active {
 
 #nav_menu_queries {
 	margin-left: 0.5rem;
-	overflow: hidden;
 	border: 1px solid var(--action-outline);
 	border-radius: var(--radius);
 }
@@ -1741,6 +1754,13 @@ li.item.active {
 
 .nav_menu .group .read_all:not(.dropdown-menu .btn) {
 	border-right: 1px solid var(--action-outline);
+	border-radius: calc(var(--radius) - 1px) 0 0 calc(var(--radius) - 1px);
+}
+
+@media (min-width: 841px) {
+	.nav_menu .mark-read-menu .dropdown-toggle:not(.dropdown-menu .btn) {
+		border-radius: 0 calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0;
+	}
 }
 
 /* Refresh moves up beside the gear, styled like it. The toolbar starts where the header ends,
