@@ -1425,7 +1425,7 @@ button.signout .icon {
 	height: var(--sidebar-row);
 	padding: 0 0.75rem;
 	border-radius: var(--radius-md);
-	font-size: 1rem;
+	font-size: 0.95rem;
 	line-height: var(--sidebar-row);
 }
 
