@@ -124,6 +124,9 @@
 	--radius: 6px;
 	--radius-md: 8px;
 	--radius-lg: 10px;
+	/* Inside a 1px outline, so the fill's corners follow the outline's */
+	--radius-inner: calc(var(--radius) - 1px);
+	--focus-glow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
 	/* Article-list read/star toggles: hit area (WCAG 2.5.8) and icon height */
 	--toggle-size: 24px;
 	--toggle-icon: 0.85rem;
@@ -131,8 +134,12 @@
 	--edge-raised: #2b1d1421;
 	--divider-raised: #2b1d1412;
 	--shadow-pop: 0 8px 24px #3a28182e;
-	/* Gear plus the refresh button beside it (1.25rem icon, 0.8rem padding, 2px border, 0.25rem gap) */
-	--header-gear-width: calc(4rem + 2.3rem + 2px);
+	/* Header buttons (gear, refresh, phone search): 1.25rem icon, 0.4rem padding, 1px border */
+	--header-btn: calc(1.25rem + 0.8rem + 2px);
+	/* The header row's centre above the toolbar: half the 56px row plus its 1px border */
+	--header-mid: 29px;
+	/* Gear plus the refresh button beside it, 0.25rem apart */
+	--header-gear-width: calc(4rem + var(--header-btn) + 0.25rem);
 	--action-outline: #2b1d142e;
 	--field-fill: #fffcf799;
 	/* 3.1:1 against the page, enough to identify the field */
@@ -316,7 +323,7 @@ input:hover, select:hover, textarea:hover {
 
 input:focus, select:focus, textarea:focus {
 	border-color: var(--accent);
-	box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
+	box-shadow: var(--focus-glow);
 	/* Transparent, not none: forced-colours mode drops the box-shadow but paints the outline */
 	outline: 2px solid transparent;
 }
@@ -1213,11 +1220,6 @@ button.signout .icon {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	padding: 0.4rem;
-}
-
-.header > .item.configure .icon {
-	height: 1.25rem;
 }
 
 .header > .item.search .stick {
@@ -1249,7 +1251,7 @@ button.signout .icon {
 
 /* Field and button focus as one control: one accent frame and glow, no divider between them */
 .header > .item.search .stick:focus-within {
-	box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
+	box-shadow: var(--focus-glow);
 }
 
 .header > .item.search .stick:focus-within input,
@@ -1647,7 +1649,11 @@ li.item.active {
 
 /*=== Article list toolbar */
 .nav_menu {
-	padding: 5px 0.5rem 5px 3rem;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 0.5rem;
+	padding: 5px 0.5rem;
 	background: var(--bg);
 	border-bottom: 1px solid var(--separator);
 	text-align: center;
@@ -1663,25 +1669,13 @@ li.item.active {
 	margin: 0.125rem;
 }
 
-.nav_menu .group {
-	margin-right: 0.75rem;
-	margin-left: 0.125rem;
-}
-
 /* Each toolbar group becomes one outlined segmented control, so the rows read as a few
 * controls instead of a dozen loose icons. A line splits the segments, and an active one
 * fills its segment instead of taking an outline. The group can't clip that fill to its
 * corners, since it would clip the dropdown menus too, so the end segments round their own */
-.nav_menu {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	gap: 0.5rem;
-	padding-inline: 0.5rem;
-}
-
 .nav_menu .group,
-.nav_menu.nav_mobile #nav_menu_toggle_aside {
+.nav_menu.nav_mobile #nav_menu_toggle_aside,
+#nav_menu_queries {
 	align-items: center;
 	margin: 0;
 	border: 1px solid var(--action-outline);
@@ -1701,17 +1695,17 @@ li.item.active {
 }
 
 .nav_menu .group > .btn:first-child:not(.dropdown-menu .btn) {
-	border-radius: calc(var(--radius) - 1px) 0 0 calc(var(--radius) - 1px);
+	border-radius: var(--radius-inner) 0 0 var(--radius-inner);
 }
 
 .nav_menu .group > .btn:last-child:not(.dropdown-menu .btn) {
-	border-radius: 0 calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0;
+	border-radius: 0 var(--radius-inner) var(--radius-inner) 0;
 }
 
 .nav_menu .group > .btn:only-child:not(.dropdown-menu .btn),
 .nav_menu .group .dropdown-toggle:not(.dropdown-menu .btn),
 .nav_menu.nav_mobile #nav_menu_toggle_aside .btn {
-	border-radius: calc(var(--radius) - 1px);
+	border-radius: var(--radius-inner);
 }
 
 /* The sidebar toggle shows a sidebar, not FreshRSS's category folder; the panel sits on the reading-start side */
@@ -1767,8 +1761,6 @@ li.item.active {
 
 #nav_menu_queries {
 	margin-left: 0.5rem;
-	border: 1px solid var(--action-outline);
-	border-radius: var(--radius);
 }
 
 /* "Mark as read" + its dropdown form one split button: its group draws the frame, and a line
@@ -1779,36 +1771,43 @@ li.item.active {
 
 .nav_menu .group .read_all:not(.dropdown-menu .btn) {
 	border-right: 1px solid var(--action-outline);
-	border-radius: calc(var(--radius) - 1px) 0 0 calc(var(--radius) - 1px);
+	border-radius: var(--radius-inner) 0 0 var(--radius-inner);
 }
 
 @media (min-width: 841px) {
 	.nav_menu .mark-read-menu .dropdown-toggle:not(.dropdown-menu .btn) {
-		border-radius: 0 calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0;
+		border-radius: 0 var(--radius-inner) var(--radius-inner) 0;
 	}
 }
 
-/* Refresh moves up beside the gear, styled like it. The toolbar starts where the header ends,
-* and the gear's centre sits 29px above that: half the 56px header row plus its 1px border */
+/* Refresh moves up beside the gear, styled like it. The toolbar starts where the header ends */
 .nav_menu #nav_menu_actualize {
 	position: absolute;
-	right: calc(1rem + 1.25rem + 0.8rem + 2px + 0.25rem);
-	bottom: calc(100% + 29px);
+	right: calc(1rem + var(--header-btn) + 0.25rem);
+	bottom: calc(100% + var(--header-mid));
 	transform: translateY(50%);
 	margin: 0;
 	padding: 0;
 	border: none;
 }
 
-.nav_menu #actualize {
-	margin: 0;
+/* One size for the header buttons, including the toolbar's refresh and phone search moved up there */
+.header > .item.configure .btn,
+.nav_menu #actualize,
+.nav_menu #toggle-search {
 	padding: 0.4rem;
-	border: 1px solid transparent;
 	border-radius: var(--radius);
 }
 
-#actualize .icon {
+.header > .item.configure .icon,
+#actualize .icon,
+#toggle-search .icon {
 	height: 1.25rem;
+}
+
+.nav_menu #actualize {
+	margin: 0;
+	border: 1px solid transparent;
 }
 
 #actualize:hover {
@@ -1830,14 +1829,20 @@ li.item.active {
 	gap: 0.4rem;
 }
 
-/* Same outlined circle-check as the end-of-list button; phones show it on the toggle instead */
+/* One outlined circle-check on "Mark as read" (phones show it on the toggle instead) and the end-of-list button */
+.nav_menu .mark-read-menu .read_all::before,
+.nav_menu_read_all .dropdown-target ~ .dropdown-toggle::before,
+#bigMarkAsRead.big .bigTick,
+#bigMarkAsRead.small .bigTick {
+	background: url("icons/mark-all-read.svg") center / contain no-repeat;
+	filter: var(--amber-icon-filter);
+}
+
 .nav_menu .mark-read-menu .read_all::before,
 .nav_menu_read_all .dropdown-target ~ .dropdown-toggle::before {
 	flex: none;
 	width: 1rem;
 	height: 1rem;
-	background: url("icons/mark-all-read.svg") center / contain no-repeat;
-	filter: var(--amber-icon-filter);
 }
 
 .nav_menu .mark-read-menu .read_all::before {
@@ -2288,9 +2293,8 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	text-decoration: none;
 }
 
+/* Keeps img.favicon's corner: .content img (same weight, later) would round it to --radius */
 .content > header .favicon {
-	padding: 1px;
-	background: var(--favicon-tile);
 	border-radius: 3px;
 }
 
@@ -2462,8 +2466,6 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	align-self: center;
 	width: 1.1rem;
 	height: 1.1rem;
-	background: url("icons/mark-all-read.svg") center / contain no-repeat;
-	filter: var(--amber-icon-filter);
 	font-size: 0;
 }
 
@@ -2615,16 +2617,10 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	* 2px border) and 0.25rem further in. Its panel drops from the toolbar's top edge */
 	.nav_menu #toggle-search {
 		position: absolute;
-		right: calc(1rem + 2 * (2.3rem + 2px));
-		bottom: calc(100% + 29px);
+		right: calc(1rem + 2 * (var(--header-btn) + 0.25rem));
+		bottom: calc(100% + var(--header-mid));
 		transform: translateY(50%);
-		padding: 0.4rem;
 		border-color: transparent;
-		border-radius: var(--radius);
-	}
-
-	#toggle-search .icon {
-		height: 1.25rem;
 	}
 
 	#dropdown-search-wrapper .dropdown-menu {
