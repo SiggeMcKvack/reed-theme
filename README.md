@@ -1,12 +1,12 @@
 # Reed
 
-A calm, warm theme for [FreshRSS](https://freshrss.org), inspired by Reeder Classic.
+A calm, warm theme for [FreshRSS](https://freshrss.org).
 
 ![Reed theme](thumbs/original.png)
 
 - Warm paper palette by day and warm brown by night, each with an amber accent
 - Centred article column without row separators, large favicons and uppercase feed names
-- Grouped, Reeder-style settings pages with pill switches
+- Grouped settings pages with pill switches
 - [Lucide](https://lucide.dev) icons throughout
 - Bundled [Inter](https://rsms.me/inter/) for the interface and [Literata](https://github.com/googlefonts/literata) for articles, so text looks the same on every OS
 

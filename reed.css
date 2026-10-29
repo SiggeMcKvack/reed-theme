@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 /*******************
-* Reed — a calm, warm theme for FreshRSS, inspired by Reeder Classic: paper by day, warm brown by night.
+* Reed — a calm, warm theme for FreshRSS: paper by day, warm brown by night.
 * Content first: quiet chrome, two-line article rows, serif reading view.
 * Builds on base-theme/frss.css.
 *******************/
@@ -606,7 +606,7 @@ div:target ~ .btn {
 	margin: 0;
 }
 
-/*=== Switches: Reeder-style pill, white knob, accent when on */
+/*=== Switches: pill, white knob, accent when on */
 .switch {
 	margin: 0;
 	padding: 0;
@@ -1849,7 +1849,7 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	--mask-icon: url("icons/refresh.svg");
 }
 
-/*=== Centred reading column, like Reeder */
+/*=== Centred reading column */
 .transition,
 .flux,
 #new-article {
@@ -1902,7 +1902,7 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	opacity: 1;
 }
 
-/*=== Article list: Reeder-style rows, no separators, cards on hover/selection
+/*=== Article list: rows without separators, cards on hover/selection
 * [icon] FEED NAME           time (read)(star)  [thumb]
 * [icon] Title, up to two lines                 [thumb]
 * [icon] Excerpt, up to two lines               [thumb]
