@@ -1256,6 +1256,13 @@ button.signout .icon {
 
 .aside.aside_feed .tree {
 	margin: 10px 0 50px;
+	max-height: calc(99vh - 10px);
+}
+
+/* Once the list sticks, keep the tree's top 10px: its margin collapses out of this wrapper,
+* so a stuck highlight would otherwise touch the window edge */
+.mark-read-aside {
+	top: 10px;
 }
 
 .aside .toggle_aside,
