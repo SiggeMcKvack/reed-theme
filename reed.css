@@ -1715,6 +1715,12 @@ li.item.active {
 	border-radius: calc(var(--radius) - 1px);
 }
 
+/* The sidebar toggle shows a sidebar, not FreshRSS's category folder; the panel sits on the reading-start side */
+#nav_menu_toggle_aside img.icon {
+	content: url("icons/panel-left.svg");
+	transform: none /*rtl:scaleX(-1)*/;
+}
+
 /* An active segment takes the sidebar's selected-row fill; its icon brightening carries the contrast */
 .nav_menu .group .btn.active img.icon {
 	filter: var(--icon-filter-hover);
