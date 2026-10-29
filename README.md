@@ -2,7 +2,10 @@
 
 A calm, warm theme for [FreshRSS](https://freshrss.org).
 
-![Reed theme](thumbs/original.png)
+<p>
+  <img alt="Reed theme, light" src="thumbs/original_light.png" width="49%">
+  <img alt="Reed theme, dark" src="thumbs/original.png" width="49%">
+</p>
 
 - Warm paper palette by day and warm brown by night, each with an amber accent
 - Centred article column without row separators, large favicons and uppercase feed names
