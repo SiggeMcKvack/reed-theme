@@ -839,6 +839,13 @@ img.favicon {
 	border-radius: 3px;
 }
 
+/* Upstream greys the favicon while its feed link is hovered; in the article list
+* that link covers the feed name, so the icon lost its colour on most row hovers */
+.website a:hover .favicon,
+a.website:hover .favicon {
+	filter: none;
+}
+
 /*=== Dropdowns */
 .dropdown-menu {
 	margin: 6px 0 0;
