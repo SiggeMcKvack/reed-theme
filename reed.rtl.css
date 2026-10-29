@@ -106,6 +106,9 @@
 	--bg-sidebar: #efe7dc;
 	--bg-hover: #2b1d140a;
 	--bg-selected: #2b1d1412;
+	/* Active segment of a phone toolbar group: about 2:1 against the toolbar, with the brightened
+	* icon well over 4.5:1 on it, so the state reads without the fill turning into a block */
+	--segment-on: #2b1d1455;
 	--bg-raised: #fffcf7;
 	--separator: #e3d9cc;
 	--text: #3b312c;
@@ -204,6 +207,7 @@
 		--bg-sidebar: #221c1a;
 		--bg-hover: #ffffff08;
 		--bg-selected: #ffffff12;
+		--segment-on: #ffffff3a;
 		--bg-raised: #3a312e;
 		--separator: #3a322f;
 		--text: #e6e0dc;
@@ -2482,7 +2486,8 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	}
 
 	/* Each toolbar group becomes one outlined segmented control, so the rows read as a few
-	* controls instead of a dozen loose icons */
+	* controls instead of a dozen loose icons. A line splits the segments, and an active one
+	* fills its segment instead of taking an outline; the group clips the fill to its corners */
 	.nav_menu {
 		display: flex;
 		flex-wrap: wrap;
@@ -2494,16 +2499,29 @@ form[name="drag_queries"] .box-content > .alert-warn {
 	.nav_menu .group {
 		align-items: center;
 		margin: 0;
-		gap: 2px;
-		padding: 2px;
+		overflow: hidden;
 		border: 1px solid var(--action-outline);
 		border-radius: var(--radius);
 	}
 
 	.nav_menu .group .btn:not(.dropdown-menu .btn) {
 		margin: 0;
-		padding: 1px 0.45rem;
-		border-radius: var(--radius-sm);
+		padding: 4px 0.5rem;
+		border: none;
+		border-radius: 0;
+	}
+
+	.nav_menu .group > .btn ~ .btn:not(.dropdown-menu .btn) {
+		border-right: 1px solid var(--action-outline);
+	}
+
+	.nav_menu .group .btn.active:not(.dropdown-menu .btn) {
+		background-color: var(--segment-on);
+	}
+
+	/* Every active icon brightens on the fill, not only the state toggles' */
+	.nav_menu .group .btn.active img.icon {
+		filter: var(--icon-filter-hover);
 	}
 
 	/* Search moves up beside refresh, styled like it: one button (1.25rem icon, 0.8rem padding,
@@ -2526,39 +2544,30 @@ form[name="drag_queries"] .box-content > .alert-warn {
 		top: 0.25rem;
 	}
 
-	/* The state toggles are one control and saved queries another. Both sit in #nav_menu_actions,
-	* so the toggles' outline is drawn from the last toggle back over all four: each is a 16px
-	* icon, 0.9rem padding and 2px border, with 2px between them and 2px + 1px of frame around.
-	* Offsets count from inside the toggle's own 1px border */
+	/* The state toggles are one control and saved queries another, but both sit in
+	* #nav_menu_actions: the toggles draw their own outline, and queries gets its own frame */
 	#nav_menu_actions {
-		padding-left: 0;
-		border-color: transparent;
-		border-left-width: 0;
+		border: none;
+	}
+
+	#nav_menu_actions > .btn {
+		border-block: 1px solid var(--action-outline);
+		background-clip: padding-box;
+	}
+
+	#toggle-read {
+		border-right: 1px solid var(--action-outline);
+		border-radius: 0 var(--radius) var(--radius) 0;
 	}
 
 	#toggle-non-starred {
-		position: relative;
-		overflow: visible;
+		border-left: 1px solid var(--action-outline);
+		border-radius: var(--radius) 0 0 var(--radius);
 	}
 
-	#toggle-non-starred::before {
-		content: "";
-		position: absolute;
-		top: -4px;
-		left: -4px;
-		bottom: -4px;
-		box-sizing: border-box;
-		width: calc(4 * (0.9rem + 18px) + 3 * 2px + 6px);
-		border: 1px solid var(--action-outline);
-		border-radius: var(--radius);
-		pointer-events: none;
-	}
-
-	/* The negative margin keeps its frame from making the group, and so the toolbar row, taller */
 	#nav_menu_queries {
-		margin-block: -3px;
-		margin-right: calc(0.5rem - 1px);
-		padding: 2px;
+		margin-right: 0.5rem;
+		overflow: hidden;
 		border: 1px solid var(--action-outline);
 		border-radius: var(--radius);
 	}
@@ -2591,10 +2600,6 @@ form[name="drag_queries"] .box-content > .alert-warn {
 
 	.nav_menu .mark-read-menu .read_all {
 		display: none;
-	}
-
-	.nav_menu .mark-read-menu .dropdown-toggle {
-		border: 1px solid transparent;
 	}
 
 	.nav_menu_read_all .dropdown-target ~ .dropdown-toggle::before {
