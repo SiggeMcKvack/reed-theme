@@ -1405,9 +1405,9 @@ button.signout .icon {
 	text-align: center;
 }
 
-/* The padding gives back the 20px icon's extra 4px, so the button keeps its size */
+/* Same size as a toolbar segment: 16px icon, 0.5rem sides */
 #btn-add {
-	padding-inline: calc(0.6rem - 2px);
+	padding-inline: 0.5rem;
 }
 
 #btn-subscription:hover,
@@ -1417,7 +1417,6 @@ button.signout .icon {
 
 /* "Add feed" rather than FreshRSS's generic "add" */
 #btn-add img.icon {
-	height: 20px;
 	content: url("icons/rss-plus.svg");
 	/* Matches the --text label of "Subscription management" beside it, not the grey icon colour */
 	filter: var(--icon-filter-text);
