@@ -1730,6 +1730,8 @@ li.item.active {
 * them on desktop, where the sidebar is always open; display: flex above would undo that.
 * Subscription's toggle lacks the .group class, so it borrows the group outline above */
 .nav_menu.nav_mobile {
+	/* Upstream's .nav_menu.nav_mobile { display: block } outranks .nav_menu above */
+	display: flex;
 	justify-content: flex-start;
 }
 
